@@ -63,7 +63,7 @@ function StartProjectPageContent() {
     },
   });
 
-  const onSubmit = async (_data: IntakeFormData) => {
+  const onSubmit = async () => {
     setSubmitError(null);
     try {
       // Simulate API submit (Server Actions or direct endpoint submission)
