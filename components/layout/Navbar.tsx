@@ -31,8 +31,9 @@ export default function Navbar() {
   const navLinks = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '#', triggerModal: true },
+    { name: 'Services', href: '/services' },
     { name: 'Work', href: '/portfolio' },
-    { name: 'Services', href: '/services/web-development' }, // Standard redirection to first service or list
+    { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -54,15 +55,15 @@ export default function Navbar() {
               <Image
                 src="/logodes.png"
                 alt="VYGRID Logo"
-                width={150}
-                height={36}
-                className="h-9 w-auto object-contain brightness-100"
+                width={180}
+                height={44}
+                className="h-11 w-auto object-contain brightness-100"
                 priority
               />
             </Link>
           </div>
 
-          {/* Center: nav links in small caps grotesque with hover underlines drawing left to right */}
+          {/* Center: nav links in small caps IBM Plex Mono with hover underlines drawing left to right */}
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8 z-10">
             {navLinks.map((link) => {
               if (link.triggerModal) {
@@ -70,7 +71,7 @@ export default function Navbar() {
                   <button
                     key={link.name}
                     onClick={() => setAboutModalOpen(true)}
-                    className="font-grotesque text-xs font-bold uppercase tracking-[0.1em] text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300 link-draw py-1"
+                    className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300 link-draw py-1"
                   >
                     {link.name}
                   </button>
@@ -84,7 +85,7 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   className={cn(
-                    "font-grotesque text-xs font-bold uppercase tracking-[0.1em] transition-colors duration-300 link-draw py-1",
+                    "font-mono text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 link-draw py-1",
                     isActive
                       ? "text-[#F5F0EB]"
                       : "text-[#888888] hover:text-[#F5F0EB]"
@@ -96,16 +97,8 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right: "Start a Project →" — no button border, just text + arrow */}
-          <div className="hidden md:flex items-center space-x-6 z-10">
-            <Link
-              href="/contact"
-              className="font-grotesque text-xs font-bold uppercase tracking-[0.1em] text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 flex items-center space-x-1"
-            >
-              <span>Start a Project</span>
-              <ArrowUpRight className="w-3.5 h-3.5 text-white/50" />
-            </Link>
-          </div>
+          {/* Right: Empty space placeholder for symmetric layout balance */}
+          <div className="hidden md:flex items-center space-x-6 z-10 w-[180px] justify-end" />
 
           {/* Mobile Hamburg Toggle Button */}
           <button
@@ -141,7 +134,7 @@ export default function Navbar() {
                         setMobileMenuOpen(false);
                         setAboutModalOpen(true);
                       }}
-                      className="text-center font-serif italic text-3xl text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
+                      className="text-center font-mono text-xl font-bold uppercase tracking-widest text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
                     >
                       {link.name}
                     </button>
@@ -153,7 +146,7 @@ export default function Navbar() {
                     key={link.name}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-center font-serif italic text-3xl text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
+                    className="text-center font-mono text-xl font-bold uppercase tracking-widest text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -161,15 +154,7 @@ export default function Navbar() {
               })}
             </nav>
 
-            <div className="mt-auto space-y-6 border-t border-white/5 pt-6">
-              <Link
-                href="/contact"
-                onClick={() => setMobileMenuOpen(false)}
-                className="font-grotesque text-sm font-bold uppercase tracking-wider text-[#F5F0EB] flex items-center justify-between"
-              >
-                <span>Start a Project</span>
-                <ArrowUpRight className="w-4 h-4 text-[#C8B89A]" />
-              </Link>
+            <div className="mt-auto space-y-6 border-t border-white/5 pt-6 text-center">
               <div className="font-mono text-[9px] text-[#444444] uppercase tracking-widest">
                 EST. 2026 &middot; VYGRID STUDIO
               </div>

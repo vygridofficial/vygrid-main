@@ -422,7 +422,7 @@ export const testimonials: Testimonial[] = [
     role: "Managing Director",
     company: "Luxe Realty Group",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "Vygrid did not just build a website; they captured the soul of our high-end real estate agency. Our inquiries immediately jumped by 142% after launch, and their attention to every minor layout detail was extraordinary. They operate on an entirely different level of design."
   },
   {
@@ -430,7 +430,7 @@ export const testimonials: Testimonial[] = [
     role: "Founder",
     company: "FitPulse Gyms",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "The progressive web app built by Vygrid transformed our client booking experience. It functions incredibly well on mobile, and the offline calendar syncing is robust. Workflows that used to take our staff hours are now fully automated."
   },
   {
@@ -438,7 +438,7 @@ export const testimonials: Testimonial[] = [
     role: "Chief Marketing Officer",
     company: "Zestora Health",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "Rebranding a supplement company is daunting, but Vygrid's design system made it seamless. The new logo and eco-friendly labels immediately got us accepted into three premium national food chains. They design assets that drive literal revenue growth."
   },
   {
@@ -446,7 +446,7 @@ export const testimonials: Testimonial[] = [
     role: "CTO",
     company: "Nexlift Systems",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "The Figma brand kit and Tailwind tokens Vygrid established saved our frontend engineers months of redundant styling work. Our app interface is completely unified, fast, and feels highly premium. I cannot recommend their design engineers enough."
   },
   {
@@ -454,7 +454,7 @@ export const testimonials: Testimonial[] = [
     role: "Executive Director",
     company: "SolarHive Cooperative",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "From the initial grid wireframes to final animations, the collaboration with Vygrid was perfect. They built a localized portal that reflects community and clean power while maintaining flawless speed and accessible SEO metadata."
   }
 ];
@@ -582,3 +582,156 @@ export const brandFAQs = [
     a: "We develop a step-by-step transitional guide. We provide social media teaser graphics, email newsletters assets, press kits, and scheduled launch assets to build massive hype for your brand upgrade, keeping your legacy clients engaged and excited."
   }
 ];
+export interface BlogPost {
+  id: string;
+  title: string;
+  category: "Web Development" | "UI/UX Design" | "Technology Trends" | "Digital Strategy";
+  excerpt: string;
+  date: string;
+  thumbnail: string;
+  slug: string;
+}
+
+export interface PricingTier {
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  recommended: boolean;
+}
+
+export const webPricingTiers: PricingTier[] = [
+  {
+    name: "Starter Site",
+    price: "$3,500",
+    description: "Perfect for startups needing high-converting visibility fast.",
+    features: [
+      "Custom Animated Landing Page",
+      "Pristine Framer Motion reveals",
+      "Zod Validated Contact Form",
+      "98+ Lighthouse Speed Score",
+      "Basic static metadata setup",
+      "1 Week post-launch assistance"
+    ],
+    recommended: false,
+  },
+  {
+    name: "Studio Site",
+    price: "$7,500",
+    description: "Complete strategic web platform with content management controls.",
+    features: [
+      "Up to 8 custom page templates",
+      "Headless CMS integration (Sanity)",
+      "Immersive interactive canvas elements",
+      "Fully optimized mobile responsiveness",
+      "Schema.org & dynamic OG Tags",
+      "Stripe payment/checkout hooks",
+      "4 Weeks post-launch optimization"
+    ],
+    recommended: true,
+  },
+  {
+    name: "Enterprise App",
+    price: "$15,000+",
+    description: "Bespoke SaaS portal, dense dashboard or multi-vendor commerce.",
+    features: [
+      "Tailored web application structure",
+      "Real-time WebSocket server feeds",
+      "Secure custom Database structures",
+      "Multi-tier user dashboard access",
+      "Stripe split subscription billing",
+      "Dense Recharts analytics logs",
+      "Dedicated quarterly engineers SLA"
+    ],
+    recommended: false,
+  }
+];
+
+export const brandPricingTiers: PricingTier[] = [
+  {
+    name: "Starter Logo",
+    price: "$2,000",
+    description: "Basic strategic emblem and clean typographic mark for new ideas.",
+    features: [
+      "2 Bespoke vector directions",
+      "Primary logo & Icon version",
+      "Selected color guidelines",
+      "Clean Vector master files (.ai, .svg)",
+      "2 Rounds of adjustments",
+      "1 Week delivery cycle"
+    ],
+    recommended: false,
+  },
+  {
+    name: "Studio Identity",
+    price: "$5,000",
+    description: "Comprehensive visual branding, guidelines, and corporate kit.",
+    features: [
+      "3 Unique logo design directions",
+      "Primary, horizontal, & icon monograms",
+      "Spot-UV custom stationery specs",
+      "Social media posting matrices",
+      "Detailed 80-page brand book PDF",
+      "Synced Figma Styles Library",
+      "3 Rounds of layout adjustments",
+      "3 Weeks expert delivery"
+    ],
+    recommended: true,
+  },
+  {
+    name: "Enterprise Refresh",
+    price: "$10,000+",
+    description: "Legacy re-branding, custom packaging design, and commercial pitch deck templates.",
+    features: [
+      "In-depth competitor analysis",
+      "Legacy transition strategic plan",
+      "Custom box packaging die-lines",
+      "Tactile linen stock printer matches",
+      "30-Slide Keynote investor deck",
+      "Master digital patterns & guides",
+      "Unlimited custom adjustments",
+      "5 Weeks priority delivery"
+    ],
+    recommended: false,
+  }
+];
+
+export const blogPosts: BlogPost[] = [
+  {
+    id: "blog-1",
+    title: "The Mathematics of Typography in Digital Interfaces",
+    category: "UI/UX Design",
+    excerpt: "Exploring why strict grid alignments, proportional leading, and absolute visual hierarchy generate immediate trust and emotional weight in luxury branding.",
+    date: "May 28, 2026",
+    thumbnail: "https://images.unsplash.com/photo-1561070791-26c113006238?auto=format&fit=crop&w=600&h=400&q=80",
+    slug: "mathematics-of-typography-digital-interfaces"
+  },
+  {
+    id: "blog-2",
+    title: "Why We Abandoned Tailwind CSS for Custom Vanilla Layouts",
+    category: "Web Development",
+    excerpt: "A deep dive into structural speed, styling purism, and why achieving absolute zero-border-radius linear precision requires direct CSS control without bloated frameworks.",
+    date: "May 15, 2026",
+    thumbnail: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&h=400&q=80",
+    slug: "why-we-abandoned-tailwind-css-vanilla"
+  },
+  {
+    id: "blog-3",
+    title: "The Future of Edge Middleware and Global Content Caching",
+    category: "Technology Trends",
+    excerpt: "Analyzing how dynamic content delivery at close proximity reduces latency to under 50ms, removes server bottlenecks, and secures blistering fast user interfaces.",
+    date: "April 30, 2026",
+    thumbnail: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&h=400&q=80",
+    slug: "future-of-edge-middleware-global-caching"
+  },
+  {
+    id: "blog-4",
+    title: "Designing the Unboxing: Translating Digital Identity to Luxury Print",
+    category: "Digital Strategy",
+    excerpt: "How B2B companies leverage premium physical stationery, textured paper stocks, and spot-UV hot-foil monograms to bridge digital excellence and tangible brand authority.",
+    date: "April 12, 2026",
+    thumbnail: "https://images.unsplash.com/photo-1586075010923-2dd4570fb338?auto=format&fit=crop&w=600&h=400&q=80",
+    slug: "designing-unboxing-digital-identity-luxury-print"
+  }
+];
+

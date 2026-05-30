@@ -5,6 +5,7 @@ import Services from '@/components/sections/Services';
 import PortfolioGrid from '@/components/sections/PortfolioGrid';
 import TrustedBy from '@/components/sections/TrustedBy';
 import Testimonials from '@/components/sections/Testimonials';
+import StartProject from '@/components/sections/StartProject';
 import CTA from '@/components/sections/CTA';
 
 export default function Home() {
@@ -63,6 +64,7 @@ export default function Home() {
       <PortfolioGrid />
       <TrustedBy />
       <Testimonials />
+      <StartProject />
       <CTA />
     </>
   );

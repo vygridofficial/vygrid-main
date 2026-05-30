@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Inter, IBM_Plex_Mono } from "next/font/google";
+import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import ScrollRestoration from "@/components/ui/ScrollRestoration";
 import "@/app/globals.css";
 
 const playfair = Playfair_Display({
@@ -21,7 +23,7 @@ const inter = Inter({
 
 const ibmPlexMono = IBM_Plex_Mono({
   subsets: ["latin"],
-  weight: ["400"],
+  weight: ["400", "700"],
   variable: "--font-ibm-plex",
   display: "swap",
 });
@@ -61,6 +63,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable} ${ibmPlexMono.variable}`}>
       <body className="antialiased bg-[#0A0A0A] text-[#F5F0EB] min-h-screen flex flex-col selection:bg-[#C8B89A]/30 selection:text-[#F5F0EB]">
+        {/* Scroll Restoration Staged under Suspense */}
+        <Suspense fallback={null}>
+          <ScrollRestoration />
+        </Suspense>
         {/* Subtle scanline background grain overlay */}
         <div className="fixed inset-0 pointer-events-none z-50 opacity-[0.015] bg-noise bg-repeat" />
         <Navbar />

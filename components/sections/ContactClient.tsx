@@ -17,7 +17,6 @@ export default function ContactClient() {
   const {
     register,
     handleSubmit,
-    control,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ContactFormData>({
@@ -26,9 +25,7 @@ export default function ContactClient() {
       fullName: '',
       email: '',
       phone: '',
-      service: '',
-      brief: '',
-      budget: 5000,
+      message: '',
     },
   });
 
@@ -47,13 +44,6 @@ export default function ContactClient() {
       setSubmitError(errorMessage);
     }
   };
-
-  const servicesList = [
-    { label: "Custom Web Development", value: "Web Development" },
-    { label: "Logo & Brand Identity", value: "Logo & Branding" },
-    { label: "E-Commerce System", value: "E-Commerce" },
-    { label: "Complete Brand Kit", value: "Brand Kits" }
-  ];
 
   return (
     <div className="relative w-full bg-[#0A0A0A] text-[#F5F0EB] py-12 md:py-24 selection:bg-[#C8B89A] selection:text-[#0A0A0A]">
@@ -76,16 +66,11 @@ export default function ContactClient() {
                 01 / INQUIRIES
               </span>
               <h1 className="font-serif italic text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F5F0EB] leading-none font-light">
-                <TextReveal text="Let's Build Your Legacy." />
+                <TextReveal text="Let's Connect." />
               </h1>
               <p className="font-grotesque text-sm text-[#888888] font-light leading-relaxed max-w-md">
-                Have a bold concept or complex systems engineering requirements? Get in touch. Our founding directors review all client brief parameters within 24 hours.
+                Have a bold concept or complex systems engineering requirements? Get in touch. Our team reviews all client briefs within 24 hours.
               </p>
-            </div>
-
-            <div className="inline-flex items-center space-x-2 border border-emerald-500/30 bg-emerald-500/5 px-4 py-2 font-mono text-[9px] tracking-wider text-emerald-400 select-none">
-              <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-ping" />
-              <span>ACTIVE BOOKINGS OPEN FOR Q2 2026</span>
             </div>
 
             <div className="space-y-4 font-mono text-xs pt-4">
@@ -106,18 +91,18 @@ export default function ContactClient() {
                 <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">DIRECT TELEPHONY</span>
                 <span className="text-[#F5F0EB] group-hover:text-emerald-400 font-bold tracking-wider transition-colors">CHAT VIA WHATSAPP →</span>
               </a>
-            </div>
 
-            <div className="border border-white/10 bg-[#111111] p-6 space-y-3 font-mono text-xs select-none">
-              <span className="text-[#888888] text-[9px] tracking-widest block uppercase">STUDIO COORDINATES</span>
-              <span className="text-[#F5F0EB] font-bold block">5TH AVE, MANHATTAN, NY</span>
-              <span className="text-[#888888] text-[10px] block leading-relaxed font-light">
-                Engineering digital pipelines and bespoke logo monograms for international markets.
-              </span>
+              <Link
+                href="/start-your-project"
+                className="block border border-[#C8B89A]/30 p-5 bg-[#111111] hover:border-[#C8B89A] transition-all duration-300 group"
+              >
+                <span className="text-[#C8B89A] text-[9px] tracking-widest block uppercase mb-1">INTAKE FORM</span>
+                <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors">START DEDICATED BRIEF →</span>
+              </Link>
             </div>
           </div>
 
-          {/* Right Column: Briefing Form */}
+          {/* Right Column: Contact Inquiry Form */}
           <div className="lg:col-span-7">
             <div className="border border-white/10 bg-[#111111] p-8 sm:p-12 relative">
               <AnimatePresence mode="wait">
@@ -130,7 +115,7 @@ export default function ContactClient() {
                     className="space-y-6"
                   >
                     <h3 className="font-mono text-[10px] tracking-[0.2em] text-[#888888] uppercase border-b border-white/5 pb-4">
-                      PROJECT BRIEFING ARCHIVE
+                      CONTACT TRANSMISSION PORTAL
                     </h3>
 
                     {/* Name */}
@@ -197,85 +182,23 @@ export default function ContactClient() {
                       </div>
                     </div>
 
-                    {/* Service */}
+                    {/* Message */}
                     <div className="space-y-2">
                       <label className="font-mono text-[9px] tracking-widest uppercase text-[#888888] block">
-                        STRATEGIC SERVICE *
-                      </label>
-                      <select
-                        {...register("service")}
-                        className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] ${
-                          errors.service ? 'border-[#C8B89A]' : 'border-white/10 focus:border-[#C8B89A]'
-                        }`}
-                      >
-                        <option value="" className="bg-[#111111]">SELECT CAPABILITY...</option>
-                        {servicesList.map((s) => (
-                          <option key={s.value} value={s.value} className="bg-[#111111]">{s.label.toUpperCase()}</option>
-                        ))}
-                      </select>
-                      {errors.service && (
-                        <p className="flex items-center space-x-1.5 text-[10px] text-[#C8B89A] font-mono mt-1 select-none">
-                          <AlertCircle className="w-3.5 h-3.5" />
-                          <span>{errors.service.message?.toUpperCase()}</span>
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Budget slider */}
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center font-mono">
-                        <label className="text-[9px] tracking-widest uppercase text-[#888888] block">
-                          PROJECT BUDGET *
-                        </label>
-                        <Controller
-                          name="budget"
-                          control={control}
-                          render={({ field }) => (
-                            <span className="text-sm font-bold text-[#C8B89A] select-none">
-                              {field.value === 50000 ? "$50,000+" : `$${field.value.toLocaleString()}`}
-                            </span>
-                          )}
-                        />
-                      </div>
-                      <Controller
-                        name="budget"
-                        control={control}
-                        render={({ field }) => (
-                          <input
-                            type="range"
-                            min="1000"
-                            max="50000"
-                            step="1000"
-                            value={field.value}
-                            onChange={(e) => field.onChange(Number(e.target.value))}
-                            className="w-full h-[2px] bg-white/10 appearance-none cursor-pointer accent-[#C8B89A] focus:outline-none"
-                          />
-                        )}
-                      />
-                      <div className="flex justify-between text-[8px] font-mono text-[#888888] uppercase tracking-wider select-none">
-                        <span>$1,000</span>
-                        <span>$25,000</span>
-                        <span>$50,000+</span>
-                      </div>
-                    </div>
-
-                    {/* Brief */}
-                    <div className="space-y-2">
-                      <label className="font-mono text-[9px] tracking-widest uppercase text-[#888888] block">
-                        PROJECT BRIEF *
+                        MESSAGE *
                       </label>
                       <textarea
-                        {...register("brief")}
-                        rows={4}
-                        placeholder="DESCRIBE SYSTEMS OBJECTIVES, PIPELINE TIMELINES, AND DESIGN INSPIRATION..."
+                        {...register("message")}
+                        rows={6}
+                        placeholder="HOW CAN OUR STUDIO HELP ELEVATE YOUR DIGITAL ARCHITECTURE OR BRAND MARK?"
                         className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] placeholder-[#444444] ${
-                          errors.brief ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
+                          errors.message ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
                         }`}
                       />
-                      {errors.brief && (
+                      {errors.message && (
                         <p className="flex items-center space-x-1.5 text-[10px] text-[#C8B89A] font-mono mt-1 select-none">
                           <AlertCircle className="w-3.5 h-3.5" />
-                          <span>{errors.brief.message?.toUpperCase()}</span>
+                          <span>{errors.message.message?.toUpperCase()}</span>
                         </p>
                       )}
                     </div>
@@ -295,7 +218,7 @@ export default function ContactClient() {
                         className="w-full py-4 bg-[#C8B89A] text-[#0A0A0A] font-mono text-xs font-bold tracking-widest uppercase hover:bg-[#F5F0EB] transition-colors duration-300 disabled:opacity-50"
                         disabled={isSubmitting}
                       >
-                        {isSubmitting ? "TRANSMITTING PARAMETERS..." : "SEND BRIEFING →"}
+                        {isSubmitting ? "TRANSMITTING..." : "SEND MESSAGE →"}
                       </button>
                     </div>
 
@@ -312,11 +235,11 @@ export default function ContactClient() {
                     </div>
                     
                     <h3 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight">
-                      Briefing Transmitted Successfully.
+                      Message Transmitted.
                     </h3>
                     
                     <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed max-w-sm mx-auto">
-                      Thank you for contacting Vygrid Digital Studio. Our directors have logged your parameters and will verify all details within 24 hours. We look forward to executing your project.
+                      Thank you for contacting Vygrid Digital Studio. Our team has successfully logged your details and will coordinate a response within 24 hours.
                     </p>
 
                     <div className="pt-6 border-t border-white/5 w-full">
@@ -325,7 +248,7 @@ export default function ContactClient() {
                         onClick={() => setSubmitted(false)}
                         className="px-6 py-2 border border-white/10 text-[#888888] hover:text-[#C8B89A] hover:border-[#C8B89A] text-xs font-bold tracking-widest uppercase transition-colors"
                       >
-                        SUBMIT ANOTHER BRIEF
+                        SUBMIT ANOTHER INQUIRY
                       </button>
                     </div>
                   </motion.div>

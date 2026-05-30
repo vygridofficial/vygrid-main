@@ -69,27 +69,32 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             {/* Inner Content Grid */}
             <div className="flex-grow grid grid-cols-1 md:grid-cols-12 items-stretch min-h-full">
               
-              {/* Left Column: Founder Photo & Video looping */}
-              <div className="md:col-span-5 relative min-h-[300px] md:min-h-full bg-[#1A1A1B] border-r border-white/5 overflow-hidden">
-                <Image
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
-                  alt="Studio Founder Workspace"
-                  fill
-                  className="object-cover opacity-30 grayscale filter"
-                  sizes="(max-w-768px) 100vw, 400px"
-                />
-                
-                {/* Looping video overlay simulation */}
-                <div className="absolute inset-0 bg-[#0A0A0A]/50 flex flex-col justify-center items-center p-6 text-center">
-                  <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center mb-4 select-none">
-                    <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
-                  </div>
-                  <span className="font-mono text-[9px] tracking-widest text-[#888888]">
-                    LIVE STREAMING REEL
+              {/* Left Column: Rich Editorial Vision Copy */}
+              <div className="md:col-span-5 p-8 md:p-10 bg-[#0C0C0D] border-r border-white/5 flex flex-col justify-between select-none">
+                <div className="space-y-6">
+                  <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase">
+                    THE VYGRID CONVICTION
                   </span>
-                  <p className="font-serif italic text-sm text-[#F5F0EB]/60 max-w-[200px] mt-2 leading-relaxed">
-                    &ldquo;Obsession over details creates the premium experience.&rdquo;
+                  <h4 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight">
+                    Linear purism and mathematical structure.
+                  </h4>
+                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed">
+                    Founded in Q2 2022, Vygrid Digital Studio was born out of absolute frustration with sluggish, generic visual templates. We believe web engineering is not a collection of arbitrary visual gimmicks, but a strict discipline of mathematical precision.
                   </p>
+                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed">
+                    By removing decorative visual clutter, rounded corners, and excessive styling frames, we let typography and generous layout spacing guide user interactions naturally.
+                  </p>
+                </div>
+
+                <div className="pt-8 border-t border-white/5 space-y-4">
+                  <div className="flex justify-between items-center font-mono text-[8px] tracking-wider text-[#444444]">
+                    <span>STUDIO TIMELINE:</span>
+                    <span className="text-[#C8B89A]">EST. Q2 2022</span>
+                  </div>
+                  <div className="flex justify-between items-center font-mono text-[8px] tracking-wider text-[#444444]">
+                    <span>DEPLOYMENT AUDIT:</span>
+                    <span className="text-emerald-500">100/100 SPEED</span>
+                  </div>
                 </div>
               </div>
 

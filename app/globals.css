@@ -81,3 +81,12 @@
 .link-draw:hover::after {
   transform: scaleX(1);
 }
+
+@media (max-width: 767px) {
+  .services-row-1 .animate-marquee-slow {
+    animation-duration: 15s !important;
+  }
+  .services-row-2 .animate-marquee-reverse {
+    animation-duration: 15s !important;
+  }
+}

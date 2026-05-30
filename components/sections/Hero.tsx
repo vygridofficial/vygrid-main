@@ -9,7 +9,7 @@ import MatrixParticles from '@/components/ui/MatrixParticles';
 
 export default function Hero() {
   return (
-    <section className="relative w-full h-[calc(100vh-80px)] min-h-[650px] bg-[#0A0A0A] overflow-hidden select-none px-6 md:px-12 py-16 flex flex-col justify-between border-b border-white/5">
+    <section className="relative w-full h-[calc(100vh-80px)] min-h-[650px] bg-[#0A0A0A] overflow-hidden select-none px-6 md:px-12 pt-8 pb-16 flex flex-col justify-between border-b border-white/5">
       
       {/* Background Matrix Particle canvas animation */}
       <div className="absolute inset-0 z-0 opacity-[0.25] pointer-events-none">
@@ -55,10 +55,17 @@ export default function Hero() {
         </p>
 
         {/* CTA text links */}
-        <div className="pt-4 flex items-center">
+        <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          <Link
+            href="/start-your-project"
+            className="px-6 py-3.5 bg-[#C8B89A] hover:bg-[#F5F0EB] text-[#0A0A0A] font-mono text-[10px] font-bold tracking-widest uppercase transition-all duration-300 flex items-center space-x-2"
+          >
+            <span>Start Your Project</span>
+            <ArrowRight className="w-3.5 h-3.5 text-[#0A0A0A]" />
+          </Link>
           <Link
             href="/portfolio"
-            className="font-grotesque font-bold text-xs uppercase tracking-widest text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 link-draw py-2 flex items-center space-x-2"
+            className="font-grotesque font-bold text-xs uppercase tracking-widest text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 link-draw py-2.5 flex items-center space-x-2"
           >
             <span>View Our Work</span>
             <ArrowRight className="w-4 h-4 text-[#C8B89A]" />

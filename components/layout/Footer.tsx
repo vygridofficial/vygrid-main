@@ -2,9 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
+  const pathname = usePathname();
   const [timeString, setTimeString] = useState('');
 
   // Live ticking clock
@@ -46,9 +49,9 @@ export default function Footer() {
                 <Image
                   src="/logodes.png"
                   alt="VYGRID Logo"
-                  width={100}
-                  height={24}
-                  className="h-6 w-auto object-contain brightness-100"
+                  width={150}
+                  height={36}
+                  className="h-9 w-auto object-contain brightness-100"
                 />
                 <span className="font-mono text-sm tracking-[0.2em] font-bold">VYGRID</span>
               </div>
@@ -69,17 +72,46 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Right Column: details, clock, booking status, and socials */}
-          <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-8 md:gap-4 text-left md:text-right">
+          {/* Right Column: directory, clock, and socials */}
+          <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-4 text-left md:text-right">
             
-            {/* Booking Status & Live Clock */}
-            <div className="space-y-3">
-              <div className="font-mono text-[10px] tracking-[0.15em] text-[#C8B89A] uppercase">
-                BOOKING PROJECTS FOR Q2 2026
+            {/* Studio Navigation directory */}
+            <div className="space-y-3 flex flex-col items-start sm:items-end">
+              <span className="font-mono text-[9px] tracking-[0.2em] text-[#444444] block">
+                DIRECTORY
+              </span>
+              <div className="flex flex-col space-y-1 text-xs font-bold uppercase tracking-wider items-start sm:items-end">
+                {[
+                  { name: 'Home', href: '/' },
+                  { name: 'Services', href: '/services' },
+                  { name: 'Work', href: '/portfolio' },
+                  { name: 'Blog', href: '/blog' },
+                  { name: 'Start Project', href: '/start-your-project' },
+                  { name: 'Contact', href: '/contact' },
+                ].map((link) => {
+                  const isActive = pathname === link.href;
+                  return (
+                    <Link
+                      key={link.name}
+                      href={link.href}
+                      className={`${
+                        isActive
+                          ? 'text-[#C8B89A]'
+                          : 'text-[#F5F0EB] hover:text-[#C8B89A]'
+                      } transition-colors duration-300`}
+                    >
+                      {link.name}
+                    </Link>
+                  );
+                })}
               </div>
+            </div>
+
+            {/* Booking Status & Live Clock */}
+            <div className="space-y-3 flex flex-col items-start sm:items-end">
               <div className="space-y-1">
                 <span className="font-mono text-[9px] tracking-[0.2em] text-[#444444] block">
-                  LOCAL TIME (UTC)
+                  LOCAL TIME
                 </span>
                 <span className="font-mono text-sm font-bold text-[#F5F0EB] block tracking-widest">
                   {timeString || "00:00:00"}

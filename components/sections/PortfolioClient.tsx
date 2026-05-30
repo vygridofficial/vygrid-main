@@ -1,16 +1,33 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter, useSearchParams, usePathname } from 'next/navigation';
 import { projects } from '@/lib/data';
 import Badge from '@/components/ui/Badge';
 import ImageReveal from '@/components/ui/ImageReveal';
 
 export default function PortfolioClient() {
-  const [filter, setFilter] = useState<'All' | 'Web Development' | 'Logo & Branding' | 'E-Commerce' | 'Brand Kits'>('All');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const filterParam = searchParams.get('filter') || 'All';
+  const filter = filterParam as 'All' | 'Web Development' | 'Logo & Branding' | 'E-Commerce' | 'Brand Kits';
+
+  const setFilter = (val: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (val === 'All') {
+      params.delete('filter');
+    } else {
+      params.set('filter', val);
+    }
+    const query = params.toString();
+    router.push(pathname + (query ? '?' + query : ''), { scroll: false });
+  };
 
   const filteredProjects = projects.filter((project) => {
     if (filter === 'All') return true;

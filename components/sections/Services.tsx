@@ -36,7 +36,7 @@ export default function Services() {
       </div>
 
       {/* Row 1: Forward Marquee */}
-      <div className="w-full relative overflow-hidden py-4 border-t border-b border-white/5 bg-[#111111] marquee-mask">
+      <div className="w-full relative overflow-hidden py-4 border-t border-b border-white/5 bg-[#111111] marquee-mask services-row-1">
         <div className="flex animate-marquee-slow whitespace-nowrap min-w-full items-center justify-around">
           {scrollRow1.map((item, idx) => (
             <div
@@ -52,7 +52,7 @@ export default function Services() {
                   sizes="32px"
                 />
               </div>
-              <span className="font-grotesque text-xs font-bold uppercase tracking-wider text-[#888888] group-hover:text-[#F5F0EB] transition-colors duration-300">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#888888] group-hover:text-[#F5F0EB] transition-colors duration-300">
                 {item.name}
               </span>
             </div>
@@ -61,7 +61,7 @@ export default function Services() {
       </div>
 
       {/* Row 2: Reverse Marquee */}
-      <div className="w-full relative overflow-hidden py-4 border-b border-white/5 mt-6 bg-[#111111] marquee-mask">
+      <div className="w-full relative overflow-hidden py-4 border-b border-white/5 mt-6 bg-[#111111] marquee-mask services-row-2">
         <div className="flex animate-marquee-reverse whitespace-nowrap min-w-full items-center justify-around">
           {scrollRow2.map((item, idx) => (
             <div
@@ -77,19 +77,12 @@ export default function Services() {
                   sizes="32px"
                 />
               </div>
-              <span className="font-grotesque text-xs font-bold uppercase tracking-wider text-[#888888] group-hover:text-[#F5F0EB] transition-colors duration-300">
+              <span className="font-mono text-[11px] font-bold uppercase tracking-widest text-[#888888] group-hover:text-[#F5F0EB] transition-colors duration-300">
                 {item.name}
               </span>
             </div>
           ))}
         </div>
-      </div>
-
-      {/* CTA Button Block at bottom */}
-      <div className="max-w-7xl mx-auto px-6 md:px-12 mt-16 text-left">
-        <Button href="/contact" variant="text-arrow">
-          Request bespoke briefing &rarr;
-        </Button>
       </div>
 
     </section>

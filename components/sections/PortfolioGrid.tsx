@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -11,6 +11,23 @@ export default function PortfolioGrid() {
   // Grab top 5 projects for the home page horizontal slider
   const featured = projects.slice(0, 5);
   const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (containerRef.current) {
+        const cardWidth = containerRef.current.firstElementChild?.clientWidth || 300;
+        const maxScrollLeft = containerRef.current.scrollWidth - containerRef.current.clientWidth;
+        
+        if (containerRef.current.scrollLeft >= maxScrollLeft - 10) {
+          containerRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          containerRef.current.scrollBy({ left: cardWidth + 32, behavior: 'smooth' });
+        }
+      }
+    }, 5000);
+    
+    return () => clearInterval(timer);
+  }, []);
 
   const scrollLeft = () => {
     if (containerRef.current) {
