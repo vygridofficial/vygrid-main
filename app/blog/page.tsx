@@ -43,7 +43,7 @@ export default function BlogPage() {
 
       {/* Grid List of Blog Posts */}
       <section className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 border-t border-white/10 pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 border-t border-white/10 pt-16">
           {blogPosts.map((post, idx) => (
             <motion.div
               key={post.id}
@@ -51,33 +51,36 @@ export default function BlogPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay: idx * 0.1 }}
-              className="flex flex-col space-y-6 group"
+              whileHover={{ y: -6 }}
+              className="flex flex-col space-y-5 group cursor-pointer transition-all duration-300"
             >
               {/* Featured Image Container */}
-              <div className="relative aspect-[16/10] w-full bg-[#111111] overflow-hidden border border-white/5">
+              <div className="relative aspect-[16/9] w-full bg-[#111111] overflow-hidden border border-white/5">
                 <ImageReveal className="w-full h-full">
                   <Image
                     src={post.thumbnail}
                     alt={post.title}
                     fill
                     className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-103 transition-all duration-700 brightness-90 group-hover:brightness-100"
-                    sizes="(max-w-768px) 100vw, 600px"
+                    sizes="(max-w-768px) 100vw, 400px"
                   />
                 </ImageReveal>
               </div>
 
               {/* Text Meta Container */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="flex items-center justify-between font-mono text-[9px] tracking-wider text-[#888888]">
                   <span className="text-[#C8B89A] font-bold uppercase">{post.category}</span>
                   <span>{post.date.toUpperCase()}</span>
                 </div>
 
-                <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] group-hover:text-[#C8B89A] transition-colors duration-300 leading-tight">
-                  {post.title}
+                <h3 className="font-serif italic text-lg sm:text-xl text-[#F5F0EB] group-hover:text-[#C8B89A] transition-colors duration-300 leading-tight">
+                  <Link href={`/blog/${post.slug}`}>
+                    {post.title}
+                  </Link>
                 </h3>
 
-                <p className="font-grotesque text-xs sm:text-sm text-[#888888] font-light leading-relaxed">
+                <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
                   {post.excerpt}
                 </p>
 
