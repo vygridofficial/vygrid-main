@@ -3,24 +3,15 @@
 import React, { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import TextReveal from '@/components/ui/TextReveal';
-
-const contactSchema = z.object({
-  fullName: z.string().min(2, "Full name must be at least 2 characters."),
-  email: z.string().email("Please enter a valid email address."),
-  phone: z.string().regex(/^\+?[0-9\s\-()]{7,15}$/, "Please enter a valid phone number.").optional().or(z.literal('')),
-  service: z.string().min(1, "Please select a strategic service."),
-  brief: z.string().min(10, "Your project brief must be at least 10 characters."),
-  budget: z.number().min(1000, "Budget must be at least $1,000."),
-});
-
-type ContactFormData = z.infer<typeof contactSchema>;
+import { contactSchema, ContactFormData } from '@/lib/schemas';
+import { submitContactBrief } from '@/app/actions/contact';
 
 export default function ContactClient() {
   const [submitted, setSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   
   const {
     register,
@@ -41,10 +32,19 @@ export default function ContactClient() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    console.log("Contact form payload successfully validated:", data);
-    setSubmitted(true);
-    reset();
+    setSubmitError(null);
+    try {
+      const response = await submitContactBrief(data);
+      if (response.success) {
+        setSubmitted(true);
+        reset();
+      } else {
+        setSubmitError(response.error || "An unexpected error occurred.");
+      }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setSubmitError(errorMessage);
+    }
   };
 
   const servicesList = [
@@ -269,6 +269,13 @@ export default function ContactClient() {
                         </p>
                       )}
                     </div>
+
+                    {submitError && (
+                      <div className="border border-[#C8B89A]/30 bg-[#C8B89A]/5 p-4 flex items-start space-x-3 text-xs font-mono text-[#C8B89A] select-none">
+                        <AlertCircle className="w-4 h-4 mt-0.5 flex-shrink-0" />
+                        <span className="leading-relaxed uppercase">{submitError}</span>
+                      </div>
+                    )}
 
                     {/* Submit Button */}
                     <div className="pt-4">
