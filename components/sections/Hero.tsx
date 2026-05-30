@@ -17,11 +17,11 @@ export default function Hero() {
       </div>
 
       {/* Top Header Row within Hero (Index metadata counters) */}
-      <div className="w-full flex justify-between items-start z-10">
-        <div className="font-mono text-xs tracking-[0.2em] text-[#888888]">
+      <div className="w-full flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0 z-10">
+        <div className="font-mono text-[9px] sm:text-xs tracking-[0.2em] text-[#888888]">
           EST. 2026 &middot; VYGRID DIGITAL STUDIO
         </div>
-        <div className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] font-bold">
+        <div className="font-mono text-[9px] sm:text-[10px] tracking-[0.2em] text-[#C8B89A] font-bold">
           29 / 03
         </div>
       </div>
@@ -34,7 +34,7 @@ export default function Hero() {
           <TextReveal
             as="h1"
             text="Your digital presence,"
-            className="font-serif font-light text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#F5F0EB]"
+            className="font-serif font-light text-4xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#F5F0EB]"
           />
           <div className="overflow-hidden">
             <motion.h1
@@ -42,7 +42,7 @@ export default function Hero() {
               whileInView={{ y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1], delay: 0.25 }}
-              className="font-serif font-light italic text-5xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#C8B89A] block"
+              className="font-serif font-light italic text-4xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#C8B89A] block"
             >
               Perfected.
             </motion.h1>

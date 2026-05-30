@@ -51,7 +51,7 @@ export default function PortfolioGrid() {
         {/* Floating Navigation Controls */}
         <button
           onClick={scrollLeft}
-          className="absolute left-4 top-[35%] -translate-y-1/2 z-20 border border-white/10 bg-[#0A0A0A]/90 hover:bg-[#C8B89A] hover:text-[#0A0A0A] text-[#F5F0EB] p-4 transition-all duration-300 pointer-events-auto flex items-center justify-center cursor-pointer select-none"
+          className="hidden md:flex absolute left-4 top-[35%] -translate-y-1/2 z-20 border border-white/10 bg-[#0A0A0A]/90 hover:bg-[#C8B89A] hover:text-[#0A0A0A] text-[#F5F0EB] p-4 transition-all duration-300 pointer-events-auto items-center justify-center cursor-pointer select-none"
           aria-label="Scroll left"
         >
           <ChevronLeft className="w-5 h-5" />
@@ -59,7 +59,7 @@ export default function PortfolioGrid() {
 
         <button
           onClick={scrollRight}
-          className="absolute right-4 top-[35%] -translate-y-1/2 z-20 border border-white/10 bg-[#0A0A0A]/90 hover:bg-[#C8B89A] hover:text-[#0A0A0A] text-[#F5F0EB] p-4 transition-all duration-300 pointer-events-auto flex items-center justify-center cursor-pointer select-none"
+          className="hidden md:flex absolute right-4 top-[35%] -translate-y-1/2 z-20 border border-white/10 bg-[#0A0A0A]/90 hover:bg-[#C8B89A] hover:text-[#0A0A0A] text-[#F5F0EB] p-4 transition-all duration-300 pointer-events-auto items-center justify-center cursor-pointer select-none"
           aria-label="Scroll right"
         >
           <ChevronRight className="w-5 h-5" />

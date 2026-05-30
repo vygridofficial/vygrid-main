@@ -171,7 +171,7 @@ export default function Navbar() {
                 <ArrowUpRight className="w-4 h-4 text-[#C8B89A]" />
               </Link>
               <div className="font-mono text-[9px] text-[#444444] uppercase tracking-widest">
-                EST. 2022 &middot; VYGRID STUDIO
+                EST. 2026 &middot; VYGRID STUDIO
               </div>
             </div>
           </motion.div>

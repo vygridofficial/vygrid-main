@@ -19,7 +19,7 @@ export default function CTA() {
         </div>
 
         {/* Massive displays across multiple lines */}
-        <div className="font-serif font-light text-5xl sm:text-7xl lg:text-9xl leading-none text-left tracking-tighter max-w-5xl space-y-2">
+        <div className="font-serif font-light text-4xl sm:text-7xl lg:text-9xl leading-none text-left tracking-tighter max-w-5xl space-y-2">
           <div>Ready to build</div>
           <div className="italic text-[#888888]">an experience</div>
           <div>that moves</div>
