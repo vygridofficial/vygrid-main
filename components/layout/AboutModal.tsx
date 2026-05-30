@@ -1,0 +1,183 @@
+'use client';
+
+import React, { useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { X } from 'lucide-react';
+import Image from 'next/image';
+import { team } from '@/lib/data';
+
+
+interface AboutModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  // Capture Escape key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    if (isOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, onClose]);
+
+  const marqueeWords = ["LISTEN", "CREATE", "OBSESS", "INSPIRE"];
+  const scrollWords = [...marqueeWords, ...marqueeWords, ...marqueeWords, ...marqueeWords];
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <>
+          {/* Backdrop overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.85 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 z-50 bg-[#0A0A0A] backdrop-blur-sm"
+          />
+
+          {/* Sliding Panel */}
+          <motion.div
+            initial={{ x: '100%' }}
+            animate={{ x: 0 }}
+            exit={{ x: '100%' }}
+            transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1] }}
+            className="fixed right-0 top-0 bottom-0 w-full lg:w-[60%] z-50 bg-[#111111] border-l border-white/10 flex flex-col overflow-y-auto no-scrollbar select-none text-[#F5F0EB]"
+          >
+            {/* Header / Close button */}
+            <div className="p-6 md:p-8 flex justify-between items-center border-b border-white/5 bg-[#111111] sticky top-0 z-20">
+              <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888]">
+                02 / ABOUT THE STUDIO
+              </span>
+              <button
+                onClick={onClose}
+                className="text-[#F5F0EB] hover:text-[#C8B89A] transition-colors focus:outline-none flex items-center space-x-2 font-mono text-[10px] tracking-widest"
+              >
+                <span>CLOSE</span>
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Inner Content Grid */}
+            <div className="flex-grow grid grid-cols-1 md:grid-cols-12 items-stretch min-h-full">
+              
+              {/* Left Column: Founder Photo & Video looping */}
+              <div className="md:col-span-5 relative min-h-[300px] md:min-h-full bg-[#1A1A1B] border-r border-white/5 overflow-hidden">
+                <Image
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=600&q=80"
+                  alt="Studio Founder Workspace"
+                  fill
+                  className="object-cover opacity-30 grayscale filter"
+                  sizes="(max-w-768px) 100vw, 400px"
+                />
+                
+                {/* Looping video overlay simulation */}
+                <div className="absolute inset-0 bg-[#0A0A0A]/50 flex flex-col justify-center items-center p-6 text-center">
+                  <div className="w-16 h-16 border border-white/20 rounded-full flex items-center justify-center mb-4 select-none">
+                    <span className="w-2.5 h-2.5 bg-emerald-500 rounded-full animate-ping" />
+                  </div>
+                  <span className="font-mono text-[9px] tracking-widest text-[#888888]">
+                    LIVE STREAMING REEL
+                  </span>
+                  <p className="font-serif italic text-sm text-[#F5F0EB]/60 max-w-[200px] mt-2 leading-relaxed">
+                    &ldquo;Obsession over details creates the premium experience.&rdquo;
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Column: Founder Info & narrative */}
+              <div className="md:col-span-7 p-8 md:p-12 space-y-12 bg-[#111111]">
+                
+                {/* Core Narrative */}
+                <div className="space-y-6">
+                  <h3 className="font-serif italic text-3xl sm:text-4xl text-[#F5F0EB] tracking-tight">
+                    Restraint, precision, structure.
+                  </h3>
+                  <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
+                    Vygrid Digital Studio is an editorial-grade custom web development and brand identity studio. We work with established, founder-led brands whose visual presence hasn&apos;t caught up to what they&apos;ve built.
+                  </p>
+                  <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
+                    We eliminate rounded corners, decorative gradients, and unnecessary visual clutter. We believe typography, generous layout spacing, and deliberate weighting are the core coordinates of premium execution.
+                  </p>
+                </div>
+
+                {/* Team Grid */}
+                <div className="space-y-6">
+                  <h4 className="font-mono text-[10px] tracking-[0.2em] text-[#888888] uppercase">
+                    OUR CORE DIRECTORS
+                  </h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    {team.slice(0, 2).map((member) => (
+                      <div key={member.name} className="space-y-3">
+                        <div className="relative aspect-square w-full bg-[#1A1A1A]">
+                          <Image
+                            src={member.image}
+                            alt={member.name}
+                            fill
+                            className="object-cover grayscale"
+                            sizes="200px"
+                          />
+                        </div>
+                        <div>
+                          <h5 className="font-grotesque font-bold text-xs uppercase tracking-wider text-[#F5F0EB]">{member.name}</h5>
+                          <span className="font-mono text-[9px] text-[#888888] uppercase tracking-widest">{member.role}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Capabilities list */}
+                <div className="space-y-4">
+                  <h4 className="font-mono text-[10px] tracking-[0.2em] text-[#888888] uppercase">
+                    STUDIO CONVICTIONS
+                  </h4>
+                  <ul className="space-y-3 font-grotesque text-sm font-light text-[#888888]">
+                    <li className="flex items-center space-x-2 text-[#F5F0EB]">
+                      <span className="w-1.5 h-1.5 bg-[#C8B89A]" />
+                      <span>Zero border-radius templates — strictly linear layouts</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-1.5 h-1.5 bg-white/20" />
+                      <span>Playfair Display serif headings matched to grotesque Inter body</span>
+                    </li>
+                    <li className="flex items-center space-x-2">
+                      <span className="w-1.5 h-1.5 bg-white/20" />
+                      <span>Targeting 98+ PageSpeed core web vitals on edge CDNs</span>
+                    </li>
+                  </ul>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Word Marquee at the very bottom */}
+            <div className="w-full bg-[#0A0A0B] py-6 border-t border-white/5 overflow-hidden relative">
+              <div className="flex animate-marquee-slow whitespace-nowrap min-w-full items-center justify-around">
+                {scrollWords.map((word, idx) => (
+                  <div
+                    key={idx}
+                    className="inline-flex mx-8 font-mono text-[10px] font-bold text-white/30 hover:text-[#C8B89A] transition-colors duration-300 pointer-events-none select-none items-center"
+                  >
+                    <span>{word}</span>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8B89A]/30 ml-8" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+          </motion.div>
+        </>
+      )}
+    </AnimatePresence>
+  );
+}
