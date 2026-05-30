@@ -1,7 +1,10 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function CTA() {
   return (
@@ -20,7 +23,17 @@ export default function CTA() {
           <div>Ready to build</div>
           <div className="italic text-[#888888]">an experience</div>
           <div>that moves</div>
-          <div className="text-[#C8B89A] flex items-center">&rarr; People</div>
+          <Link href="/about" className="block text-[#C8B89A] flex items-center group cursor-pointer select-none">
+            <motion.div
+              whileHover={{
+                x: [0, -5, 5, -5, 5, 0],
+                transition: { duration: 0.5 }
+              }}
+              className="flex items-center"
+            >
+              &rarr; People
+            </motion.div>
+          </Link>
         </div>
 
         {/* Footer split details (blockquote left, CTA button right) */}

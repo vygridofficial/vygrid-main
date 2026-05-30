@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowUpRight } from 'lucide-react';
 
 export default function Footer() {
@@ -39,22 +39,33 @@ export default function Footer() {
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-start">
           
-          {/* Left Column: Studio branding & navigation */}
+          {/* Left Column: Studio branding & contact details */}
           <div className="md:col-span-6 space-y-8">
-            <div className="space-y-3 text-left">
-              <span className="font-mono text-sm tracking-[0.2em]">VYGRID</span>
+            <div className="space-y-4 text-left">
+              <div className="flex items-center space-x-3">
+                <Image
+                  src="/logodes.png"
+                  alt="VYGRID Logo"
+                  width={100}
+                  height={24}
+                  className="h-6 w-auto object-contain brightness-100"
+                />
+                <span className="font-mono text-sm tracking-[0.2em] font-bold">VYGRID</span>
+              </div>
               <p className="text-[#888888] font-light text-sm max-w-xs leading-relaxed">
                 Bespoke digital architecture and brand identity curation for established founder-led businesses.
               </p>
             </div>
 
-            {/* Navigation block */}
-            <div className="flex flex-wrap gap-x-8 gap-y-2 text-xs font-bold uppercase tracking-wider">
-              <Link href="/" className="hover:text-[#C8B89A] transition-colors">Home</Link>
-              <Link href="/about" className="hover:text-[#C8B89A] transition-colors">About</Link>
-              <Link href="/portfolio" className="hover:text-[#C8B89A] transition-colors">Work</Link>
-              <Link href="/services/web-development" className="hover:text-[#C8B89A] transition-colors">Services</Link>
-              <Link href="/contact" className="hover:text-[#C8B89A] transition-colors">Contact</Link>
+            <div className="space-y-2 pt-2 text-xs font-mono text-[#888888] text-left">
+              <div className="flex items-center space-x-2">
+                <span className="text-[#444444]">EMAIL:</span>
+                <a href="mailto:hello@vygrid.studio" className="text-[#F5F0EB] hover:text-[#C8B89A] transition-colors font-bold">hello@vygrid.studio</a>
+              </div>
+              <div className="flex items-center space-x-2">
+                <span className="text-[#444444]">TEL:</span>
+                <span className="text-[#F5F0EB] font-bold">+1 (555) 000-0000</span>
+              </div>
             </div>
           </div>
 
@@ -86,8 +97,8 @@ export default function Footer() {
                   <span>LinkedIn</span>
                   <ArrowUpRight className="w-3 h-3 text-[#444444]" />
                 </a>
-                <a href="#" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
-                  <span>Twitter</span>
+                <a href="https://wa.me/10000000000" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
+                  <span>WhatsApp</span>
                   <ArrowUpRight className="w-3 h-3 text-[#444444]" />
                 </a>
                 <a href="#" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
@@ -106,7 +117,7 @@ export default function Footer() {
           
           {/* Copyright in tiny mono */}
           <div className="font-mono text-[9px] text-[#444444] tracking-wider">
-            &copy; {currentYear} VYGRID DIGITAL STUDIO &middot; BRUTALIST LUXERY &middot; ALL RIGHTS RESERVED.
+            &copy; {currentYear} VYGRID DIGITAL STUDIO &middot; ALL RIGHTS RESERVED.
           </div>
 
           {/* Back to top text link */}

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Volume2, VolumeX, Menu, X, ArrowUpRight } from 'lucide-react';
+import { Menu, X, ArrowUpRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import AboutModal from '@/components/layout/AboutModal';
@@ -13,7 +13,6 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
-  const [soundActive, setSoundActive] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -99,19 +98,6 @@ export default function Navbar() {
 
           {/* Right: "Start a Project →" — no button border, just text + arrow */}
           <div className="hidden md:flex items-center space-x-6 z-10">
-            {/* Audio Toggle Speaker */}
-            <button
-              onClick={() => setSoundActive(!soundActive)}
-              className="text-[#888888] hover:text-[#F5F0EB] transition-colors focus:outline-none flex items-center justify-center p-1"
-              aria-label="Toggle site sound"
-            >
-              {soundActive ? (
-                <Volume2 className="w-4 h-4 text-[#C8B89A]" />
-              ) : (
-                <VolumeX className="w-4 h-4" />
-              )}
-            </button>
-
             <Link
               href="/contact"
               className="font-grotesque text-xs font-bold uppercase tracking-[0.1em] text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 flex items-center space-x-1"

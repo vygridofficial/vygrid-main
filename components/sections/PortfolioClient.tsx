@@ -31,6 +31,12 @@ export default function PortfolioClient() {
       {/* 1. HEADER SECTION */}
       <section className="py-24 border-b border-white/5 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col items-start space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 font-mono text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#C8B89A] transition-colors duration-300 mb-4"
+          >
+            <span>← BACK</span>
+          </Link>
           <Badge variant="accent">03 / CASE ARCHIVES</Badge>
           
           <h1 className="font-serif font-light text-5xl sm:text-7xl tracking-tight text-[#F5F0EB]">

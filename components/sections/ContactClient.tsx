@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AlertCircle, CheckCircle } from 'lucide-react';
 import TextReveal from '@/components/ui/TextReveal';
+import Link from 'next/link';
 import { contactSchema, ContactFormData } from '@/lib/schemas';
 import { submitContactBrief } from '@/app/actions/contact';
 
@@ -57,6 +58,15 @@ export default function ContactClient() {
   return (
     <div className="relative w-full bg-[#0A0A0A] text-[#F5F0EB] py-12 md:py-24 selection:bg-[#C8B89A] selection:text-[#0A0A0A]">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
+        {/* Back Button */}
+        <div className="mb-8 pt-4 md:mb-12">
+          <Link
+            href="/"
+            className="inline-flex items-center space-x-2 font-mono text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#C8B89A] transition-colors duration-300"
+          >
+            <span>← BACK</span>
+          </Link>
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
           
           {/* Left Column: Direct info & links */}

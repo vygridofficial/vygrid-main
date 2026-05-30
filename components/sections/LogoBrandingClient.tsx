@@ -68,9 +68,18 @@ export default function LogoBrandingClient() {
 
   return (
     <div className="relative w-full bg-[#0A0A0A] text-[#F5F0EB] py-12 md:py-24 space-y-24 md:space-y-36 selection:bg-[#C8B89A] selection:text-[#0A0A0A]">
-      
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-6 md:px-12 pt-4">
+        <Link
+          href="/"
+          className="inline-flex items-center space-x-2 font-mono text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#C8B89A] transition-colors duration-300"
+        >
+          <span>← BACK</span>
+        </Link>
+      </div>
+
       {/* 1. HERO SECTION */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 pt-12">
+      <section className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="space-y-6 md:space-y-8 max-w-4xl">
           <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#888888] block uppercase">
             01 / SERVICES / LOGO & BRAND IDENTITY
