@@ -56,7 +56,7 @@ export default function Footer() {
                 <span className="font-mono text-sm tracking-[0.2em] font-bold">VYGRID</span>
               </div>
               <p className="text-[#888888] font-light text-sm max-w-xs leading-relaxed">
-                Bespoke digital architecture and brand identity curation for established founder-led businesses.
+                From concept to launch, we build digital excellence.
               </p>
             </div>
 
@@ -119,26 +119,34 @@ export default function Footer() {
               </div>
             </div>
 
-            {/* Social channels (text only + Arrow) */}
-            <div className="space-y-3 flex flex-col items-start sm:items-end">
-              <span className="font-mono text-[9px] tracking-[0.2em] text-[#444444] block">
-                CONNECT ONLINE
-              </span>
-              <div className="flex flex-col space-y-1 text-xs font-bold uppercase tracking-wider items-start sm:items-end">
-                <a href="#" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
-                  <span>LinkedIn</span>
-                  <ArrowUpRight className="w-3 h-3 text-[#444444]" />
-                </a>
-                <a href="https://wa.me/10000000000" target="_blank" rel="noopener noreferrer" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
-                  <span>WhatsApp</span>
-                  <ArrowUpRight className="w-3 h-3 text-[#444444]" />
-                </a>
-                <a href="#" className="hover:text-[#C8B89A] transition-colors inline-flex items-center space-x-1">
-                  <span>Instagram</span>
-                  <ArrowUpRight className="w-3 h-3 text-[#444444]" />
-                </a>
-              </div>
-            </div>
+             {/* Social channels (monochrome SVG logos) */}
+             <div className="space-y-3 flex flex-col items-start sm:items-end">
+               <span className="font-mono text-[9px] tracking-[0.2em] text-[#444444] block">
+                 CONNECT ONLINE
+               </span>
+               <div className="flex items-center space-x-4 pt-1">
+                 <a
+                   href="https://wa.me/10000000000"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   className="text-[#888888] hover:text-[#C8B89A] transition-colors duration-300"
+                   aria-label="WhatsApp"
+                 >
+                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.717-1.456L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.03-5.114-2.906-6.99C16.246 1.875 13.765.845 11.13.845 5.698.845 1.274 5.27 1.27 10.705c-.001 1.679.444 3.322 1.286 4.78l-.997 3.636 3.732-.979zm11.385-6.974c-.313-.156-1.853-.914-2.138-1.018-.285-.104-.493-.156-.7.156-.207.312-.802 1.018-.984 1.226-.182.208-.364.23-.677.074-1.284-.643-2.148-1.127-3.003-2.593-.226-.388.226-.36.647-.798.118-.12.226-.26.338-.372.112-.112.15-.19.226-.312.076-.126.038-.235-.02-.34-.058-.105-.493-1.189-.677-1.63-.18-.432-.377-.373-.518-.38-.13-.006-.28-.008-.43-.008-.15 0-.395.056-.603.284-.208.227-.792.774-.792 1.888s.81 2.193.924 2.348c.114.156 1.595 2.434 3.864 3.413 2.27.979 2.27.653 2.685.613.415-.04.133-.186.828-.84.285-.25.438-.524.52-.7.082-.176.04-.26-.04-.32z"/>
+                   </svg>
+                 </a>
+                 <a
+                   href="#"
+                   className="text-[#888888] hover:text-[#C8B89A] transition-colors duration-300"
+                   aria-label="Instagram"
+                 >
+                   <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                     <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                   </svg>
+                 </a>
+               </div>
+             </div>
 
           </div>
 
