@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
   Globe, 
@@ -23,7 +23,7 @@ import { webServices, brandServices } from '@/lib/data';
 import TextReveal from '@/components/ui/TextReveal';
 
 // Dynamic Icon Mapper
-const iconMap: Record<string, React.ComponentType<any>> = {
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Globe,
   ShoppingBag,
   LayoutDashboard,

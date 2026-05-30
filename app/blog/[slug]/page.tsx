@@ -61,7 +61,7 @@ export default function BlogPostDetailPage() {
           At Vygrid, we believe that premium execution is a direct derivative of restraint. In modern digital systems, visually cluttered grids and decorative flourishes represent a lack of structural conviction. When we examine luxury editorial design, we find that visual gravity is achieved through careful weight distributions and generous whitespace.
         </p>
         <p className="font-serif italic text-lg sm:text-xl text-[#F5F0EB] border-l border-[#C8B89A] pl-6 my-8">
-          &ldquo;Whitespace is not empty space; it is structural leverage. It dictates where the user's eye rests and establishes immediate typographic authority.&rdquo;
+          &ldquo;Whitespace is not empty space; it is structural leverage. It dictates where the user&apos;s eye rests and establishes immediate typographic authority.&rdquo;
         </p>
         <p>
           We construct custom web interfaces that pass stringent Lighthouse audits, maintaining perfect 100 scores across Performance, Accessibility, and SEO. By removing bloated external dependencies and crafting clean Next.js React components from scratch, we build functional sites that remain fast for years.

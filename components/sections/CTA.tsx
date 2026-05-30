@@ -3,8 +3,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowRight, Send, MessageSquare, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Send, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function CTA() {
   const [messages, setMessages] = useState<Array<{ sender: 'bot' | 'user'; text: string }>>([

@@ -55,7 +55,7 @@ function StartProjectPageContent() {
       fullName: '',
       email: '',
       company: '',
-      projectType: defaultProjectType as any,
+      projectType: defaultProjectType as "Web Development" | "Branding",
       budget: presetPackage ? `Selected Plan: ${presetPackage}` : '',
       timeline: '1–3 months',
       description: '',
@@ -63,14 +63,14 @@ function StartProjectPageContent() {
     },
   });
 
-  const onSubmit = async (data: IntakeFormData) => {
+  const onSubmit = async (_data: IntakeFormData) => {
     setSubmitError(null);
     try {
       // Simulate API submit (Server Actions or direct endpoint submission)
       await new Promise(resolve => setTimeout(resolve, 1500));
       setSubmitted(true);
       reset();
-    } catch (err: unknown) {
+    } catch {
       setSubmitError("An error occurred during submission. Please try again.");
     }
   };

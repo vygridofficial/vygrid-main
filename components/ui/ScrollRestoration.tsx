@@ -20,7 +20,7 @@ export default function ScrollRestoration() {
       const timer = setTimeout(() => {
         window.scrollTo({
           top: parseInt(savedPos, 10),
-          behavior: 'instant' as any
+          behavior: 'instant' as ScrollBehavior
         });
       }, 100);
       return () => clearTimeout(timer);
