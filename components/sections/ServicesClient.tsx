@@ -166,12 +166,14 @@ export default function ServicesClient({ webServices, brandServices }: ServicesC
                         <span>&rarr;</span>
                       </Link>
                       
+                      {/* 
                       <Link
                         href={service.group === "CUSTOM WEB DEVELOPMENT" ? "/services/web-development" : "/services/logo-branding"}
                         className="font-mono text-[9px] text-[#555555] hover:text-[#888888] tracking-widest uppercase transition-colors duration-300"
                       >
                         VIEW DETAIL MATRIX
                       </Link>
+                      */}
                     </div>
 
                   </div>
