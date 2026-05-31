@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { updateAboutPageSettings, saveTeamMember, deleteTeamMember, fetchCMSData } from '@/app/actions/cms';
+import { updateAboutPageSettings, saveTeamMember, deleteTeamMember, fetchCMSData, uploadMedia } from '@/app/actions/cms';
 import { Plus, Edit2, Trash2, X, Check } from 'lucide-react';
 
 export default function AboutPageManagement() {
@@ -31,6 +31,32 @@ export default function AboutPageManagement() {
   const [memberLinkedin, setMemberLinkedin] = useState('');
   const [memberTwitter, setMemberTwitter] = useState('');
   const [memberGithub, setMemberGithub] = useState('');
+  const [uploadingImage, setUploadingImage] = useState(false);
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploadingImage(true);
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = reader.result as string;
+        const res = await uploadMedia(file.name, base64);
+        if (res.success && res.url) {
+          setMemberImage(res.url);
+        } else {
+          alert(res.error || 'Failed to upload photo.');
+        }
+        setUploadingImage(false);
+      };
+      reader.readAsDataURL(file);
+    } catch (err) {
+      console.error(err);
+      alert('An error occurred during file upload.');
+      setUploadingImage(false);
+    }
+  };
 
   useEffect(() => {
     async function loadData() {
@@ -389,15 +415,46 @@ export default function AboutPageManagement() {
                 />
               </div>
 
-              <div className="space-y-1">
-                <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">AVATAR PORTRAIT URL</label>
-                <input
-                  type="text"
-                  value={memberImage}
-                  onChange={(e) => setMemberImage(e.target.value)}
-                  className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB] focus:outline-none focus:border-[#C8B89A] font-mono"
-                  placeholder="https://images.unsplash.com/..."
-                />
+              <div className="space-y-2 border border-white/5 p-4 bg-[#0A0A0A]/40 rounded-sm">
+                <label className="block font-mono text-[8px] uppercase text-[#888888] tracking-wider">AVATAR PORTRAIT IMAGE (OPTIONAL)</label>
+                <div className="flex items-center space-x-3">
+                  {memberImage ? (
+                    <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
+                      <img src={memberImage} alt="Avatar Preview" className="w-full h-full object-cover grayscale" />
+                      <button
+                        type="button"
+                        onClick={() => setMemberImage('')}
+                        className="absolute -top-1.5 -right-1.5 p-0.5 bg-red-600 hover:bg-red-700 text-white rounded-full transition-colors z-10"
+                        title="Remove Image"
+                      >
+                        <X className="w-2.5 h-2.5" />
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 border border-dashed border-white/10 bg-[#0A0A0A]/50 flex items-center justify-center text-[9px] text-[#444444] font-mono flex-shrink-0">
+                      NO IMG
+                    </div>
+                  )}
+                  <div className="flex-grow">
+                    <input
+                      type="text"
+                      value={memberImage}
+                      onChange={(e) => setMemberImage(e.target.value)}
+                      placeholder="Avatar URL link..."
+                      className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-1.5 text-xs text-[#F5F0EB] focus:outline-none focus:border-[#C8B89A] font-mono mb-2"
+                    />
+                    <label className="inline-block px-3 py-1 border border-[#C8B89A]/30 hover:border-[#C8B89A] text-[#C8B89A] hover:text-[#F5F0EB] font-mono text-[8px] uppercase tracking-widest bg-transparent cursor-pointer transition-colors">
+                      {uploadingImage ? 'UPLOADING...' : 'UPLOAD FILE'}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        disabled={uploadingImage}
+                      />
+                    </label>
+                  </div>
+                </div>
               </div>
 
               <div className="border-t border-white/5 pt-4 space-y-3">
