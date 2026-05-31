@@ -98,7 +98,7 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
               03 / INVESTMENT MATRIX
             </span>
-            <h2 className="font-serif italic font-light text-3xl sm:text-6xl text-[#F5F0EB]">
+            <h2 className="font-serif italic font-light text-4xl sm:text-7xl text-[#F5F0EB]">
               Pricing & Curation
             </h2>
           </div>

@@ -48,7 +48,7 @@ export default function Services({ webServices, brandServices }: ServicesProps) 
         <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block mb-4">
           02 / SERVICES
         </span>
-        <h2 className="font-serif italic font-light text-3xl sm:text-6xl text-[#F5F0EB]">
+        <h2 className="font-serif italic font-light text-4xl sm:text-7xl text-[#F5F0EB]">
           What we help with
         </h2>
       </div>
