@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Compass, Cpu, Landmark } from 'lucide-react';
-import Link from 'next/link';
+import { Compass, Cpu, Landmark } from 'lucide-react';
 
 export default function StartProject() {
   const steps = [
@@ -86,19 +85,6 @@ export default function StartProject() {
           })}
         </div>
 
-        {/* CTA Redirect Block */}
-        <div className="pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 border-t border-white/5">
-          <span className="font-mono text-[10px] text-[#444444] uppercase tracking-wider">
-            COMMISSION A DETAILED STUDIO EVALUATION
-          </span>
-          <Link
-            href="/contact"
-            className="font-grotesque font-bold text-xs uppercase tracking-widest text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 link-draw py-2 flex items-center space-x-2"
-          >
-            <span>Commission Studio Work</span>
-            <ArrowRight className="w-4 h-4 text-[#C8B89A]" />
-          </Link>
-        </div>
 
       </div>
     </section>

@@ -6,8 +6,6 @@ import { Send, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { fetchCMSData } from '@/app/actions/cms';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { ArrowRight } from 'lucide-react';
 
 interface CTAProps {
   title?: string;
@@ -439,43 +437,6 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
               </div>
             </div>
           </div>
-
-          {/* Bottom-right: Tell us your story text link & tight founder photo */}
-          <div className="lg:col-span-6 flex flex-col sm:flex-row sm:items-end justify-start lg:justify-end gap-8 text-left">
-            
-            {/* Founder cropped photo */}
-            <div className="relative w-28 h-28 bg-[#1A1A1B] flex-shrink-0 grayscale">
-              <Image
-                src={image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"}
-                alt="Lead Director Alex"
-                fill
-                className="object-cover"
-                sizes="120px"
-              />
-            </div>
-
-            {/* Direct text link */}
-            <div className="space-y-4">
-              <span className="font-mono text-[9px] text-[#444444] uppercase tracking-wider block">
-                PARTNER UP
-              </span>
-              {subtitle && (
-                <p className="font-grotesque text-xs text-[#888888] font-light max-w-xs leading-relaxed">
-                  {subtitle}
-                </p>
-              )}
-              <Link
-                href={buttonHref}
-                className="font-grotesque font-bold text-sm uppercase tracking-widest text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 link-draw py-2 flex items-center space-x-2"
-              >
-                <span>{buttonText}</span>
-                <ArrowRight className="w-4 h-4 text-[#C8B89A]" />
-              </Link>
-            </div>
-
-          </div>
-
-
         </div>
 
       </div>
