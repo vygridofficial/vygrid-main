@@ -603,7 +603,7 @@ export interface PricingTier {
 export const webPricingTiers: PricingTier[] = [
   {
     name: "Starter Site",
-    price: "$3,500",
+    price: "₹3,500",
     description: "Perfect for startups needing high-converting visibility fast.",
     features: [
       "Custom Animated Landing Page",
@@ -617,7 +617,7 @@ export const webPricingTiers: PricingTier[] = [
   },
   {
     name: "Studio Site",
-    price: "$7,500",
+    price: "₹7,500",
     description: "Complete strategic web platform with content management controls.",
     features: [
       "Up to 8 custom page templates",
@@ -632,7 +632,7 @@ export const webPricingTiers: PricingTier[] = [
   },
   {
     name: "Enterprise App",
-    price: "$15,000+",
+    price: "₹15,000+",
     description: "Bespoke SaaS portal, dense dashboard or multi-vendor commerce.",
     features: [
       "Tailored web application structure",
@@ -650,7 +650,7 @@ export const webPricingTiers: PricingTier[] = [
 export const brandPricingTiers: PricingTier[] = [
   {
     name: "Starter Logo",
-    price: "$2,000",
+    price: "₹2,000",
     description: "Basic strategic emblem and clean typographic mark for new ideas.",
     features: [
       "2 Bespoke vector directions",
@@ -664,7 +664,7 @@ export const brandPricingTiers: PricingTier[] = [
   },
   {
     name: "Studio Identity",
-    price: "$5,000",
+    price: "₹5,000",
     description: "Comprehensive visual branding, guidelines, and corporate kit.",
     features: [
       "3 Unique logo design directions",
@@ -680,7 +680,7 @@ export const brandPricingTiers: PricingTier[] = [
   },
   {
     name: "Enterprise Refresh",
-    price: "$10,000+",
+    price: "₹10,000+",
     description: "Legacy re-branding, custom packaging design, and commercial pitch deck templates.",
     features: [
       "In-depth competitor analysis",

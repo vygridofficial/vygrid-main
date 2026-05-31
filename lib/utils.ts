@@ -19,3 +19,8 @@ export function formatDate(dateString: string) {
     year: "numeric",
   });
 }
+
+export function formatDynamicText(text: string, companyName: string): string {
+  if (!text) return "";
+  return text.replace(/(Vygrid Digital Studio|Vygrid)/g, companyName);
+}

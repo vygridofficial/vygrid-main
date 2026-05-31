@@ -4,12 +4,17 @@ import React, { useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { projects } from '@/lib/data';
+import { projects as fallbackProjects } from '@/lib/data';
 import ImageReveal from '@/components/ui/ImageReveal';
 
-export default function PortfolioGrid() {
+interface PortfolioGridProps {
+  projects?: any[];
+}
+
+export default function PortfolioGrid({ projects }: PortfolioGridProps) {
+  const displayProjects = projects || fallbackProjects;
   // Grab top 5 projects for the home page horizontal slider
-  const featured = projects.slice(0, 5);
+  const featured = displayProjects.slice(0, 5);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -27,7 +32,7 @@ export default function PortfolioGrid() {
     }, 5000);
     
     return () => clearInterval(timer);
-  }, []);
+  }, [featured]);
 
   const scrollLeft = () => {
     if (containerRef.current) {
@@ -90,6 +95,7 @@ export default function PortfolioGrid() {
           {featured.map((project, idx) => {
             // Zero-padded index number
             const padIdx = (idx + 1).toString().padStart(2, '0');
+            const totalIdx = featured.length.toString().padStart(2, '0');
 
             return (
               <div
@@ -119,7 +125,7 @@ export default function PortfolioGrid() {
                         {project.category}
                       </span>
                       <span className="text-[#444444]">
-                        {padIdx} / 05
+                        {padIdx} / {totalIdx}
                       </span>
                     </div>
 
@@ -139,7 +145,7 @@ export default function PortfolioGrid() {
                         IMPACT RESULT
                       </span>
                       <span className="font-mono text-[10px] font-bold text-[#F5F0EB] uppercase tracking-widest bg-white/5 px-2.5 py-1">
-                        {project.metrics[0]?.value} {project.metrics[0]?.label.split(' ')[0]}
+                        {project.metrics && project.metrics[0]?.value} {project.metrics && project.metrics[0]?.label.split(' ')[0]}
                       </span>
                     </div>
 
@@ -154,3 +160,4 @@ export default function PortfolioGrid() {
     </section>
   );
 }
+

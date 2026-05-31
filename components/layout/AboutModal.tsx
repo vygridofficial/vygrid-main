@@ -1,10 +1,10 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
-import Image from 'next/image';
-import { team } from '@/lib/data';
+import { team as fallbackTeam } from '@/lib/data';
+import { fetchCMSData } from '@/app/actions/cms';
 
 
 interface AboutModalProps {
@@ -13,6 +13,25 @@ interface AboutModalProps {
 }
 
 export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
+  const [cmsData, setCmsData] = useState<any | null>(null);
+
+  useEffect(() => {
+    async function loadAboutData() {
+      try {
+        const res = await fetchCMSData();
+        setCmsData(res);
+      } catch (err) {
+        console.error("Failed to load About Modal CMS data", err);
+      }
+    }
+    if (isOpen) {
+      loadAboutData();
+    }
+  }, [isOpen]);
+
+  const aboutPageSettings = cmsData?.aboutPageSettings;
+  const displayTeam = cmsData?.team || fallbackTeam;
+
   // Capture Escape key to close modal
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -67,7 +86,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
             </div>
 
             {/* Inner Content Grid */}
-            <div className="flex-grow grid grid-cols-1 md:grid-cols-12 items-stretch min-h-full">
+            <div className="flex-grow grid grid-cols-1 md:grid-cols-12 items-stretch">
               
               {/* Left Column: Rich Editorial Vision Copy */}
               <div className="md:col-span-5 p-8 md:p-10 bg-[#0C0C0D] border-r border-white/5 flex flex-col justify-between select-none">
@@ -76,13 +95,13 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                     THE VYGRID CONVICTION
                   </span>
                   <h4 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight">
-                    Linear purism and mathematical structure.
+                    {aboutPageSettings?.introHeading || "Linear purism and mathematical structure."}
                   </h4>
-                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed">
-                    Founded in Q2 2022, Vygrid Digital Studio was born out of absolute frustration with sluggish, generic visual templates. We believe web engineering is not a collection of arbitrary visual gimmicks, but a strict discipline of mathematical precision.
+                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed whitespace-pre-wrap">
+                    {aboutPageSettings?.introParagraph1 || "Founded in Q2 2022, Vygrid Digital Studio was born out of absolute frustration with sluggish, generic visual templates. We believe web engineering is not a collection of arbitrary visual gimmicks, but a strict discipline of mathematical precision."}
                   </p>
-                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed">
-                    By removing decorative visual clutter, rounded corners, and excessive styling frames, we let typography and generous layout spacing guide user interactions naturally.
+                  <p className="font-grotesque font-light text-xs text-[#888888] leading-relaxed whitespace-pre-wrap">
+                    {aboutPageSettings?.introParagraph2 || "By removing decorative visual clutter, rounded corners, and excessive styling frames, we let typography and generous layout spacing guide user interactions naturally."}
                   </p>
                 </div>
 
@@ -104,14 +123,22 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                 {/* Core Narrative */}
                 <div className="space-y-6">
                   <h3 className="font-serif italic text-3xl sm:text-4xl text-[#F5F0EB] tracking-tight">
-                    Restraint, precision, structure.
+                    {aboutPageSettings?.title || "Restraint, precision, structure."}
                   </h3>
-                  <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
-                    Vygrid Digital Studio is an editorial-grade custom web development and brand identity studio. We work with established, founder-led brands whose visual presence hasn&apos;t caught up to what they&apos;ve built.
-                  </p>
-                  <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
-                    We eliminate rounded corners, decorative gradients, and unnecessary visual clutter. We believe typography, generous layout spacing, and deliberate weighting are the core coordinates of premium execution.
-                  </p>
+                  {aboutPageSettings?.subtitle ? (
+                    <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl whitespace-pre-wrap">
+                      {aboutPageSettings.subtitle}
+                    </p>
+                  ) : (
+                    <>
+                      <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
+                        Vygrid Digital Studio is an editorial-grade custom web development and brand identity studio. We work with established, founder-led brands whose visual presence hasn&apos;t caught up to what they&apos;ve built.
+                      </p>
+                      <p className="font-grotesque font-light text-sm sm:text-base text-[#888888] leading-relaxed max-w-xl">
+                        We eliminate rounded corners, decorative gradients, and unnecessary visual clutter. We believe typography, generous layout spacing, and deliberate weighting are the core coordinates of premium execution.
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* Team Grid */}
@@ -120,15 +147,13 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                     OUR CORE DIRECTORS
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {team.slice(0, 2).map((member) => (
+                    {displayTeam.map((member: any) => (
                       <div key={member.name} className="space-y-3">
                         <div className="relative aspect-square w-full bg-[#1A1A1A]">
-                          <Image
+                          <img
                             src={member.image}
                             alt={member.name}
-                            fill
-                            className="object-cover grayscale"
-                            sizes="200px"
+                            className="w-full h-full object-cover grayscale"
                           />
                         </div>
                         <div>

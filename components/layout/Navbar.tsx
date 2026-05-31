@@ -8,12 +8,25 @@ import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import AboutModal from '@/components/layout/AboutModal';
+import { fetchCMSData } from '@/app/actions/cms';
 
 export default function Navbar() {
+  const pathname = usePathname();
+  
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
-  const pathname = usePathname();
+  const [navLinks, setNavLinks] = useState<Array<{ name: string; href: string; triggerModal?: boolean }>>([
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '#', triggerModal: true },
+    { name: 'Services', href: '/services' },
+    { name: 'Pricing', href: '/pricing' },
+    { name: 'Work', href: '/portfolio' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Contact', href: '/contact' },
+  ]);
+  const [logoUrl, setLogoUrl] = useState('/logodes.png');
+  const [companyReg, setCompanyReg] = useState('EST. 2026 • VYGRID STUDIO');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,14 +41,48 @@ export default function Navbar() {
     setMobileMenuOpen(false);
   }, [pathname]);
 
-  const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '#', triggerModal: true },
-    { name: 'Services', href: '/services' },
-    { name: 'Work', href: '/portfolio' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Contact', href: '/contact' },
-  ];
+  useEffect(() => {
+    async function loadNavbarData() {
+      try {
+        const cms = await fetchCMSData();
+        if (cms.navigationSettings?.navLinks) {
+          let cmsLinks: Array<{ name: string; href: string; triggerModal?: boolean }> = cms.navigationSettings.navLinks;
+          // Ensure Pricing tab always present — inject after Services if missing
+          const hasPricing = cmsLinks.some((l) => l.href === '/pricing');
+          if (!hasPricing) {
+            const servicesIdx = cmsLinks.findIndex((l) => l.href === '/services');
+            const pricingTab = { name: 'Pricing', href: '/pricing' };
+            if (servicesIdx >= 0) {
+              cmsLinks = [
+                ...cmsLinks.slice(0, servicesIdx + 1),
+                pricingTab,
+                ...cmsLinks.slice(servicesIdx + 1),
+              ];
+            } else {
+              cmsLinks = [...cmsLinks, pricingTab];
+            }
+          }
+          setNavLinks(cmsLinks);
+        }
+        if (cms.generalSettings) {
+          if (cms.generalSettings.logoUrl) {
+            setLogoUrl(cms.generalSettings.logoUrl);
+          }
+          if (cms.generalSettings.companyReg) {
+            setCompanyReg(cms.generalSettings.companyReg);
+          }
+        }
+      } catch (err) {
+        console.error("Failed loading CMS navigation", err);
+      }
+    }
+    loadNavbarData();
+  }, []);
+
+  if (pathname && pathname.startsWith('/admin')) {
+    return null;
+  }
+
 
   return (
     <>
@@ -53,7 +100,7 @@ export default function Navbar() {
           <div className="flex-shrink-0 z-10 flex items-center">
             <Link href="/" className="flex items-center">
               <Image
-                src="/logodes.png"
+                src={logoUrl || "/logodes.png"}
                 alt="VYGRID Logo"
                 width={180}
                 height={44}
@@ -156,7 +203,7 @@ export default function Navbar() {
 
             <div className="mt-auto space-y-6 border-t border-white/5 pt-6 text-center">
               <div className="font-mono text-[9px] text-[#444444] uppercase tracking-widest">
-                EST. 2026 &middot; VYGRID STUDIO
+                {companyReg}
               </div>
             </div>
           </motion.div>

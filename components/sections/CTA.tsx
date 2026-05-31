@@ -5,14 +5,45 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Send, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { fetchCMSData } from '@/app/actions/cms';
 
-export default function CTA() {
+interface CTAProps {
+  title?: string;
+  subtitle?: string;
+  buttonText?: string;
+  buttonHref?: string;
+  image?: string;
+}
+
+export default function CTA({ title, subtitle, buttonText = "Tell us your story", buttonHref = "/contact", image }: CTAProps) {
+  const [companyName, setCompanyName] = useState('Vygrid');
   const [messages, setMessages] = useState<Array<{ sender: 'bot' | 'user'; text: string }>>([
     { sender: 'bot', text: 'Hello. I am the Vygrid AI Architect. How can I guide you today?' }
   ]);
   const [inputVal, setInputVal] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    async function loadBranding() {
+      try {
+        const data = await fetchCMSData();
+        if (data.generalSettings?.companyName) {
+          const name = data.generalSettings.companyName.replace(/ Digital Studio/i, '').trim();
+          setCompanyName(name);
+          setMessages(prev => {
+            if (prev.length === 1 && prev[0].text.includes('Vygrid')) {
+              return [{ sender: 'bot', text: `Hello. I am the ${name} AI Architect. How can I guide you today?` }];
+            }
+            return prev;
+          });
+        }
+      } catch (err) {
+        console.error(err);
+      }
+    }
+    loadBranding();
+  }, []);
 
   useEffect(() => {
     if (chatEndRef.current) {
@@ -49,6 +80,27 @@ export default function CTA() {
     }, 1200);
   };
 
+  // Split title by comma to layout editorial typography lines
+  const defaultLines = [
+    "Ready to build",
+    "an experience",
+    "that moves",
+    "People"
+  ];
+  
+  let line1 = defaultLines[0];
+  let line2 = defaultLines[1];
+  let line3 = defaultLines[2];
+  let line4 = defaultLines[3];
+
+  if (title) {
+    const parts = title.split(',');
+    line1 = parts[0] || '';
+    line2 = parts[1] || '';
+    line3 = parts[2] || '';
+    line4 = parts[3] || '';
+  }
+
   return (
     <section className="py-24 md:py-32 bg-[#0A0A0A] text-[#F5F0EB] relative select-none overflow-hidden border-b border-white/5">
       <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10 flex flex-col justify-between min-h-[500px]">
@@ -62,20 +114,22 @@ export default function CTA() {
 
         {/* Massive displays across multiple lines */}
         <div className="font-serif font-light text-4xl sm:text-7xl lg:text-9xl leading-none text-left tracking-tighter max-w-5xl space-y-2">
-          <div>Ready to build</div>
-          <div className="italic text-[#888888]">an experience</div>
-          <div>that moves</div>
-          <Link href="/about" className="block text-[#C8B89A] flex items-center group cursor-pointer select-none">
-            <motion.div
-              whileHover={{
-                x: [0, -5, 5, -5, 5, 0],
-                transition: { duration: 0.5 }
-              }}
-              className="flex items-center"
-            >
-              &rarr; People
-            </motion.div>
-          </Link>
+          {line1 && <div>{line1}</div>}
+          {line2 && <div className="italic text-[#888888]">{line2}</div>}
+          {line3 && <div>{line3}</div>}
+          {line4 && (
+            <Link href={buttonHref} className="block text-[#C8B89A] flex items-center group cursor-pointer select-none">
+              <motion.div
+                whileHover={{
+                  x: [0, -5, 5, -5, 5, 0],
+                  transition: { duration: 0.5 }
+                }}
+                className="flex items-center"
+              >
+                &rarr; {line4}
+              </motion.div>
+            </Link>
+          )}
         </div>
 
         {/* Footer split details (blockquote left, CTA button right) */}
@@ -85,7 +139,7 @@ export default function CTA() {
           <div className="lg:col-span-6 space-y-4 text-left">
             <span className="font-mono text-[9px] text-[#C8B89A] uppercase tracking-[0.2em] block flex items-center space-x-1.5 select-none font-bold">
               <Sparkles className="w-3.5 h-3.5 text-[#C8B89A] animate-pulse" />
-              <span>VYGRID DIGITAL CO-ARCHITECT</span>
+              <span>{companyName.toUpperCase()} DIGITAL CO-ARCHITECT</span>
             </span>
             
             <div className="border border-white/10 bg-[#111111]/60 backdrop-blur-md p-5 flex flex-col h-[280px] justify-between relative group select-none">
@@ -167,7 +221,7 @@ export default function CTA() {
             {/* Founder cropped photo */}
             <div className="relative w-28 h-28 bg-[#1A1A1B] flex-shrink-0 grayscale">
               <Image
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"
+                src={image || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80"}
                 alt="Lead Director Alex"
                 fill
                 className="object-cover"
@@ -180,11 +234,16 @@ export default function CTA() {
               <span className="font-mono text-[9px] text-[#444444] uppercase tracking-wider block">
                 PARTNER UP
               </span>
+              {subtitle && (
+                <p className="font-grotesque text-xs text-[#888888] font-light max-w-xs leading-relaxed">
+                  {subtitle}
+                </p>
+              )}
               <Link
-                href="/contact"
+                href={buttonHref}
                 className="font-grotesque font-bold text-sm uppercase tracking-widest text-[#F5F0EB] hover:text-[#C8B89A] transition-colors duration-300 link-draw py-2 flex items-center space-x-2"
               >
-                <span>Tell us your story</span>
+                <span>{buttonText}</span>
                 <ArrowRight className="w-4 h-4 text-[#C8B89A]" />
               </Link>
             </div>
@@ -197,3 +256,4 @@ export default function CTA() {
     </section>
   );
 }
+

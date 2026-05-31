@@ -90,3 +90,28 @@
     animation-duration: 15s !important;
   }
 }
+
+/* Snappy and premium active pressed state for buttons & CTA links */
+button, 
+.btn, 
+.button,
+a.btn,
+a.button,
+input[type="submit"], 
+input[type="button"] {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active, 
+.btn:active, 
+.button:active,
+a.btn:active,
+a.button:active,
+input[type="submit"]:active, 
+input[type="button"]:active {
+  transform: scale(0.975);
+  opacity: 0.85;
+  transition-duration: 80ms;
+}
+
+

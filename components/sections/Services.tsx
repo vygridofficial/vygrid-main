@@ -2,9 +2,13 @@
 
 import Image from 'next/image';
 
+interface ServicesProps {
+  webServices?: Array<{ title: string }>;
+  brandServices?: Array<{ title: string }>;
+}
 
-export default function Services() {
-  const row1 = [
+export default function Services({ webServices, brandServices }: ServicesProps) {
+  const defaultRow1 = [
     { name: "Web Development", img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=150&h=150&q=80" },
     { name: "Website Renovation", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=150&h=150&q=80" },
     { name: "App Development", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=150&h=150&q=80" },
@@ -12,12 +16,26 @@ export default function Services() {
     { name: "Poster Design", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=150&h=150&q=80" }
   ];
 
-  const row2 = [
+  const defaultRow2 = [
     { name: "Graphic Design", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=150&h=150&q=80" },
     { name: "AI Chatbot", img: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=150&h=150&q=80" },
     { name: "SEO Optimisation", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=150&h=150&q=80" },
     { name: "Video Editing", img: "https://images.unsplash.com/photo-1556740758-90de374c12ad?auto=format&fit=crop&w=150&h=150&q=80" }
   ];
+
+  const row1 = webServices 
+    ? webServices.map((s, idx) => ({
+        name: s.title,
+        img: defaultRow1[idx % defaultRow1.length].img
+      }))
+    : defaultRow1;
+
+  const row2 = brandServices
+    ? brandServices.map((s, idx) => ({
+        name: s.title,
+        img: defaultRow2[idx % defaultRow2.length].img
+      }))
+    : defaultRow2;
 
   const scrollRow1 = [...row1, ...row1, ...row1];
   const scrollRow2 = [...row2, ...row2, ...row2];
@@ -88,3 +106,4 @@ export default function Services() {
     </section>
   );
 }
+

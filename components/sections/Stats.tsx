@@ -2,14 +2,20 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { stats } from '@/lib/data';
+import { stats as fallbackStats } from '@/lib/data';
 
-export default function Stats() {
+interface StatsProps {
+  stats?: Array<{ label: string; value: string }>;
+}
+
+export default function Stats({ stats }: StatsProps) {
+  const displayStats = stats || fallbackStats;
+
   return (
     <section className="bg-[#0A0A0A] border-t border-b border-white/5 py-12 md:py-16 font-grotesque select-none">
       <div className="max-w-7xl mx-auto px-6 md:px-12">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-0 divide-y-0 md:divide-x divide-white/10">
-          {stats.map((stat, index) => {
+        <div className="grid grid-cols-2 md:flex md:flex-row md:items-stretch gap-8 md:gap-0 divide-y-0 md:divide-x divide-white/10">
+          {displayStats.map((stat, index) => {
             return (
               <motion.div
                 key={index}
@@ -17,7 +23,7 @@ export default function Stats() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, ease: [0.76, 0, 0.24, 1], delay: index * 0.08 }}
-                className="text-left md:text-center flex flex-col justify-center items-start md:items-center px-6 space-y-2"
+                className="text-left md:text-center flex flex-col justify-center items-start md:items-center px-6 space-y-2 md:flex-1"
               >
                 {/* Number in serif italic */}
                 <div className="font-serif italic font-light text-4xl sm:text-5xl text-[#F5F0EB]">
@@ -35,3 +41,4 @@ export default function Stats() {
     </section>
   );
 }
+

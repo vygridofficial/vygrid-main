@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import ScrollRestoration from "@/components/ui/ScrollRestoration";
 import "@/app/globals.css";
+import { getCMSData } from "@/lib/cms";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -28,32 +29,41 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-export const metadata: Metadata = {
-  title: {
-    default: "Vygrid Digital Studio | Custom Web Engineering & Brand Curation",
-    template: "%s | Vygrid Digital Studio",
-  },
-  description: "Vygrid Digital Studio builds editorial-grade custom websites and brand identities for established, founder-led businesses. Obsessively minimal, typography-led.",
-  metadataBase: new URL("https://vygrid.studio"),
-  keywords: ["Web Engineering", "Logo Curation", "Brand Identity Kit", "Established Brands", "Editorial Design", "Bespoke Web Applications"],
-  openGraph: {
-    title: "Vygrid Digital Studio | Custom Web Engineering & Brand Curation",
-    description: "Vygrid Digital Studio builds editorial-grade custom websites and brand identities for established, founder-led businesses.",
-    url: "https://vygrid.studio",
-    siteName: "Vygrid Digital Studio",
-    locale: "en_US",
-    type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Vygrid Digital Studio | Custom Web Engineering & Brand Curation",
-    description: "Editorial custom web engineering and branding design studio.",
-  },
-  robots: {
-    index: true,
-    follow: true,
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const data = await getCMSData();
+  const companyName = data.generalSettings?.companyName || "Vygrid Digital Studio";
+  const faviconUrl = data.generalSettings?.faviconUrl || "/favicon.ico";
+
+  return {
+    title: {
+      default: `${companyName} | Custom Web Engineering & Brand Curation`,
+      template: `%s | ${companyName}`,
+    },
+    description: `${companyName} builds editorial-grade custom websites and brand identities for established, founder-led businesses. Obsessively minimal, typography-led.`,
+    metadataBase: new URL("https://vygrid.studio"),
+    keywords: ["Web Engineering", "Logo Curation", "Brand Identity Kit", "Established Brands", "Editorial Design", "Bespoke Web Applications"],
+    icons: {
+      icon: faviconUrl,
+    },
+    openGraph: {
+      title: `${companyName} | Custom Web Engineering & Brand Curation`,
+      description: `${companyName} builds editorial-grade custom websites and brand identities for established, founder-led businesses.`,
+      url: "https://vygrid.studio",
+      siteName: companyName,
+      locale: "en_US",
+      type: "website",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${companyName} | Custom Web Engineering & Brand Curation`,
+      description: "Editorial custom web engineering and branding design studio.",
+    },
+    robots: {
+      index: true,
+      follow: true,
+    },
+  };
+}
 
 export default function RootLayout({
   children,

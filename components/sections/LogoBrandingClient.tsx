@@ -8,7 +8,20 @@ import TextReveal from '@/components/ui/TextReveal';
 import Accordion from '@/components/ui/Accordion';
 import { brandServices, brandFAQs } from '@/lib/data';
 
-export default function LogoBrandingClient() {
+interface LogoBrandingClientProps {
+  companyName?: string;
+}
+
+export default function LogoBrandingClient({ companyName }: LogoBrandingClientProps) {
+  const displayCompanyName = companyName || "Vygrid Digital Studio";
+  const displayCompanyNameClean = displayCompanyName.replace(/Digital Studio/i, '').trim();
+  const displayLetter = displayCompanyNameClean.charAt(0).toUpperCase() || "V";
+  const displayInitials = displayCompanyNameClean
+    .split(/\s+/)
+    .map((w: string) => w.charAt(0))
+    .join('')
+    .substring(0, 2)
+    .toUpperCase() || "VG";
   const priceTiers = [
     {
       name: "Starter Logo",
@@ -174,29 +187,29 @@ export default function LogoBrandingClient() {
 
         <div className="lg:col-span-6 border border-white/10 bg-[#111111] p-8 flex flex-col justify-between relative">
           <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase mb-8 border-b border-white/5 pb-4">
-            VYGRID BRAND MONOGRAM EXPERIMENT
+            {displayCompanyName.toUpperCase()} BRAND MONOGRAM EXPERIMENT
           </span>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-grow">
             <div className="border border-white/10 bg-[#0A0A0A] p-6 flex flex-col justify-center items-center h-32 select-none">
-              <span className="font-mono text-base font-bold tracking-[0.2em] text-[#F5F0EB]">VYGRID</span>
+              <span className="font-mono text-base font-bold tracking-[0.2em] text-[#F5F0EB]">{displayCompanyNameClean.toUpperCase()}</span>
               <span className="font-mono text-[8px] text-[#C8B89A] uppercase tracking-widest mt-2">Primary Mark</span>
             </div>
 
             <div className="bg-[#F5F0EB] p-6 flex flex-col justify-center items-center h-32 select-none text-[#0A0A0A]">
-              <span className="font-mono text-base font-bold tracking-[0.1em]">VYGRID.</span>
+              <span className="font-mono text-base font-bold tracking-[0.1em]">{displayCompanyNameClean.toUpperCase()}.</span>
               <span className="font-mono text-[8px] text-[#0A0A0A]/40 uppercase tracking-widest mt-2">Alt Stamp</span>
             </div>
 
             <div className="border border-white/10 bg-[#0A0A0A] p-6 flex flex-col justify-center items-center h-32 select-none">
               <div className="w-10 h-10 border border-white/20 text-[#C8B89A] font-mono text-base flex items-center justify-center">
-                V
+                {displayLetter}
               </div>
               <span className="font-mono text-[8px] text-[#888888] uppercase tracking-widest mt-2">Minimal Symbol</span>
             </div>
 
             <div className="border border-white/10 bg-[#1A1A1B] p-6 flex flex-col justify-center items-center h-32 select-none">
-              <span className="font-mono text-lg font-bold text-white border border-white px-3 py-1">VG</span>
+              <span className="font-mono text-lg font-bold text-white border border-white px-3 py-1">{displayInitials}</span>
               <span className="font-mono text-[8px] text-[#888888] uppercase tracking-widest mt-2">Mono Stamp</span>
             </div>
           </div>

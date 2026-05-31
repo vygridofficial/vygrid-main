@@ -10,7 +10,19 @@ import Link from 'next/link';
 import { contactSchema, ContactFormData } from '@/lib/schemas';
 import { submitContactBrief } from '@/app/actions/contact';
 
-export default function ContactClient() {
+interface ContactClientProps {
+  settings?: {
+    email: string;
+    phone: string;
+    whatsapp: string;
+    instagram: string;
+    otherLinks?: Array<{ label: string; url: string }>;
+  };
+  companyName?: string;
+}
+
+export default function ContactClient({ settings, companyName }: ContactClientProps) {
+  const displayCompanyName = companyName || "Vygrid Digital Studio";
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
   
@@ -75,22 +87,53 @@ export default function ContactClient() {
 
             <div className="space-y-4 font-mono text-xs pt-4">
               <a
-                href="mailto:hello@vygrid.studio"
+                href={`mailto:${settings?.email || 'hello@vygrid.studio'}`}
                 className="block border border-white/10 p-5 bg-[#111111] hover:border-[#C8B89A] transition-all duration-300 group"
               >
                 <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">EMAIL THE STUDIO</span>
-                <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors">hello@vygrid.studio</span>
+                <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors break-all">{settings?.email || 'hello@vygrid.studio'}</span>
               </a>
 
               <a
-                href="https://wa.me/10000000000"
+                href={`tel:${settings?.phone || '+15550000000'}`}
+                className="block border border-white/10 p-5 bg-[#111111] hover:border-[#C8B89A] transition-all duration-300 group"
+              >
+                <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">TELEPHONE CALL</span>
+                <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors break-all">{settings?.phone || '+1 (555) 000-0000'}</span>
+              </a>
+
+              <a
+                href={`https://wa.me/${settings?.whatsapp || '10000000000'}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block border border-white/10 p-5 bg-[#111111] hover:border-emerald-500/50 transition-all duration-300 group"
               >
-                <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">DIRECT TELEPHONY</span>
+                <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">DIRECT WHATSAPP</span>
                 <span className="text-[#F5F0EB] group-hover:text-emerald-400 font-bold tracking-wider transition-colors">CHAT VIA WHATSAPP →</span>
               </a>
+
+              <a
+                href={settings?.instagram || '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block border border-white/10 p-5 bg-[#111111] hover:border-[#C8B89A] transition-all duration-300 group"
+              >
+                <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">INSTAGRAM CHANNEL</span>
+                <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors">VIEW INSTAGRAM PROFILE →</span>
+              </a>
+
+              {settings?.otherLinks && settings.otherLinks.map((link: any, idx: number) => (
+                <a
+                  key={idx}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block border border-white/10 p-5 bg-[#111111] hover:border-[#C8B89A] transition-all duration-300 group"
+                >
+                  <span className="text-[#888888] text-[9px] tracking-widest block uppercase mb-1">{link.label}</span>
+                  <span className="text-[#F5F0EB] group-hover:text-[#C8B89A] font-bold tracking-wider transition-colors break-all">CONNECT ON {link.label.toUpperCase()} →</span>
+                </a>
+              ))}
 
               <Link
                 href="/start-your-project"
@@ -239,7 +282,7 @@ export default function ContactClient() {
                     </h3>
                     
                     <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed max-w-sm mx-auto">
-                      Thank you for contacting Vygrid Digital Studio. Our team has successfully logged your details and will coordinate a response within 24 hours.
+                      Thank you for contacting {displayCompanyName}. Our team has successfully logged your details and will coordinate a response within 24 hours.
                     </p>
 
                     <div className="pt-6 border-t border-white/5 w-full">

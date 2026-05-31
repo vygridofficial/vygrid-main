@@ -6,11 +6,15 @@ import { ArrowUpRight } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter, useSearchParams, usePathname } from 'next/navigation';
-import { projects } from '@/lib/data';
+import { projects as fallbackProjects } from '@/lib/data';
 import Badge from '@/components/ui/Badge';
 import ImageReveal from '@/components/ui/ImageReveal';
 
-export default function PortfolioClient() {
+interface PortfolioClientProps {
+  projects?: any[];
+}
+
+export default function PortfolioClient({ projects }: PortfolioClientProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
@@ -29,7 +33,9 @@ export default function PortfolioClient() {
     router.push(pathname + (query ? '?' + query : ''), { scroll: false });
   };
 
-  const filteredProjects = projects.filter((project) => {
+  const displayProjects = projects || fallbackProjects;
+
+  const filteredProjects = displayProjects.filter((project) => {
     if (filter === 'All') return true;
     return project.category === filter;
   });

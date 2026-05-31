@@ -1,33 +1,30 @@
 "use server";
 
-import { db } from "@/lib/firebase";
-import { collection, addDoc } from "firebase/firestore";
 import { contactSchema, ContactFormData } from "@/lib/schemas";
+import { saveLead } from "@/lib/cms";
 
 export async function submitContactBrief(rawData: ContactFormData) {
   try {
     // 1. Validate payload server-side using Zod
     const validatedData = contactSchema.parse(rawData);
 
-    // 2. Check if Firestore was successfully initialized
-    if (!db) {
+    // 2. Save via dynamic CMS layer (Firestore with local fallback)
+    const success = await saveLead({
+      fullName: validatedData.fullName,
+      email: validatedData.email,
+      phone: validatedData.phone || undefined,
+      message: validatedData.message
+    });
+
+    if (!success) {
       return {
         success: false,
-        error: "Firebase database is not configured. Please define the Firebase environment credentials in `.env.local` to enable Firestore submissions.",
+        error: "Failed to transmit message. Database sync error.",
       };
     }
 
-    // 3. Write to Firestore under the 'inquiries' collection
-    const docRef = await addDoc(collection(db, "inquiries"), {
-      ...validatedData,
-      createdAt: new Date().toISOString(),
-    });
-
-    console.log(`[Database] Submissions saved successfully. Firestore Doc ID: ${docRef.id}`);
-
     return {
       success: true,
-      id: docRef.id,
     };
   } catch (error: unknown) {
     console.error("Error in submitContactBrief Server Action:", error);
@@ -41,6 +38,52 @@ export async function submitContactBrief(rawData: ContactFormData) {
     }
 
     const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred during database transmission. Please try again.";
+    return {
+      success: false,
+      error: errorMessage,
+    };
+  }
+}
+
+export async function submitIntakeBrief(data: {
+  fullName: string;
+  email: string;
+  company: string;
+  projectType: string;
+  budget: string;
+  timeline: string;
+  description: string;
+  source?: string;
+}) {
+  try {
+    const formattedMessage = `Company: ${data.company}
+Project Type: ${data.projectType}
+Budget Range: ${data.budget}
+Timeline: ${data.timeline}
+Referral Source: ${data.source || 'N/A'}
+
+Project Brief / Description:
+${data.description}`;
+
+    const success = await saveLead({
+      fullName: data.fullName,
+      email: data.email,
+      message: formattedMessage
+    });
+
+    if (!success) {
+      return {
+        success: false,
+        error: "Failed to stage brief. Database sync error.",
+      };
+    }
+
+    return {
+      success: true,
+    };
+  } catch (error: unknown) {
+    console.error("Error in submitIntakeBrief Server Action:", error);
+    const errorMessage = error instanceof Error ? error.message : "An unexpected error occurred. Please try again.";
     return {
       success: false,
       error: errorMessage,

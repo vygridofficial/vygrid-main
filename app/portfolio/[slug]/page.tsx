@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { projects } from '@/lib/data';
-import BeforeAfterSlider from '@/components/ui/BeforeAfterSlider';
+import { getCMSData } from '@/lib/cms';
 import ImageReveal from '@/components/ui/ImageReveal';
 import TextReveal from '@/components/ui/TextReveal';
 
@@ -15,27 +14,32 @@ interface ProjectDetailProps {
 }
 
 export async function generateStaticParams() {
-  return projects.map((project) => ({
+  const data = await getCMSData();
+  return data.projects?.map((project) => ({
     slug: project.slug,
-  }));
+  })) || [];
 }
 
 export async function generateMetadata({ params }: ProjectDetailProps): Promise<Metadata> {
-  const project = projects.find((p) => p.slug === params.slug);
+  const data = await getCMSData();
+  const project = data.projects?.find((p) => p.slug === params.slug);
   if (!project) return {};
+  const companyName = data.generalSettings?.companyName || "Vygrid Digital Studio";
 
   return {
-    title: `${project.title} Case Study | Vygrid`,
+    title: `${project.title} Case Study | ${companyName}`,
     description: project.subtitle,
     openGraph: {
-      title: `${project.title} Case Study | Vygrid Digital Studio`,
+      title: `${project.title} Case Study | ${companyName}`,
       description: project.subtitle,
       images: [{ url: project.thumbnail }],
     },
   };
 }
 
-export default function ProjectDetailPage({ params }: ProjectDetailProps) {
+export default async function ProjectDetailPage({ params }: ProjectDetailProps) {
+  const data = await getCMSData();
+  const projects = data.projects || [];
   const currentIdx = projects.findIndex((p) => p.slug === params.slug);
   
   if (currentIdx === -1) {
@@ -91,24 +95,26 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
               <div className="space-y-6 font-mono text-xs">
                 <div className="space-y-1">
                   <span className="text-[#888888] block text-[9px] uppercase tracking-widest">CLIENT</span>
-                  <span className="text-[#F5F0EB] block font-bold tracking-wider">{project.client.toUpperCase()}</span>
+                  <span className="text-[#F5F0EB] block font-bold tracking-wider">{project.client?.toUpperCase()}</span>
                 </div>
 
                 <div className="space-y-1">
                   <span className="text-[#888888] block text-[9px] uppercase tracking-widest">TIMELINE</span>
-                  <span className="text-[#F5F0EB] block font-bold tracking-wider">{project.timeline.toUpperCase()}</span>
+                  <span className="text-[#F5F0EB] block font-bold tracking-wider">{project.timeline?.toUpperCase()}</span>
                 </div>
 
-                <div className="space-y-2">
-                  <span className="text-[#888888] block text-[9px] uppercase tracking-widest">INFRASTRUCTURE</span>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {project.tech.map((t) => (
-                      <span key={t} className="px-3 py-1 border border-white/10 bg-[#0A0A0A] text-[9px] text-[#888888] hover:text-[#C8B89A] hover:border-[#C8B89A] transition-all duration-300 select-none">
-                        {t.toUpperCase()}
-                      </span>
-                    ))}
+                {project.tech && project.tech.length > 0 && (
+                  <div className="space-y-2">
+                    <span className="text-[#888888] block text-[9px] uppercase tracking-widest">INFRASTRUCTURE</span>
+                    <div className="flex flex-wrap gap-2 pt-1">
+                      {project.tech.map((t: string) => (
+                        <span key={t} className="px-3 py-1 border border-white/10 bg-[#0A0A0A] text-[9px] text-[#888888] hover:text-[#C8B89A] hover:border-[#C8B89A] transition-all duration-300 select-none">
+                          {t.toUpperCase()}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
 
@@ -144,65 +150,73 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
             </div>
 
             {/* Problem & Solution block */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10 bg-[#111111]/30">
-              <div className="p-8 space-y-4">
-                <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase">
-                  THE CHALLENGE
-                </span>
-                <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
-                  {project.problem}
-                </p>
-              </div>
+            {(project.problem || project.solution) && (
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-0 border border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10 bg-[#111111]/30">
+                <div className="p-8 space-y-4">
+                  <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase">
+                    THE CHALLENGE
+                  </span>
+                  <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
+                    {project.problem}
+                  </p>
+                </div>
 
-              <div className="p-8 space-y-4">
-                <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase">
-                  THE SOLUTION
-                </span>
-                <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
-                  {project.solution}
-                </p>
+                <div className="p-8 space-y-4">
+                  <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase">
+                    THE SOLUTION
+                  </span>
+                  <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
+                    {project.solution}
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
 
-            {/* Before / After Slider section (if present) */}
-            {project.beforeImage && project.afterImage && (
+            {/* Visual Showcase (instead of redesign comparison slider) */}
+            {(project.projectImage || project.afterImage) && (
               <div className="space-y-6 pt-8 border-t border-white/10">
                 <div className="space-y-1">
                   <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-                    02 / VISUAL PERFORMANCE
+                    02 / VISUAL SHOWCASE
                   </span>
                   <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
-                    Redesign Comparison
+                    Project Spotlight
                   </h3>
                 </div>
-                <div className="border border-white/10 p-1 bg-[#111111]">
-                  <BeforeAfterSlider before={project.beforeImage} after={project.afterImage} />
+                <div className="border border-white/10 p-1 bg-[#111111] relative aspect-video w-full overflow-hidden">
+                  <img
+                    src={project.projectImage || project.afterImage}
+                    alt={`${project.title} Visual Showcase`}
+                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-750"
+                  />
                 </div>
               </div>
             )}
 
             {/* Performance Results section */}
-            <div className="space-y-6 pt-8 border-t border-white/10">
-              <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-                03 / METRICS DEPLOYED
-              </span>
-              <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
-                Commercial Performance
-              </h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {project.metrics.map((m, idx) => (
-                  <div key={idx} className="border border-white/10 p-6 bg-[#111111] space-y-2">
-                    <div className="font-serif italic text-2xl sm:text-3xl text-[#C8B89A]">
-                      {m.value}
+            {project.metrics && project.metrics.length > 0 && (
+              <div className="space-y-6 pt-8 border-t border-white/10">
+                <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
+                  03 / METRICS DEPLOYED
+                </span>
+                <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
+                  Commercial Performance
+                </h3>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {project.metrics.map((m: any, idx: number) => (
+                    <div key={idx} className="border border-white/10 p-6 bg-[#111111] space-y-2">
+                      <div className="font-serif italic text-2xl sm:text-3xl text-[#C8B89A]">
+                        {m.value}
+                      </div>
+                      <div className="font-mono text-[9px] tracking-widest uppercase text-[#888888]">
+                        {m.label}
+                      </div>
                     </div>
-                    <div className="font-mono text-[9px] tracking-widest uppercase text-[#888888]">
-                      {m.label}
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             {/* Image Gallery block */}
             {project.gallery && project.gallery.length > 0 && (
@@ -214,7 +228,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
                   Asset Showcase
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {project.gallery.map((img, index) => (
+                  {project.gallery.map((img: string, index: number) => (
                     <div key={index} className="relative aspect-video border border-white/10 overflow-hidden bg-[#111111]">
                       <ImageReveal className="w-full h-full">
                         <Image

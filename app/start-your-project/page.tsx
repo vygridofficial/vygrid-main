@@ -9,6 +9,7 @@ import { CheckCircle, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import TextReveal from '@/components/ui/TextReveal';
+import { submitIntakeBrief } from '@/app/actions/contact';
 
 // Intake validation schema
 const intakeSchema = z.object({
@@ -63,15 +64,19 @@ function StartProjectPageContent() {
     },
   });
 
-  const onSubmit = async () => {
+  const onSubmit = async (data: IntakeFormData) => {
     setSubmitError(null);
     try {
-      // Simulate API submit (Server Actions or direct endpoint submission)
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setSubmitted(true);
-      reset();
-    } catch {
-      setSubmitError("An error occurred during submission. Please try again.");
+      const response = await submitIntakeBrief(data);
+      if (response.success) {
+        setSubmitted(true);
+        reset();
+      } else {
+        setSubmitError(response.error || "An unexpected error occurred.");
+      }
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : "An unexpected error occurred.";
+      setSubmitError(errorMessage);
     }
   };
 
