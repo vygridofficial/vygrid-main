@@ -301,7 +301,7 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
               <span>{companyName.toUpperCase()} DIGITAL CO-ARCHITECT</span>
             </span>
             
-            <div className="border border-white/10 bg-[#111111]/60 backdrop-blur-md p-6 flex flex-col h-[340px] justify-between relative group select-none">
+            <div className="border border-white/10 bg-[#111111]/60 backdrop-blur-md p-4 sm:p-6 flex flex-col h-[380px] sm:h-[340px] justify-between relative group select-none">
               
               {/* Message History Pane */}
               <div 
@@ -313,7 +313,7 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
                     <span className="font-mono text-[7px] text-[#444444] uppercase tracking-wider mb-0.5">
                       {m.sender === 'user' ? 'YOU' : `STUDIO BOT (${m.text.length < 150 ? 'ORION V1' : 'AETHER V1'})`}
                     </span>
-                    <div className={`p-3 font-grotesque text-xs leading-relaxed max-w-[85%] ${
+                    <div className={`p-3 font-grotesque text-xs leading-relaxed max-w-[90%] sm:max-w-[85%] ${
                       m.sender === 'user' 
                         ? 'bg-[#C8B89A] text-[#0A0A0A] font-bold' 
                         : 'border border-white/5 bg-white/5 text-[#888888] font-light'
@@ -355,15 +355,15 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
                 )}
  
                 {/* Custom Input form mimicking mockup console */}
-                <form onSubmit={handleSendCustom} className="border border-white/10 bg-[#0A0A0A]/85 p-3.5 flex flex-col space-y-3 hover:border-white/20 transition-all duration-300">
+                <form onSubmit={handleSendCustom} className="border border-white/10 bg-[#0A0A0A]/85 p-2.5 sm:p-3.5 flex flex-col space-y-2 sm:space-y-3 hover:border-white/20 transition-all duration-300">
                   <input
                     type="text"
                     value={inputVal}
                     onChange={(e) => setInputVal(e.target.value)}
                     placeholder={
                       activeModel === 'Orion V1' 
-                        ? "Ask Orion V1 Co-Architect (Fast, concise answers)..." 
-                        : "Ask Aether V1 Co-Architect (Detailed, descriptive brand analysis)..."
+                        ? "Ask Orion V1 (Fast & concise)..." 
+                        : "Ask Aether V1 (Detailed brand analysis)..."
                     }
                     disabled={isTyping}
                     className="w-full bg-transparent font-grotesque text-xs tracking-wider text-[#F5F0EB] placeholder-[#444444] focus:outline-none"

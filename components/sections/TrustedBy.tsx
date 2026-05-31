@@ -165,13 +165,13 @@ export default function TrustedBy() {
           }}
         >
           {/* Continuous scrolling marquee: scrolls indefinitely left */}
-          <div className="flex animate-marquee-slow whitespace-nowrap min-w-full items-center justify-around py-4">
+          <div className="flex animate-marquee-slow tech-marquee whitespace-nowrap min-w-full items-center justify-around py-4">
             {scrollTechs.map((tech, idx) => {
               const Icon = tech.icon;
               return (
                 <div
                   key={idx}
-                  className="inline-flex mx-12 text-[#888888] hover:text-[#C8B89A] transition-colors duration-300 pointer-events-none select-none items-center"
+                  className="inline-flex mx-5 sm:mx-12 text-[#888888] hover:text-[#C8B89A] transition-colors duration-300 pointer-events-none select-none items-center"
                 >
                   <Icon />
                 </div>

@@ -317,7 +317,7 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
               02 / WHY WORK WITH US
             </span>
             <h2 className="font-serif italic text-3xl md:text-5xl text-[#F5F0EB]">
-              Asymmetric Multi-Interactive Grid
+              Why work with Us
             </h2>
             <p className="font-grotesque text-sm text-[#888888] font-light max-w-xl">
               Precision team mechanics, live feedback dialogues, and transparent commercial structures.

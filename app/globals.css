@@ -89,6 +89,9 @@
   .services-row-2 .animate-marquee-reverse {
     animation-duration: 15s !important;
   }
+  .tech-marquee {
+    animation-duration: 15s !important;
+  }
 }
 
 /* Snappy and premium active pressed state for buttons & CTA links */
