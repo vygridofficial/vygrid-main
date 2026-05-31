@@ -18,7 +18,7 @@ export default function Navbar() {
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const [navLinks, setNavLinks] = useState<Array<{ name: string; href: string; triggerModal?: boolean }>>([
     { name: 'Home', href: '/' },
-    { name: 'About', href: '#', triggerModal: true },
+    { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Pricing', href: '/pricing' },
     { name: 'Work', href: '/portfolio' },
@@ -47,6 +47,14 @@ export default function Navbar() {
         const cms = await fetchCMSData();
         if (cms.navigationSettings?.navLinks) {
           let cmsLinks: Array<{ name: string; href: string; triggerModal?: boolean }> = cms.navigationSettings.navLinks;
+          
+          // Map "About" link to navigate to "/about" instead of triggering the modal
+          cmsLinks = cmsLinks.map((link) => 
+            link.name === 'About' 
+              ? { ...link, href: '/about', triggerModal: false }
+              : link
+          );
+
           // Ensure Pricing tab always present — inject after Services if missing
           const hasPricing = cmsLinks.some((l) => l.href === '/pricing');
           if (!hasPricing) {

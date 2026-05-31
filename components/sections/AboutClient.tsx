@@ -1,12 +1,11 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { team as fallbackTeam } from '@/lib/data';
 import TextReveal from '@/components/ui/TextReveal';
-import ImageReveal from '@/components/ui/ImageReveal';
 
 const techIcons: Record<string, string> = {
   "Figma": "M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z",
@@ -16,10 +15,88 @@ const techIcons: Record<string, string> = {
   "TypeScript": "M1.125 0C.502 0 0 .502 0 1.125v21.75C0 23.498.502 24 1.125 24h21.75c.623 0 1.125-.502 1.125-1.125V1.125C24 .502 23.498 0 22.875 0zm17.363 9.75c.612 0 1.154.037 1.627.111a6.38 6.38 0 0 1 1.306.34v2.458a3.95 3.95 0 0 0-.643-.361 5.093 5.093 0 0 0-.717-.26 5.453 5.453 0 0 0-1.426-.2c-.3 0-.573.028-.819.086a2.1 2.1 0 0 0-.623.242c-.17.104-.3.229-.393.374a.888.888 0 0 0-.14.49c0 .196.053.373.156.529.104.156.252.304.443.444s.423.276.696.41c.273.135.582.274.926.416.47.197.892.407 1.266.628.374.222.695.473.963.753.268.279.472.598.614.957.142.359.214.776.214 1.253 0 .657-.125 1.21-.373 1.656a3.033 3.033 0 0 1-1.012 1.085 4.38 4.38 0 0 1-1.487.596c-.566.12-1.163.18-1.79.18a9.916 9.916 0 0 1-1.84-.164 5.544 5.544 0 0 1-1.512-.493v-2.63a5.033 5.033 0 0 0 3.237 1.2c.333 0 .624-.03.872-.09.249-.06.456-.144.623-.25.166-.108.29-.234.373-.38a1.023 1.023 0 0 0-.074-1.089 2.12 2.12 0 0 0-.537-.5 5.597 5.597 0 0 0-.807-.444 27.72 27.72 0 0 0-1.007-.436c-.918-.383-1.602-.852-2.053-1.405-.45-.553-.676-1.222-.676-2.005 0-.614.123-1.141.369-1.582.246-.441.58-.804 1.004-1.089a4.494 4.494 0 0 1 1.47-.629 7.536 7.536 0 0 1 1.77-.201zm-15.113.188h9.563v2.166H9.506v9.646H6.789v-9.646H3.375z",
   "Framer Motion": "M4 0h16v8h-8zM4 8h8l8 8H4zM4 16h8v8z",
   "Stripe API": "M13.976 9.15c-2.172-.806-3.356-1.426-3.356-2.409 0-.831.683-1.305 1.901-1.305 2.227 0 4.515.858 6.09 1.631l.89-5.494C18.252.975 15.697 0 12.165 0 9.667 0 7.589.654 6.104 1.872 4.56 3.147 3.757 4.992 3.757 7.218c0 4.039 2.467 5.76 6.476 7.219 2.585.92 3.445 1.574 3.445 2.583 0 .98-.84 1.545-2.354 1.545-1.875 0-4.965-.921-6.99-2.109l-.9 5.555C5.175 22.99 8.385 24 11.714 24c2.641 0 4.843-.624 6.328-1.813 1.664-1.305 2.525-3.236 2.525-5.732 0-4.128-2.524-5.851-6.594-7.305h.003z",
-  "Node.js": "M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z",
+  "Node.js": "M11.998,24c-0.321,0-0.641-0.084-0.922-0.247l-2.936-1.737c-0.438-0.245-0.224-0.332-0.08-0.383 c0.585-0.203,0.703-0.25,1.328-0.604c0.065-0.037,0.151-0.023,0.218,0.017l2.256,1.339c0.082,0.045,0.197,0.045,0.272,0 l8.795-5.076 c0.082-0.047,0.134-0.141,0.134-0.238V6.921c0-0.099-0.053-0.192-0.137-0.242l-8.791-5.072c-0.081-0.047-0.189-0.047-0.271,0 L3.075,6.68C2.99,6.729,2.936,6.825,2.936,6.921v10.15c0,0.097,0.054,0.189,0.139,0.235l2.409,1.392 c1.307,0.654,2.108-0.116,2.108-0.89V7.787c0-0.142,0.114-0.253,0.256-0.253h1.115c0.139,0,0.255,0.112,0.255,0.253v10.021 c0,1.745-0.95,2.745-2.604,2.745c-0.508,0-0.909,0-2.026-0.551L2.28,18.675c-0.57-0.329-0.922-0.945-0.922-1.604V6.921 c0-0.659,0.353-1.275,0.922-1.603l8.795-5.082c0.557-0.315,1.296-0.315,1.848,0l8.794,5.082c0.57,0.329,0.924,0.944,0.924,1.603 v10.15c0,0.659-0.354,1.273-0.924,1.604l-8.794,5.078C12.643,23.916,12.324,24,11.998,24z M19.099,13.993 c0-1.9-1.284-2.406-3.987-2.763c-2.731-0.361-3.009-0.548-3.009-1.187c0-0.528,0.235-1.233,2.258-1.233 c1.807,0,2.473,0.389,2.747,1.607c0.024,0.115,0.129,0.199,0.247,0.199h1.141c0.071,0,0.138-0.031,0.186-0.081 c0.048-0.054,0.074-0.123,0.067-0.196c-0.177-2.098-1.571-3.076-4.388-3.076c-2.508,0-4.004,1.058-4.004,2.833 c0,1.925,1.488,2.457,3.895,2.695c2.88,0.282,3.103,0.703,3.103,1.269c0,0.983-0.789,1.402-2.642,1.402 c-2.327,0-2.839-0.584-3.011-1.742c-0.02-0.124-0.126-0.215-0.253-0.215h-1.137c-0.141,0-0.254,0.112-0.254,0.253 c0,1.482,0.806,3.248,4.655,3.248C17.501,17.007,19.099,15.91,19.099,13.993z",
   "Supabase": "M11.9 1.036c-.015-.986-1.26-1.41-1.874-.637L.764 12.05C-.33 13.427.65 15.455 2.409 15.455h9.579l.113 7.51c.014.985 1.259 1.408 1.873.636l9.262-11.653c1.093-1.375.113-3.403-1.645-3.403h-9.642z",
   "PostgreSQL": "M23.5594 14.7228a.5269.5269 0 0 0-.0563-.1191c-.139-.2632-.4768-.3418-1.0074-.2321-1.6533.3411-2.2935.1312-2.5256-.0191 1.342-2.0482 2.445-4.522 3.0411-6.8297.2714-1.0507.7982-3.5237.1222-4.7316a1.5641 1.5641 0 0 0-.1509-.235C21.6931.9086 19.8007.0248 17.5099.0005c-1.4947-.0158-2.7705.3461-3.1161.4794a9.449 9.449 0 0 0-.5159-.0816 8.044 8.044 0 0 0-1.3114-.1278c-1.1822-.0184-2.2038.2642-3.0498.8406-.8573-.3211-4.7888-1.645-7.2219.0788C.9359 2.1526.3086 3.8733.4302 6.3043c.0409.818.5069 3.334 1.2423 5.7436.4598 1.5065.9387 2.7019 1.4334 3.582.553.9942 1.1259 1.5933 1.7143 1.7895.4474.1491 1.1327.1441 1.8581-.7279.8012-.9635 1.5903-1.8258 1.9446-2.2069.4351.2355.9064.3625 1.39.3772a.0569.0569 0 0 0 .0004.0041 11.0312 11.0312 0 0 0-.2472.3054c-.3389.4302-.4094.5197-1.5002.7443-.3102.064-1.1344.2339-1.1464.8115-.0025.1224.0329.2309.0919.3268.2269.4231.9216.6097 1.015.6331 1.3345.3335 2.5044.092 3.3714-.6787-.017 2.231.0775 4.4174.3454 5.0874.2212.5529.7618 1.9045 2.4692 1.9043.2505 0 .5263-.0291.8296-.0941 1.7819-.3821 2.5557-1.1696 2.855-2.9059.1503-.8707.4016-2.8753.5388-4.1012.0169-.0703.0357-.1207.057-.1362.0007-.0005.0697-.0471.4272.0307a.3673.3673 0 0 0 .0443.0068l.2539.0223.0149.001c.8468.0384 1.9114-.1426 2.5312-.4308.6438-.2988 1.8057-1.0323 1.5951-1.6698zM2.371 11.8765c-.7435-2.4358-1.1779-4.8851-1.2123-5.5719-.1086-2.1714.4171-3.6829 1.5623-4.4927 1.8367-1.2986 4.8398-.5408 6.108-.13-.0032.0032-.0066.0061-.0098.0094-2.0238 2.044-1.9758 5.536-1.9708 5.7495-.0002.0823.0066.1989.0162.3593.0348.5873.0996 1.6804-.0735 2.9184-.1609 1.1504.1937 2.2764.9728 3.0892.0806.0841.1648.1631.2518.2374-.3468.3714-1.1004 1.1926-1.9025 2.1576-.5677.6825-.9597.5517-1.0886.5087-.3919-.1307-.813-.5871-1.2381-1.3223-.4796-.839-.9635-2.0317-1.4155-3.5126zm6.0072 5.0871c-.1711-.0428-.3271-.1132-.4322-.1772.0889-.0394.2374-.0902.4833-.1409 1.2833-.2641 1.4815-.4506 1.9143-1.0002.0992-.126.2116-.2687.3673-.4426a.3549.3549 0 0 0 .0737-.1298c.1708-.1513.2724-.1099.4369-.0417.156.0646.3078.26.3695.4752.0291.1016.0619.2945-.0452.4444-.9043 1.2658-2.2216 1.2494-3.1676 1.0128zm2.094-3.988-.0525.141c-.133.3566-.2567.6881-.3334 1.003-.6674-.0021-1.3168-.2872-1.8105-.8024-.6279-.6551-.9131-1.5664-.7825-2.5004.1828-1.3079.1153-2.4468.079-3.0586-.005-.0857-.0095-.1607-.0122-.2199.2957-.2621 1.6659-.9962 2.6429-.7724.4459.1022.7176.4057.8305.928.5846 2.7038.0774 3.8307-.3302 4.7363-.084.1866-.1633.3629-.2311.5454zm7.3637 4.5725c-.0169.1768-.0358.376-.0618.5959l-.146.4383a.3547.3547 0 0 0-.0182.1077c-.0059.4747-.054.6489-.115.8693-.0634.2292-.1353.4891-.1794 1.0575-.11 1.4143-.8782 2.2267-2.4172 2.5565-1.5155.3251-1.7843-.4968-2.0212-1.2217a6.5824 6.5824 0 0 0-.0769-.2266c-.2154-.5858-.1911-1.4119-.1574-2.5551.0165-.5612-.0249-1.9013-.3302-2.6462.0044-.2932.0106-.5909.019-.8918a.3529.3529 0 0 0-.0153-.1126 1.4927 1.4927 0 0 0-.0439-.208c-.1226-.4283-.4213-.7866-.7797-.9351-.1424-.059-.4038-.1672-.7178-.0869.067-.276.1831-.5875.309-.9249l.0529-.142c.0529-.16.134-.3257.213-.5012.4265-.9476 1.0106-2.2453.3766-5.1772-.2374-1.0981-1.0304-1.6343-2.2324-1.5098-.7207.0746-1.3799.3654-1.7088.5321a5.6716 5.6716 0 0 0-.1958.1041c.0918-1.1064.4386-3.1741 1.7357-4.4823a4.0306 4.0306 0 0 1 .3033-.276.3532.3532 0 0 0 .1447-.0644c.7524-.5706 1.6945-.8506 2.802-.8325.4091.0067.8017.0339 1.1742.081 1.939.3544 3.2439 1.4468 4.0359 2.3827.8143.9623 1.2552 1.9315 1.4312 2.4543-1.3232-.1346-2.2234.1268-2.6797.779-.9926 1.4189.543 4.1729 1.2811 5.4964.1353.2426.2522.4522.2889.5413.2403.5825.5515.9713.7787 1.2552.0696.087.1372.1714.1885.245-.4008.1155-1.1208.3825-1.0552 1.717-.0123.1563-.0423.4469-.0834.8148-.0461.2077-.0702.4603-.0994.7662zm.8905-1.6211c-.0405-.8316.2691-.9185.5967-1.0105a2.8566 2.8566 0 0 0 .135-.0406 1.202 1.202 0 0 0 .1342.103c.5703.3765 1.5823.4213 3.0068.1344-.2016.1769-.5189.3994-.9533.6011-.4098.1903-1.0957.333-1.7473.3636-.7197.0336-1.0859-.0807-1.1721-.151zm.5695-9.2712c-.0059.3508-.0542.6692-.1054 1.0017-.055.3576-.112.7274-.1264 1.1762-.0142.4368.0404.8909.0932 1.3301.1066.887.216 1.8003-.2075 2.7014a3.5272 3.5272 0 0 1-.1876-.3856c-.0527-.1276-.1669-.3326-.3251-.6162-.6156-1.1041-2.0574-3.6896-1.3193-4.7446.3795-.5427 1.3408-.5661 2.1781-.463zm.2284 7.0137a12.3762 12.3762 0 0 0-.0853-.1074l-.0355-.0444c.7262-1.1995.5842-2.3862.4578-3.4385-.0519-.4318-.1009-.8396-.0885-1.2226.0129-.4061.0666-.7543.1185-1.0911.0639-.415.1288-.8443.1109-1.3505.0134-.0531.0188-.1158.0118-.1902-.0457-.4855-.5999-1.938-1.7294-3.253-.6076-.7073-1.4896-1.4972-2.6889-2.0395.5251-.1066 1.2328-.2035 2.0244-.1859 2.0515.0456 3.6746.8135 4.8242 2.2824a.908.908 0 0 1 .0667.1002c.7231 1.3556-.2762 6.2751-2.9867 10.5405zm-8.8166-6.1162c-.025.1794-.3089.4225-.6211.4225a.5821.5821 0 0 1-.0809-.0056c-.1873-.026-.3765-.144-.5059-.3156-.0458-.0605-.1203-.178-.1055-.2844.0055-.0401.0261-.0985.0925-.1488.1182-.0894.3518-.1226.6096-.0867.3163.0441.6426.1938.6113.4186zm7.9305-.4114c.0111.0792-.049.201-.1531.3102-.0683.0717-.212.1961-.4079.2232a.5456.5456 0 0 1-.075.0052c-.2935 0-.5414-.2344-.5607-.3717-.024-.1765.2641-.3106.5611-.352.297-.0414.6111.0088.6356.1851z"
 };
+
+const techProtocols: Record<string, string> = {
+  "Figma": "Protocol: Editorial wireframes aligned to a strict modular 12-column grid. Zero border-radii, mathematical layout restraint, precise typography grids.",
+  "React": "Protocol: Component isolation utilizing declarative states. Infinite render prevention, optimal virtual DOM tree reconciliation, memoized selectors.",
+  "Next.js": "Protocol: Next.js App Router orchestration. Strategic Server-Side Rendering (SSR), Incremental Static Regeneration (ISR), static layout caching.",
+  "Tailwind CSS": "Protocol: Semantic CSS mapping utilizing strict Tailwind variables. Zero ad-hoc style classes, fluid typographic modular scales.",
+  "TypeScript": "Protocol: Type-safe compile environments. Strict interface contracts, zero 'any' escapes, recursive readonly schemas.",
+  "Framer Motion": "Protocol: Production-grade web choreographies. Custom cubic-bezier transition curves, low-overhead GPU accelerated layouts.",
+  "Stripe API": "Protocol: Secure programmatic checkout tunnels. Webhook signature validation, zero-trust server validation, dynamic pricing queries.",
+  "Node.js": "Protocol: High-throughput event-driven microservices. Minimal event-loop blocking, clean garbage collection, stateless worker threads.",
+  "Supabase": "Protocol: Real-time cloud database routing. Strict Row Level Security (RLS) policies, programmatic DB access keys, edge function triggers.",
+  "PostgreSQL": "Protocol: Highly optimized relational storage. Dynamic indexing, strict normalization, foreign key constraint isolation."
+};
+
+interface ChatMessage {
+  sender: 'client' | 'marcus' | 'alex';
+  avatar: string;
+  name: string;
+  text: string;
+}
+
+const chatScript: ChatMessage[] = [
+  {
+    sender: 'client',
+    name: 'Brandon Chase',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "Hey!"
+  },
+  {
+    sender: 'client',
+    name: 'Brandon Chase',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "The website looks awesome"
+  },
+  {
+    sender: 'client',
+    name: 'Brandon Chase',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "Can we update the homepage banner?"
+  },
+  {
+    sender: 'marcus',
+    name: 'Marcus Vance',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "Absolutely Brandon, systems are live. Let's push the new assets."
+  },
+  {
+    sender: 'alex',
+    name: 'Alex Sterling',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "Updated! Edge CDN cache flushed. Reload and check it out!"
+  },
+  {
+    sender: 'client',
+    name: 'Brandon Chase',
+    avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80',
+    text: "Holy speed scores! It's blistering fast."
+  }
+];
+
+interface PricingBubble {
+  id: number;
+  label: string;
+  size: number;
+  duration: number;
+  delay: number;
+  left: string;
+  sway: number;
+}
+
+const pricingBubbles: PricingBubble[] = [
+  { id: 1, label: "$5K", size: 52, duration: 6.5, delay: 0.0, left: "12%", sway: 25 },
+  { id: 2, label: "$10K", size: 62, duration: 8.0, delay: 1.8, left: "42%", sway: 35 },
+  { id: 3, label: "$15K", size: 56, duration: 9.0, delay: 3.2, left: "68%", sway: 20 },
+  { id: 4, label: "$25K+", size: 72, duration: 6.0, delay: 0.9, left: "28%", sway: 40 },
+  { id: 5, label: "$50K+", size: 82, duration: 10.0, delay: 2.5, left: "78%", sway: 30 },
+  { id: 6, label: "CUSTOM", size: 76, duration: 10.5, delay: 4.8, left: "53%", sway: 25 },
+];
 
 interface AboutClientProps {
   settings?: {
@@ -38,11 +115,12 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
   const displayCompanyName = companyName || "Vygrid Digital Studio";
   const displayCompanyReg = companyReg || "EST. 2026 • VYGRID STUDIO";
   const displayTeam = team || fallbackTeam;
+
   const convictions = [
     {
       num: "I.",
       title: "Precision Engineering",
-      description: "We are obsessed with pixel measurements, layout boundaries, speed benchmarks, and bulletproof web architectures."
+      description: "We are obsessed with pixel measurements, layout boundaries, speed benchmarks, and stable web architectures."
     },
     {
       num: "II.",
@@ -84,6 +162,118 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
     "Framer Motion", "Stripe API", "Node.js", "Supabase", "PostgreSQL"
   ];
 
+  // Section 02 - Sequenced Dialogue Chat Panel States
+  const [visibleMessages, setVisibleMessages] = useState<ChatMessage[]>([]);
+  const [typingFor, setTypingFor] = useState<string | null>(null);
+  const [relayStatus, setRelayStatus] = useState<'ROUTING...' | 'TRANSMITTING...' | 'ACTIVE'>('ACTIVE');
+
+  useEffect(() => {
+    let timers: NodeJS.Timeout[] = [];
+    
+    const runDialogueSequence = () => {
+      setVisibleMessages([]);
+      setTypingFor(null);
+      setRelayStatus('ROUTING...');
+
+      const schedule = (fn: () => void, delay: number) => {
+        timers.push(setTimeout(fn, delay));
+      };
+
+      // 1. Client starts typing
+      schedule(() => {
+        setTypingFor('client');
+      }, 500);
+
+      // 2. Client sends "Hey!"
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[0]]);
+      }, 2000);
+
+      // 3. Client starts typing again
+      schedule(() => {
+        setTypingFor('client');
+        setRelayStatus('ROUTING...');
+      }, 2800);
+
+      // 4. Client sends "The website looks awesome"
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[1]]);
+      }, 4300);
+
+      // 5. Client starts typing third message
+      schedule(() => {
+        setTypingFor('client');
+        setRelayStatus('ROUTING...');
+      }, 5100);
+
+      // 6. Client sends "Can we update the homepage banner?"
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[2]]);
+      }, 6600);
+
+      // 7. Marcus starts typing
+      schedule(() => {
+        setTypingFor('marcus');
+        setRelayStatus('ROUTING...');
+      }, 7600);
+
+      // 8. Marcus sends "Absolutely Brandon, systems are live. Let's push the new assets."
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[3]]);
+      }, 9800);
+
+      // 9. Alex starts typing
+      schedule(() => {
+        setTypingFor('alex');
+        setRelayStatus('ROUTING...');
+      }, 10800);
+
+      // 10. Alex sends "Updated! Edge CDN cache flushed. Reload and check it out!"
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[4]]);
+      }, 13200);
+
+      // 11. Client starts typing final response
+      schedule(() => {
+        setTypingFor('client');
+        setRelayStatus('ROUTING...');
+      }, 14200);
+
+      // 12. Client sends "Holy speed scores! It's blistering fast."
+      schedule(() => {
+        setTypingFor(null);
+        setRelayStatus('TRANSMITTING...');
+        setVisibleMessages(prev => [...prev, chatScript[5]]);
+      }, 15800);
+
+      // 13. End of loop delay before resetting
+      schedule(() => {
+        setRelayStatus('ACTIVE');
+      }, 16500);
+    };
+
+    runDialogueSequence();
+    const mainInterval = setInterval(runDialogueSequence, 21500);
+
+    return () => {
+      clearInterval(mainInterval);
+      timers.forEach(clearTimeout);
+    };
+  }, []);
+
+  // Section 06 - Stack tag active states
+  const [activeTech, setActiveTech] = useState<string>("React");
+
   return (
     <div className="relative w-full bg-[#0A0A0A] text-[#F5F0EB] py-12 md:py-24 space-y-24 md:space-y-36 selection:bg-[#C8B89A] selection:text-[#0A0A0A]">
       {/* Back Button */}
@@ -96,7 +286,7 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
         </Link>
       </div>
 
-      {/* 1. HERO SECTION */}
+      {/* Section 01 / INTRODUCTION (Hero Area) */}
       <section className="max-w-7xl mx-auto px-6 md:px-12">
         <div className="space-y-6 md:space-y-8 max-w-4xl">
           <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#888888] block uppercase">
@@ -119,46 +309,293 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
         </div>
       </section>
 
-      {/* 2. IMAGE REVEAL GRID */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-        <div className="md:col-span-7 aspect-video md:aspect-[16/10] bg-[#111111] overflow-hidden border border-white/10 relative">
-          <ImageReveal className="w-full h-full">
-            <Image
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
-              alt={`${displayCompanyName} Collaborative Studio Environment`}
-              fill
-              className="object-cover grayscale brightness-90 transition-transform duration-700 hover:scale-105"
-              sizes="(max-w-1024px) 100vw, 800px"
-              priority
-            />
-          </ImageReveal>
-        </div>
-        <div className="md:col-span-5 border border-white/10 bg-[#111111]/30 p-8 flex flex-col justify-between relative min-h-[250px] select-none">
-          <div>
-            <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase mb-6">
-              STUDIO PHILOSOPHY
+      {/* Section 02 / WHY WORK WITH US (Asymmetric Multi-Interactive Grid) */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
+          <div className="space-y-2.5">
+            <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
+              02 / WHY WORK WITH US
             </span>
-            <p className="font-serif italic text-lg sm:text-xl text-[#F5F0EB]/80 leading-relaxed">
-              &ldquo;Obsession over mathematical structure is not a visual gimmick. It is the absolute prerequisite of high-converting luxury execution.&rdquo;
+            <h2 className="font-serif italic text-3xl md:text-5xl text-[#F5F0EB]">
+              Asymmetric Multi-Interactive Grid
+            </h2>
+            <p className="font-grotesque text-sm text-[#888888] font-light max-w-xl">
+              Precision team mechanics, live feedback dialogues, and transparent commercial structures.
             </p>
           </div>
-          <div className="border-t border-white/10 pt-6 mt-8 space-y-1">
-            <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-              STUDIO MATRIX
+        </div>
+
+        {/* 3-Panel Asymmetric Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          {/* A. Studio Cohesion Panel (Left - Span 6) */}
+          <div className="lg:col-span-6 border border-white/10 bg-[#111111]/30 p-8 sm:p-12 flex flex-col justify-between items-center relative overflow-hidden min-h-[450px]">
+            <span className="absolute top-8 left-8 font-mono text-[9px] tracking-widest text-[#888888] uppercase">
+              STUDIO COHESION
             </span>
-            <span className="font-mono text-[9px] text-[#C8B89A] block tracking-wider">
-              {displayCompanyReg} &middot; 99+ SPEED SCORES
-            </span>
+
+            {/* Orbiting graphic container */}
+            <div className="relative w-full aspect-square max-w-[340px] flex items-center justify-center my-auto">
+              
+              {/* Outer Orbit Circle (Clockwise, 50s) */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
+              >
+                {/* Avatars on Outer Orbit with Counter-Rotation to stay upright */}
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                  className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
+                </motion.div>
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                  className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
+                </motion.div>
+                <motion.div 
+                  animate={{ rotate: -360 }}
+                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                  className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
+                </motion.div>
+              </motion.div>
+
+              {/* Inner Orbit Circle (Counter-Clockwise, 35s) */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
+              >
+                {/* Avatars on Inner Orbit with Counter-Rotation to stay upright */}
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                  className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
+                </motion.div>
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                  className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
+                </motion.div>
+                <motion.div 
+                  animate={{ rotate: 360 }}
+                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                  className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                >
+                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
+                </motion.div>
+              </motion.div>
+
+              {/* Centered Typography Block */}
+              <div className="absolute text-center z-10 px-6 max-w-[200px]">
+                <h3 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight select-none">
+                  A strong team of experts
+                </h3>
+              </div>
+
+            </div>
           </div>
+
+          {/* Right Panels Wrapper: Span 6 stacks vertically */}
+          <div className="lg:col-span-6 flex flex-col gap-8 justify-between">
+            
+            {/* B. Testimonial Dialogue Chat Panel (Top-Right - Span 6) */}
+            <div className="border border-white/5 bg-[#E5E2DB] p-8 sm:p-10 pt-16 flex flex-col justify-center relative min-h-[300px] overflow-hidden select-none text-[#0A0A0A]">
+              
+              {/* Gold Terminal Protocol Banner */}
+              <div className="absolute top-0 left-0 right-0 h-10 border-b border-black/5 bg-[#E5E2DB] flex items-center justify-between px-6">
+                <div className="flex items-center space-x-2">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#C8B89A] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C8B89A]"></span>
+                  </span>
+                  <span className="font-mono text-[9px] tracking-widest text-[#0A0A0A] font-bold">
+                    PROTOCOL: {relayStatus}
+                  </span>
+                </div>
+                <span className="font-mono text-[8px] tracking-widest text-[#0A0A0A]/40 uppercase select-none">
+                  SYSTEM LIVE
+                </span>
+                
+                {/* Infinite sliding gradient line */}
+                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] overflow-hidden">
+                  <motion.div
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "100%" }}
+                    transition={{
+                      duration: 3,
+                      repeat: Infinity,
+                      ease: "linear"
+                    }}
+                    className="w-full h-full bg-gradient-to-r from-transparent via-[#C8B89A] to-transparent"
+                  />
+                </div>
+              </div>
+
+              {/* Chat messages viewport */}
+              <div className="space-y-4 pt-4 max-h-[220px] overflow-y-auto no-scrollbar flex flex-col justify-end">
+                <AnimatePresence>
+                  {visibleMessages.map((msg, index) => (
+                    <motion.div
+                      key={index}
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                      className={`flex items-end space-x-3 max-w-[85%] ${
+                        msg.sender !== 'client' ? 'self-end flex-row-reverse space-x-reverse' : 'self-start'
+                      }`}
+                    >
+                      {/* Avatar */}
+                      <div className="relative w-8 h-8 overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
+                        <Image
+                          src={msg.avatar}
+                          alt={msg.name}
+                          fill
+                          className="object-cover grayscale"
+                        />
+                      </div>
+                      
+                      {/* Bubble Text */}
+                      <div className={`px-4 py-2 text-xs sm:text-sm font-grotesque font-light shadow-sm leading-relaxed ${
+                        msg.sender === 'client'
+                          ? 'bg-white rounded-[16px] rounded-bl-none text-[#0A0A0A]'
+                          : 'bg-[#C8B89A] rounded-[16px] rounded-br-none text-[#0A0A0A] font-medium'
+                      }`}>
+                        {msg.text}
+                      </div>
+                    </motion.div>
+                  ))}
+                </AnimatePresence>
+
+                {/* Bouncing Typing Indicator */}
+                {typingFor && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className={`flex items-end space-x-3 max-w-[85%] ${
+                      typingFor !== 'client' ? 'self-end flex-row-reverse space-x-reverse' : 'self-start'
+                    }`}
+                  >
+                    <div className="relative w-8 h-8 overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
+                      <Image
+                        src={
+                          typingFor === 'client'
+                            ? 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80'
+                            : typingFor === 'marcus'
+                            ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80'
+                            : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80'
+                        }
+                        alt="Typing Member"
+                        fill
+                        className="object-cover grayscale"
+                      />
+                    </div>
+                    
+                    <div className="flex space-x-1.5 items-center bg-white px-4 py-3 rounded-[16px] rounded-bl-none shadow-sm w-fit">
+                      {[0, 1, 2].map((i) => (
+                        <motion.span
+                          key={i}
+                          animate={{ y: [0, -4, 0] }}
+                          transition={{
+                            duration: 0.8,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: i * 0.15,
+                          }}
+                          className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full"
+                        />
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </div>
+            </div>
+
+            {/* C. Transparent Pricing CTA Panel (Bottom-Right - Span 6) */}
+            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden">
+              
+              {/* Floating Upward Price Bubbles using custom SVGs (bypasses border-radius limits) */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                {pricingBubbles.map((b) => (
+                  <motion.div
+                    key={b.id}
+                    initial={{ y: "220%", x: 0, opacity: 0 }}
+                    animate={{
+                      y: "-120%",
+                      opacity: [0, 0.45, 0.45, 0],
+                      x: [0, b.sway, -b.sway, 0]
+                    }}
+                    transition={{
+                      duration: b.duration,
+                      delay: b.delay,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }}
+                    style={{
+                      left: b.left,
+                      width: b.size,
+                      height: b.size,
+                    }}
+                    className="absolute flex items-center justify-center font-mono text-[9px] font-bold text-[#C8B89A]"
+                  >
+                    <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full text-[#C8B89A]/30">
+                      <circle cx="50" cy="50" r="46" fill="rgba(200, 184, 154, 0.05)" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                    <span className="relative z-10">{b.label}</span>
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Header inside Panel */}
+              <div className="flex justify-between items-start gap-4 z-10">
+                <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] tracking-tight leading-tight max-w-[200px]">
+                  Transparent pricing model
+                </h3>
+                
+                {/* Pill Button Top-Right */}
+                <Link
+                  href="/pricing"
+                  className="px-3.5 py-1.5 border border-white/20 hover:border-[#C8B89A] hover:text-[#C8B89A] bg-[#111111]/80 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center space-x-1.5 flex-shrink-0"
+                >
+                  <span>View pricing</span>
+                  <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-ping" />
+                </Link>
+              </div>
+
+              {/* 3D Glass Chrome Image Backdrop Overlay */}
+              <div className="absolute right-0 bottom-0 w-[240px] h-[140px] opacity-70 group hover:scale-103 transition-transform duration-500 pointer-events-none select-none">
+                <Image
+                  src="/abstract_3d_glass_chrome.png"
+                  alt="Abstract 3D Glass Refraction sculpture"
+                  fill
+                  className="object-contain object-right-bottom"
+                />
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
       </section>
 
-      {/* 3. CORE CONVICTIONS */}
+      {/* Section 03 / CORE PHILOSOPHY */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              02 / CORE PHILOSOPHY
+              03 / CORE PHILOSOPHY
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               What We Hold True
@@ -186,12 +623,12 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
         </div>
       </section>
 
-      {/* 4. OUR PROCESS */}
+      {/* Section 04 / EXECUTION PATH (Methodology) */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              03 / EXECUTION PATH
+              04 / EXECUTION PATH
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Methodology
@@ -221,12 +658,12 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
         </div>
       </section>
 
-      {/* 5. TEAM SECTION */}
+      {/* Section 05 / DIRECTORS (Meet The Founders) */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              04 / DIRECTORS
+              05 / DIRECTORS
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Meet The Founders
@@ -294,163 +731,12 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
         </div>
       </section>
 
-      {/* 5.5 WHY WORK WITH US SECTION */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
-          <div className="space-y-2.5">
-            <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
-              05 / CORE VALUES
-            </span>
-            <h2 className="font-serif italic text-3xl md:text-5xl text-[#F5F0EB]">
-              Why work with us
-            </h2>
-            <p className="font-grotesque text-sm text-[#888888] font-light max-w-xl">
-              We help ambitious brands make their mark — with clarity and precision.
-            </p>
-          </div>
-        </div>
-
-        {/* 3-Panel Asymmetric Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Left Panel: ~50% width full height, dark background, orbiting circles */}
-          <div className="lg:col-span-6 border border-white/10 bg-[#111111]/30 p-8 sm:p-12 flex flex-col justify-between items-center relative overflow-hidden min-h-[450px]">
-            <span className="absolute top-8 left-8 font-mono text-[9px] tracking-widest text-[#888888] uppercase">
-              STUDIO COHESION
-            </span>
-
-            {/* Orbiting graphic container */}
-            <div className="relative w-full aspect-square max-w-[340px] flex items-center justify-center my-auto">
-              
-              {/* Outer Orbit Circle */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
-              >
-                {/* Avatars on Outer Orbit */}
-                <div className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
-                </div>
-              </motion.div>
-
-              {/* Inner Orbit Circle */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
-              >
-                {/* Avatars on Inner Orbit */}
-                <div className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
-                </div>
-              </motion.div>
-
-              {/* Centered Typography Block */}
-              <div className="absolute text-center z-10 px-6 max-w-[200px]">
-                <h3 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight select-none">
-                  A strong team of experts
-                </h3>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right Panels Wrapper: ~50% width stacks vertically */}
-          <div className="lg:col-span-6 flex flex-col gap-8 justify-between">
-            
-            {/* Top-Right Panel: Light background, Chat UI testimonials */}
-            <div className="border border-white/5 bg-[#E5E2DB] p-8 sm:p-10 flex flex-col justify-center relative min-h-[220px] select-none text-[#0A0A0A]">
-              <span className="absolute top-6 left-8 font-mono text-[9px] tracking-widest text-[#0A0A0A]/40 uppercase">
-                TESTIMONIAL DIALOGUE
-              </span>
-              
-              <div className="space-y-4 pt-4">
-                {/* Bubble 1: Sender Avatar + Bubble */}
-                <div className="flex items-end space-x-3 max-w-md">
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
-                    <Image
-                      src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
-                      alt="Brandon Chase"
-                      fill
-                      className="object-cover grayscale"
-                    />
-                  </div>
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Hey!
-                  </div>
-                </div>
-
-                {/* Bubble 2: Text only bubble */}
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    The website looks awesome
-                  </div>
-                </div>
-
-                {/* Bubble 3: Text only bubble */}
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Can we update the homepage banner?
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom-Right Panel: Dark background, Pricing Model CTA & 3D render */}
-            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden">
-              
-              {/* Header inside Panel */}
-              <div className="flex justify-between items-start gap-4">
-                <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] tracking-tight leading-tight max-w-[200px]">
-                  Transparent pricing model
-                </h3>
-                
-                {/* Pill Button Top-Right */}
-                <Link
-                  href="/pricing"
-                  className="px-3.5 py-1.5 border border-white/20 hover:border-[#C8B89A] hover:text-[#C8B89A] bg-[#111111]/80 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center space-x-1.5 flex-shrink-0"
-                >
-                  <span>View pricing</span>
-                  <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-ping" />
-                </Link>
-              </div>
-
-              {/* 3D Glass Chrome Image Backdrop Overlay */}
-              <div className="absolute right-0 bottom-0 w-[240px] h-[140px] opacity-70 group hover:scale-103 transition-transform duration-500 pointer-events-none select-none">
-                <Image
-                  src="/abstract_3d_glass_chrome.png"
-                  alt="Abstract 3D Glass Refraction sculpture"
-                  fill
-                  className="object-contain object-right-bottom"
-                />
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. TECH STACK */}
+      {/* Section 06 / INFRASTRUCTURE (Development Stack) */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              05 / INFRASTRUCTURE
+              06 / INFRASTRUCTURE
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Development Stack
@@ -461,27 +747,67 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
           </span>
         </div>
 
-        <div className="flex flex-wrap gap-3 max-w-4xl">
-          {techStack.map((tech) => {
-            const path = techIcons[tech];
-            return (
-              <span
-                key={tech}
-                className="font-mono text-xs border border-white/10 px-4 py-2 bg-[#111111] text-[#888888] hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300 select-none cursor-default inline-flex items-center space-x-2"
-              >
-                {path && (
-                  <svg 
-                    className={`w-3.5 h-3.5 fill-current ${tech === 'React' ? 'animate-[spin_15s_linear_infinite]' : ''}`} 
-                    viewBox="0 0 24 24" 
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d={path} />
-                  </svg>
-                )}
-                <span>{tech}</span>
-              </span>
-            );
-          })}
+        {/* Tech Stack Interactive tag list */}
+        <div className="space-y-6">
+          <div className="flex flex-wrap gap-3 max-w-4xl">
+            {techStack.map((tech) => {
+              const path = techIcons[tech];
+              const isActive = activeTech === tech;
+              return (
+                <button
+                  key={tech}
+                  onClick={() => setActiveTech(tech)}
+                  onMouseEnter={() => setActiveTech(tech)}
+                  className={`font-mono text-xs border px-4 py-2 bg-[#111111] transition-all duration-300 select-none cursor-pointer flex items-center space-x-2 ${
+                    isActive
+                      ? 'border-[#C8B89A] text-[#C8B89A] shadow-[0_0_15px_rgba(200,184,154,0.15)]'
+                      : 'border-white/10 text-[#888888] hover:border-[#C8B89A] hover:text-[#C8B89A]'
+                  }`}
+                >
+                  {path && (
+                    <svg 
+                      className={`w-3.5 h-3.5 fill-current ${
+                        tech === 'React' && isActive ? 'animate-[spin_4s_linear_infinite]' : ''
+                      }`} 
+                      viewBox="0 0 24 24" 
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path d={path} />
+                    </svg>
+                  )}
+                  <span>{tech}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Active Protocol Detail Card Console */}
+          <div className="border border-[#C8B89A]/20 bg-[#111111]/70 p-6 font-mono text-left relative max-w-4xl">
+            <div className="absolute top-2 right-4 flex space-x-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/30" />
+              <span className="w-1.5 h-1.5 rounded-full bg-green-500/30" />
+            </div>
+            
+            <span className="text-[9px] text-[#C8B89A] block mb-3 font-bold tracking-widest">
+              VYGRID PROTOCOL CONSOLE // ACTIVE_NODE: {activeTech.toUpperCase()}
+            </span>
+            
+            <div className="text-xs text-[#888888] leading-relaxed min-h-[40px] select-text">
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={activeTech}
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -8 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {techProtocols[activeTech]}
+                </motion.p>
+              </AnimatePresence>
+            </div>
+          </div>
+
         </div>
       </section>
     </div>
