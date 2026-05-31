@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Playfair_Display, Inter, IBM_Plex_Mono, Syne } from "next/font/google";
+import { Playfair_Display, Inter, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
@@ -29,10 +29,10 @@ const ibmPlexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
-const syne = Syne({
+const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["700", "800"],
-  variable: "--font-syne",
+  variable: "--font-plus-jakarta",
   display: "swap",
 });
 
@@ -78,7 +78,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${playfair.variable} ${inter.variable} ${ibmPlexMono.variable} ${syne.variable}`}>
+    <html lang="en" className={`${playfair.variable} ${inter.variable} ${ibmPlexMono.variable} ${plusJakarta.variable}`}>
       <body className="antialiased bg-[#0A0A0A] text-[#F5F0EB] min-h-screen flex flex-col selection:bg-[#C8B89A]/30 selection:text-[#F5F0EB]">
         {/* Scroll Restoration Staged under Suspense */}
         <Suspense fallback={null}>

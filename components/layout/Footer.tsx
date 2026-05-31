@@ -100,16 +100,13 @@ export default function Footer() {
           {/* Left Column: Studio branding & contact details */}
           <div className="md:col-span-6 space-y-8">
             <div className="space-y-4 text-left">
-              <div className="flex items-center">
-                <Image
-                  src={logoUrl || "/logodes.png"}
-                  alt="VYGRID Logo"
-                  width={280}
-                  height={68}
-                  className="h-14 md:h-16 w-auto object-contain brightness-100"
-                />
-                <span className="font-mono text-sm tracking-[0.2em] font-bold uppercase">{companyName}</span>
-              </div>
+              <Image
+                src={logoUrl || "/logodes.png"}
+                alt="VYGRID Logo"
+                width={360}
+                height={90}
+                className="h-20 md:h-24 w-auto object-contain brightness-100"
+              />
               <p className="text-[#888888] font-light text-sm max-w-xs leading-relaxed">
                 {tagline}
               </p>
@@ -235,8 +232,8 @@ export default function Footer() {
 
         {/* Gigantic Branding Text */}
         <div className="pt-10 pb-6 select-none overflow-visible text-center md:text-left">
-          <span className="font-syne text-[13vw] font-bold tracking-tighter text-[#F5F0EB]/95 hover:text-[#C8B89A] transition-all duration-700 leading-none block select-none cursor-default">
-            Vygrid®
+          <span className="font-jakarta text-[13vw] font-bold tracking-tighter text-[#F5F0EB]/95 hover:text-[#C8B89A] transition-all duration-700 leading-none block select-none cursor-default">
+            Vygrid
           </span>
         </div>
 
