@@ -122,14 +122,8 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                     />
                   </div>
                 ) : (
-                  <div className="w-12 h-12 rounded-full border border-white/10 bg-[#111111] flex items-center justify-center text-xs font-mono text-[#C8B89A] flex-shrink-0">
-                    {(() => {
-                      const parts = (current?.name || '').trim().split(/\s+/);
-                      if (parts.length >= 2) {
-                        return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-                      }
-                      return (current?.name || '').substring(0, 2).toUpperCase();
-                    })()}
+                  <div className="w-12 h-12 rounded-full border border-white/10 bg-[#111111] flex items-center justify-center text-sm font-mono text-[#C8B89A] flex-shrink-0 font-bold">
+                    {(current?.name || 'V').trim().charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div className="text-left font-grotesque">
