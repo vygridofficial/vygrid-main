@@ -1,7 +1,7 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { team } from '@/lib/data';
@@ -22,6 +22,193 @@ const techIcons: Record<string, string> = {
 };
 
 export default function AboutClient() {
+  interface RenderedMessage {
+    sender: 'client' | 'team';
+    name: string;
+    avatar: string;
+    text: string;
+    id: string;
+  }
+
+  const chatDialogue: Omit<RenderedMessage, 'id'>[] = [
+    { sender: 'client', name: 'Brandon Chase', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80', text: "Hey team!" },
+    { sender: 'client', name: 'Brandon Chase', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80', text: "The new editorial layout looks incredibly clean. Speeds are crazy." },
+    { sender: 'team', name: 'Alex Sterling', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80', text: "Thanks Brandon! Coded from scratch in Next.js with type-safe routing." },
+    { sender: 'client', name: 'Brandon Chase', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80', text: "Perfect. Client just signed off on the launch parameters!" },
+    { sender: 'team', name: 'Marcus Vance', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80', text: "Outstanding. Deploying to Vercel Edge networks now. 🚀" },
+    { sender: 'client', name: 'Brandon Chase', avatar: 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80', text: "By the way, page speed score is 99/100 on mobile! Unbelievable." },
+    { sender: 'team', name: 'Alex Sterling', avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80', text: "That is our standard. Visual purity meets absolute computational speed. ⚡" }
+  ];
+
+  const [renderedMessages, setRenderedMessages] = useState<RenderedMessage[]>([]);
+  const [typingUser, setTypingUser] = useState<{ name: string; avatar: string; sender: 'client' | 'team' } | null>(null);
+  const [relayStatus, setRelayStatus] = useState<'idle' | 'relaying'>('idle');
+  const [relayText, setRelayText] = useState<string>('');
+  const chatContainerRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    const runSequence = async () => {
+      const wait = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+      
+      while (active) {
+        setRenderedMessages([]);
+        setTypingUser(null);
+        setRelayStatus('idle');
+        await wait(1200);
+        if (!active) break;
+
+        // 1. Client Typing Message 1 ("Hey team!")
+        setTypingUser({
+          name: chatDialogue[0].name,
+          avatar: chatDialogue[0].avatar,
+          sender: 'client'
+        });
+        await wait(1600);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[0], id: 'msg-0' }]);
+        await wait(1200);
+        if (!active) break;
+
+        // 2. Client Typing Message 2 ("The new editorial layout...")
+        setTypingUser({
+          name: chatDialogue[1].name,
+          avatar: chatDialogue[1].avatar,
+          sender: 'client'
+        });
+        await wait(2200);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[1], id: 'msg-1' }]);
+        await wait(1400);
+        if (!active) break;
+
+        // 3. Relay transmission animation to team
+        setRelayStatus('relaying');
+        setRelayText('TRANSMITTING CLIENT FEEDBACK TO INTERNAL TEAM CORE...');
+        await wait(2400);
+        if (!active) break;
+        setRelayStatus('idle');
+
+        // 4. Team member (Alex) typing response
+        setTypingUser({
+          name: chatDialogue[2].name,
+          avatar: chatDialogue[2].avatar,
+          sender: 'team'
+        });
+        await wait(2200);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[2], id: 'msg-2' }]);
+        await wait(2000);
+        if (!active) break;
+
+        // 5. Client typing Message 4 ("Perfect...")
+        setTypingUser({
+          name: chatDialogue[3].name,
+          avatar: chatDialogue[3].avatar,
+          sender: 'client'
+        });
+        await wait(1800);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[3], id: 'msg-3' }]);
+        await wait(1500);
+        if (!active) break;
+
+        // 6. Relay transmission animation to directors
+        setRelayStatus('relaying');
+        setRelayText('ROUTING LAUNCH APPROVAL TO PRODUCTION DIRECTORS...');
+        await wait(2400);
+        if (!active) break;
+        setRelayStatus('idle');
+
+        // 7. Team member (Marcus) typing response ("Outstanding. Deploying...")
+        setTypingUser({
+          name: chatDialogue[4].name,
+          avatar: chatDialogue[4].avatar,
+          sender: 'team'
+        });
+        await wait(2200);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[4], id: 'msg-4' }]);
+        await wait(2000);
+        if (!active) break;
+
+        // 8. Client typing Message 6 ("By the way, page speed score...")
+        setTypingUser({
+          name: chatDialogue[5].name,
+          avatar: chatDialogue[5].avatar,
+          sender: 'client'
+        });
+        await wait(2200);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[5], id: 'msg-5' }]);
+        await wait(1500);
+        if (!active) break;
+
+        // 9. Team member (Alex) typing final response ("That is our standard...")
+        setTypingUser({
+          name: chatDialogue[6].name,
+          avatar: chatDialogue[6].avatar,
+          sender: 'team'
+        });
+        await wait(2200);
+        if (!active) break;
+
+        setTypingUser(null);
+        setRenderedMessages(prev => [...prev, { ...chatDialogue[6], id: 'msg-6' }]);
+
+        // Wait at the end of conversation for reading
+        await wait(7500);
+      }
+    };
+
+    runSequence();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Smooth scroll to bottom whenever messages or states update
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: 'smooth'
+      });
+    }
+  }, [renderedMessages, typingUser, relayStatus]);
+
+  const priceBubbles = [
+    { id: 1, text: "$5k", left: "8%", duration: 7, delay: 0, size: "w-14 h-14 text-[9px]" },
+    { id: 2, text: "$10k", left: "48%", duration: 8, delay: 2, size: "w-16 h-16 text-[10px]" },
+    { id: 3, text: "$15k", left: "82%", duration: 6, delay: 1, size: "w-18 h-18 text-[11px]" },
+    { id: 4, text: "$25k+", left: "28%", duration: 9, delay: 4, size: "w-22 h-22 text-[12px] border-[#C8B89A]/60 shadow-[inset_0_2px_6px_rgba(200,184,154,0.3)]" },
+    { id: 5, text: "$8k", left: "65%", duration: 7.5, delay: 3.5, size: "w-16 h-16 text-[10px]" },
+    { id: 6, text: "$12k", left: "20%", duration: 8.5, delay: 1.5, size: "w-16 h-16 text-[10px]" },
+    { id: 7, text: "$20k", left: "70%", duration: 6.8, delay: 5, size: "w-18 h-18 text-[11px]" },
+    { id: 8, text: "$6k", left: "38%", duration: 7.2, delay: 0.5, size: "w-14 h-14 text-[9px]" },
+    { id: 9, text: "$30k+", left: "55%", duration: 9.5, delay: 3, size: "w-20 h-20 text-[11px] border-[#C8B89A]/55" },
+    { id: 10, text: "$4k", left: "90%", duration: 5.5, delay: 2.5, size: "w-12 h-12 text-[9px]" },
+    { id: 11, text: "$18k", left: "12%", duration: 7.8, delay: 4.5, size: "w-18 h-18 text-[11px]" },
+    { id: 12, text: "$50k+", left: "78%", duration: 10, delay: 6, size: "w-24 h-24 text-[13px] border-[#C8B89A]/70 shadow-[inset_0_2px_8px_rgba(200,184,154,0.35)]" },
+    { id: 13, text: "$7k", left: "32%", duration: 6.4, delay: 5.5, size: "w-14 h-14 text-[9px]" },
+    { id: 14, text: "$14k", left: "60%", duration: 8.2, delay: 0.8, size: "w-16 h-16 text-[10px]" },
+    { id: 15, text: "$35k", left: "42%", duration: 8.8, delay: 4.2, size: "w-20 h-20 text-[11px]" }
+  ];
+
   const convictions = [
     {
       num: "I.",
@@ -132,16 +319,16 @@ export default function AboutClient() {
               <motion.div
                 animate={{ rotate: 360 }}
                 transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
+                className="absolute w-[280px] h-[280px] border border-white/50 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(255,255,255,0.08)]"
               >
                 {/* Avatars on Outer Orbit */}
-                <div className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
                 </div>
-                <div className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
                 </div>
-                <div className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
                 </div>
               </motion.div>
@@ -150,16 +337,16 @@ export default function AboutClient() {
               <motion.div
                 animate={{ rotate: -360 }}
                 transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
+                className="absolute w-[180px] h-[180px] border border-white/45 rounded-full flex items-center justify-center shadow-[0_0_10px_rgba(255,255,255,0.04)]"
               >
                 {/* Avatars on Inner Orbit */}
-                <div className="absolute -top-4 left-[50%] -translate-x-[50%] w-8. h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
                 </div>
-                <div className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
                 </div>
-                <div className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                <div className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/15 bg-[#1A1A1A]">
                   <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
                 </div>
               </motion.div>
@@ -177,44 +364,122 @@ export default function AboutClient() {
           {/* Right Panels Wrapper: ~50% width stacks vertically */}
           <div className="lg:col-span-6 flex flex-col gap-8 justify-between">
             
-            {/* Top-Right Panel: Testimonial dialogue */}
-            <div className="border border-white/5 bg-[#E5E2DB] p-8 sm:p-10 flex flex-col justify-center relative min-h-[220px] select-none text-[#0A0A0A]">
-              <span className="absolute top-6 left-8 font-mono text-[9px] tracking-widest text-[#0A0A0A]/40 uppercase">
+            {/* Top-Right Panel: Animated Testimonial Dialogue */}
+            <div className="border border-white/5 bg-[#E5E2DB] p-6 sm:p-8 flex flex-col justify-between relative min-h-[260px] select-none text-[#0A0A0A] overflow-hidden">
+              <span className="absolute top-4 left-6 font-mono text-[9px] tracking-widest text-[#0A0A0A]/40 uppercase font-bold">
                 TESTIMONIAL DIALOGUE
               </span>
               
-              <div className="space-y-4 pt-4">
-                <div className="flex items-end space-x-3 max-w-md">
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
-                    <Image
-                      src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
-                      alt="Brandon Chase"
-                      fill
-                      className="object-cover grayscale"
-                    />
-                  </div>
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Hey!
-                  </div>
-                </div>
+              <div 
+                ref={chatContainerRef}
+                className="space-y-3 pt-6 overflow-y-auto no-scrollbar max-h-[190px] flex-1 flex flex-col scroll-smooth"
+              >
+                <AnimatePresence initial={false}>
+                  {renderedMessages.map((msg) => {
+                    const isClient = msg.sender === 'client';
+                    return (
+                      <motion.div
+                        key={msg.id}
+                        initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, transition: { duration: 0.2 } }}
+                        className={`flex items-end space-x-2.5 max-w-[85%] mb-1 ${
+                          isClient ? "justify-start align-start self-start" : "ml-auto justify-end flex-row-reverse space-x-reverse self-end"
+                        }`}
+                      >
+                        <div className="relative w-6 h-6 rounded-full overflow-hidden bg-black/10 border border-black/10 flex-shrink-0">
+                          <Image
+                            src={msg.avatar}
+                            alt={msg.name}
+                            fill
+                            className="object-cover grayscale"
+                          />
+                        </div>
+                        <div className={`px-3.5 py-2 text-xs font-grotesque shadow-sm ${
+                          isClient 
+                            ? "bg-white text-[#0A0A0A] rounded-[16px] rounded-bl-none font-light" 
+                            : "bg-[#0A0A0A] text-[#F5F0EB] rounded-[16px] rounded-br-none font-medium"
+                        }`}>
+                          {msg.text}
+                        </div>
+                      </motion.div>
+                    );
+                  })}
 
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    The website looks awesome
-                  </div>
-                </div>
+                  {/* Relay Status Indicator */}
+                  {relayStatus === 'relaying' && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="w-full my-2 self-center"
+                    >
+                      <div className="w-full border-t border-b border-[#C8B89A]/30 bg-[#0A0A0A] text-[#C8B89A] p-2.5 font-mono text-[9px] tracking-widest uppercase flex flex-col items-center justify-center space-y-1.5 relative overflow-hidden">
+                        <div className="flex items-center space-x-2 relative z-10 font-bold">
+                          <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-ping" />
+                          <span>{relayText}</span>
+                        </div>
+                        <div className="w-full h-[1px] bg-[#C8B89A]/10 relative z-10 overflow-hidden">
+                          <motion.div
+                            initial={{ left: "-100%" }}
+                            animate={{ left: "100%" }}
+                            transition={{ duration: 1.8, repeat: Infinity, ease: "linear" }}
+                            className="absolute h-full w-[40%] bg-gradient-to-r from-transparent via-[#C8B89A] to-transparent"
+                          />
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
 
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Can we update the homepage banner?
-                  </div>
-                </div>
+                  {/* Typing Indicator */}
+                  {typingUser && (
+                    <motion.div
+                      key="typing"
+                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                      className={`flex items-end space-x-2.5 max-w-[85%] mb-1 ${
+                        typingUser.sender === 'client' ? "justify-start align-start self-start" : "ml-auto justify-end flex-row-reverse space-x-reverse self-end"
+                      }`}
+                    >
+                      <div className="relative w-6 h-6 rounded-full overflow-hidden bg-black/10 border border-black/10 flex-shrink-0">
+                        <Image
+                          src={typingUser.avatar}
+                          alt={typingUser.name}
+                          fill
+                          className="object-cover grayscale"
+                        />
+                      </div>
+                      <div className={`py-2.5 px-3.5 flex space-x-1 items-center shadow-sm ${
+                        typingUser.sender === 'client' 
+                          ? "bg-white rounded-[16px] rounded-bl-none" 
+                          : "bg-[#0A0A0A] rounded-[16px] rounded-br-none"
+                      }`}>
+                        <motion.span 
+                          animate={{ y: [0, -4, 0] }} 
+                          transition={{ repeat: Infinity, duration: 0.6, delay: 0 }} 
+                          className={`w-1.5 h-1.5 rounded-full ${typingUser.sender === 'client' ? 'bg-[#888888]' : 'bg-[#C8B89A]'}`} 
+                        />
+                        <motion.span 
+                          animate={{ y: [0, -4, 0] }} 
+                          transition={{ repeat: Infinity, duration: 0.6, delay: 0.15 }} 
+                          className={`w-1.5 h-1.5 rounded-full ${typingUser.sender === 'client' ? 'bg-[#888888]' : 'bg-[#C8B89A]'}`} 
+                        />
+                        <motion.span 
+                          animate={{ y: [0, -4, 0] }} 
+                          transition={{ repeat: Infinity, duration: 0.6, delay: 0.3 }} 
+                          className={`w-1.5 h-1.5 rounded-full ${typingUser.sender === 'client' ? 'bg-[#888888]' : 'bg-[#C8B89A]'}`} 
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
 
-            {/* Bottom-Right Panel: Pricing CTA */}
-            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden">
-              <div className="flex justify-between items-start gap-4">
+            {/* Bottom-Right Panel: Pricing CTA with Floating upward Price Bubbles */}
+            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden group">
+              <div className="flex justify-between items-start gap-4 relative z-10">
                 <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] tracking-tight leading-tight max-w-[200px]">
                   Transparent pricing model
                 </h3>
@@ -228,14 +493,49 @@ export default function AboutClient() {
                 </Link>
               </div>
 
-              {/* 3D Glass Chrome Image Backdrop Overlay */}
-              <div className="absolute right-0 bottom-0 w-[240px] h-[140px] opacity-70 group hover:scale-103 transition-transform duration-500 pointer-events-none select-none">
-                <Image
-                  src="/abstract_3d_glass_chrome.png"
-                  alt="Abstract 3D Glass Refraction sculpture"
-                  fill
-                  className="object-contain object-right-bottom"
-                />
+              {/* Floating upward Price Bubbles */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0 bg-[#0F0F0F]/10">
+                {priceBubbles.map((bubble) => (
+                  <motion.div
+                    key={bubble.id}
+                    initial={{ y: "130%", opacity: 0, scale: 0.8, x: 0 }}
+                    animate={{
+                      y: ["130%", "-30%"],
+                      opacity: [0, 0.9, 0.9, 0],
+                      scale: [0.8, 1.1, 1.1, 0.9],
+                      x: [0, 15, -15, 0],
+                    }}
+                    transition={{
+                      y: {
+                        duration: bubble.duration,
+                        repeat: Infinity,
+                        delay: bubble.delay,
+                        ease: "linear"
+                      },
+                      x: {
+                        duration: bubble.duration / 2,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      },
+                      opacity: {
+                        duration: bubble.duration,
+                        repeat: Infinity,
+                        delay: bubble.delay,
+                        ease: "linear"
+                      },
+                      scale: {
+                        duration: bubble.duration,
+                        repeat: Infinity,
+                        delay: bubble.delay,
+                        ease: "easeInOut"
+                      }
+                    }}
+                    style={{ left: bubble.left }}
+                    className="absolute bottom-0 w-20 h-20 border border-[#C8B89A]/45 bg-gradient-to-tr from-white/5 to-white/10 text-[#C8B89A] font-mono text-[10px] font-bold rounded-full shadow-[inset_0_2px_4px_rgba(255,255,255,0.25),0_8px_32px_0_rgba(0,0,0,0.5)] flex items-center justify-center backdrop-blur-[4px]"
+                  >
+                    {bubble.text}
+                  </motion.div>
+                ))}
               </div>
 
             </div>
