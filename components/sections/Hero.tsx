@@ -47,7 +47,7 @@ export default function Hero({
   const displaySub = subtitle || defaultSub;
 
   return (
-    <section className="relative w-full h-[calc(100vh-80px)] min-h-[650px] bg-[#0A0A0A] overflow-hidden select-none px-6 md:px-12 pt-8 pb-16 flex flex-col justify-between border-b border-white/5">
+    <section className="relative w-full h-[calc(100vh-80px)] min-h-[480px] sm:min-h-[650px] bg-[#0A0A0A] overflow-hidden select-none px-6 md:px-12 pt-4 pb-8 sm:pt-8 sm:pb-16 flex flex-col justify-between border-b border-white/5">
       
       {/* Background Matrix Particle canvas animation */}
       <div className="absolute inset-0 z-0 opacity-[0.25] pointer-events-none">
@@ -65,10 +65,10 @@ export default function Hero({
       </div>
 
       {/* Bottom-left anchored core text blocks */}
-      <div className="z-10 text-left max-w-4xl space-y-8 mt-auto">
+      <div className="z-10 text-left max-w-4xl space-y-3.5 sm:space-y-6 mt-auto">
         
         {/* Display typography layout */}
-        <div className="space-y-2">
+        <div className="space-y-1 sm:space-y-2">
           {titleLine1 && (
             <TextReveal
               as="h1"
@@ -97,7 +97,7 @@ export default function Hero({
         </p>
 
         {/* CTA text links */}
-        <div className="pt-4 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="pt-0.5 sm:pt-2 flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-6">
           <Link
             href={primaryBtnHref}
             className="px-6 py-3.5 bg-[#C8B89A] hover:bg-[#F5F0EB] text-[#0A0A0A] font-mono text-[10px] font-bold tracking-widest uppercase transition-all duration-300 flex items-center space-x-2"

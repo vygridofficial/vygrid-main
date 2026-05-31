@@ -36,9 +36,7 @@ function PortfolioManagerContent() {
   const [techInput, setTechInput] = useState('');
   const [gallery, setGallery] = useState<string[]>([]);
   const [galleryInput, setGalleryInput] = useState('');
-  const [metrics, setMetrics] = useState<Array<{ label: string; value: string }>>([]);
-  const [metricLabel, setMetricLabel] = useState('');
-  const [metricValue, setMetricValue] = useState('');
+  const [websiteUrl, setWebsiteUrl] = useState('');
 
   const loadData = async () => {
     setLoading(true);
@@ -80,9 +78,7 @@ function PortfolioManagerContent() {
     setTechInput('');
     setGallery([]);
     setGalleryInput('');
-    setMetrics([]);
-    setMetricLabel('');
-    setMetricValue('');
+    setWebsiteUrl('');
     setModalOpen(true);
   };
 
@@ -104,9 +100,7 @@ function PortfolioManagerContent() {
     setTechInput('');
     setGallery(project.gallery || []);
     setGalleryInput('');
-    setMetrics(project.metrics || []);
-    setMetricLabel('');
-    setMetricValue('');
+    setWebsiteUrl(project.websiteUrl || '');
     setModalOpen(true);
   };
 
@@ -142,15 +136,7 @@ function PortfolioManagerContent() {
     setGallery(gallery.filter((_, i) => i !== idx));
   };
 
-  const handleAddMetric = () => {
-    if (!metricLabel.trim() || !metricValue.trim()) return;
-    setMetrics([...metrics, { label: metricLabel.trim(), value: metricValue.trim() }]);
-    setMetricLabel('');
-    setMetricValue('');
-  };
-  const handleRemoveMetric = (idx: number) => {
-    setMetrics(metrics.filter((_, i) => i !== idx));
-  };
+
 
   const handleThumbnailUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -248,7 +234,7 @@ function PortfolioManagerContent() {
       projectImage: projectImage || undefined,
       tech,
       gallery,
-      metrics
+      websiteUrl
     };
 
     try {
@@ -673,40 +659,19 @@ function PortfolioManagerContent() {
                   </div>
                 </div>
 
-                {/* Metrics */}
+                {/* Portfolio Website Link */}
                 <div className="space-y-2">
-                  <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">DELIVERY METRICS</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    <input
-                      type="text"
-                      value={metricValue}
-                      onChange={(e) => setMetricValue(e.target.value)}
-                      className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB]"
-                      placeholder="value (+142%)"
-                    />
-                    <input
-                      type="text"
-                      value={metricLabel}
-                      onChange={(e) => setMetricLabel(e.target.value)}
-                      className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB]"
-                      placeholder="label (Leads)"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    onClick={handleAddMetric}
-                    className="w-full py-1.5 border border-white/10 font-mono text-[9px] uppercase tracking-wider text-[#888888] hover:text-[#F5F0EB]"
-                  >
-                    ADD METRIC ROW
-                  </button>
-                  <div className="space-y-1 pt-1">
-                    {metrics.map((m, idx) => (
-                      <div key={idx} className="flex justify-between items-center px-2 py-1 border border-white/5 bg-[#0A0A0A] text-[9px] text-[#888888]">
-                        <span className="font-bold">{m.value} - {m.label}</span>
-                        <button type="button" onClick={() => handleRemoveMetric(idx)} className="text-[#444444] hover:text-red-400">✕</button>
-                      </div>
-                    ))}
-                  </div>
+                  <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">PORTFOLIO WEBSITE LINK</label>
+                  <input
+                    type="url"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                    className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB] focus:outline-none focus:border-[#C8B89A] font-mono"
+                    placeholder="https://www.example.com"
+                  />
+                  <p className="font-grotesque text-[10px] text-[#555555] leading-relaxed pt-1">
+                    Provide the live URL of the published project or platform. This link will be displayed on the public case study page.
+                  </p>
                 </div>
 
               </div>

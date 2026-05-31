@@ -145,7 +145,9 @@ export default function PortfolioGrid({ projects }: PortfolioGridProps) {
                         IMPACT RESULT
                       </span>
                       <span className="font-mono text-[10px] font-bold text-[#F5F0EB] uppercase tracking-widest bg-white/5 px-2.5 py-1">
-                        {project.metrics && project.metrics[0]?.value} {project.metrics && project.metrics[0]?.label.split(' ')[0]}
+                        {project.metrics && project.metrics[0]
+                          ? `${project.metrics[0].value} ${project.metrics[0].label.split(' ')[0]}`
+                          : 'LIVE PLATFORM'}
                       </span>
                     </div>
 
