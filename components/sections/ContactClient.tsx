@@ -126,7 +126,7 @@ export default function ContactClient() {
                       <input
                         type="text"
                         {...register("fullName")}
-                        placeholder="ALEX STERLING"
+                        placeholder=""
                         className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] placeholder-[#444444] ${
                           errors.fullName ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
                         }`}
@@ -148,7 +148,7 @@ export default function ContactClient() {
                         <input
                           type="email"
                           {...register("email")}
-                          placeholder="ALEX@VYGRID.STUDIO"
+                          placeholder=""
                           className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] placeholder-[#444444] ${
                             errors.email ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
                           }`}
@@ -168,7 +168,7 @@ export default function ContactClient() {
                         <input
                           type="tel"
                           {...register("phone")}
-                          placeholder="+1 (555) 000-0000"
+                          placeholder=""
                           className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] placeholder-[#444444] ${
                             errors.phone ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
                           }`}
@@ -190,7 +190,7 @@ export default function ContactClient() {
                       <textarea
                         {...register("message")}
                         rows={6}
-                        placeholder="HOW CAN OUR STUDIO HELP ELEVATE YOUR DIGITAL ARCHITECTURE OR BRAND MARK?"
+                        placeholder=""
                         className={`w-full px-4 py-3 border font-mono text-xs bg-[#0A0A0A] focus:outline-none transition-all duration-300 text-[#F5F0EB] placeholder-[#444444] ${
                           errors.message ? 'border-[#C8B89A] focus:ring-1 focus:ring-[#C8B89A]/30' : 'border-white/10 focus:border-[#C8B89A]'
                         }`}

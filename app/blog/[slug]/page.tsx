@@ -42,7 +42,7 @@ export default function BlogPostDetailPage() {
       </section>
 
       {/* Hero Image */}
-      <section className="max-w-4xl mx-auto px-6 mb-12">
+      <section className="max-w-2xl mx-auto px-6 mb-12">
         <div className="relative aspect-[16/9] w-full bg-[#111111] border border-white/5">
           <Image
             src={post.thumbnail}
@@ -73,12 +73,6 @@ export default function BlogPostDetailPage() {
           <div className="font-mono text-[9px] text-[#444444] uppercase tracking-widest">
             EST. 2026 &middot; VYGRID EDITORIAL
           </div>
-          <Link
-            href="/contact"
-            className="px-6 py-3 border border-white/10 hover:border-[#C8B89A] text-[#F5F0EB] hover:text-[#C8B89A] font-mono text-[10px] font-bold tracking-widest uppercase transition-all duration-300"
-          >
-            START A PROJECT &rarr;
-          </Link>
         </div>
       </article>
     </div>

@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import Image from 'next/image';
 import { testimonials } from '@/lib/data';
 
 export default function Testimonials() {

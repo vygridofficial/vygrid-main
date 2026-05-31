@@ -43,6 +43,11 @@ export const metadata: Metadata = {
   description: "Vygrid Digital Studio builds editorial-grade custom websites and brand identities for established, founder-led businesses. Obsessively minimal, typography-led.",
   metadataBase: new URL("https://vygrid.studio"),
   keywords: ["Web Engineering", "Logo Curation", "Brand Identity Kit", "Established Brands", "Editorial Design", "Bespoke Web Applications"],
+  icons: {
+    icon: "/logodes.png",
+    shortcut: "/logodes.png",
+    apple: "/logodes.png",
+  },
   openGraph: {
     title: "Vygrid Digital Studio | Custom Web Engineering & Brand Curation",
     description: "Vygrid Digital Studio builds editorial-grade custom websites and brand identities for established, founder-led businesses.",

@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { team } from '@/lib/data';
 import TextReveal from '@/components/ui/TextReveal';
-import ImageReveal from '@/components/ui/ImageReveal';
 
 const techIcons: Record<string, string> = {
   "Figma": "M15.852 8.981h-4.588V0h4.588c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.491-4.49 4.491zM12.735 7.51h3.117c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-3.117V7.51zm0 1.471H8.148c-2.476 0-4.49-2.014-4.49-4.49S5.672 0 8.148 0h4.588v8.981zm-4.587-7.51c-1.665 0-3.019 1.355-3.019 3.019s1.354 3.02 3.019 3.02h3.117V1.471H8.148zm4.587 15.019H8.148c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h4.588v8.98zM8.148 8.981c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h3.117V8.981H8.148zM8.172 24c-2.489 0-4.515-2.014-4.515-4.49s2.014-4.49 4.49-4.49h4.588v4.441c0 2.503-2.047 4.539-4.563 4.539zm-.024-7.51a3.023 3.023 0 0 0-3.019 3.019c0 1.665 1.365 3.019 3.044 3.019 1.705 0 3.093-1.376 3.093-3.068v-2.97H8.148zm7.704 0h-.098c-2.476 0-4.49-2.014-4.49-4.49s2.014-4.49 4.49-4.49h.098c2.476 0 4.49 2.014 4.49 4.49s-2.014 4.49-4.49 4.49zm-.097-7.509c-1.665 0-3.019 1.355-3.019 3.019s1.355 3.019 3.019 3.019h.098c1.665 0 3.019-1.355 3.019-3.019s-1.355-3.019-3.019-3.019h-.098z",
@@ -179,6 +178,7 @@ export default function AboutClient() {
     return () => {
       active = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Smooth scroll to bottom whenever messages or states update
@@ -208,6 +208,21 @@ export default function AboutClient() {
     { id: 14, text: "$14k", left: "60%", duration: 8.2, delay: 0.8, size: "w-16 h-16 text-[10px]" },
     { id: 15, text: "$35k", left: "42%", duration: 8.8, delay: 4.2, size: "w-20 h-20 text-[11px]" }
   ];
+
+  const techDescriptions: Record<string, string> = {
+    "Figma": "Grid-exact design curation. We design in Figma with zero border-radius, strict grids, and mathematical typography relationships before writing any code.",
+    "React": "Modular component orchestration. High-performance reactive states, clean props architectures, and fluid animations using Framer Motion.",
+    "Next.js": "Production-grade rendering. Utilizing Next.js App Router for server-rendered page assets, edge routing, and bulletproof meta tag indexing.",
+    "Tailwind CSS": "Structured system utilities. Restrained style configurations, zero ad-hoc decorators, keeping styling consistent and load weights minimal.",
+    "TypeScript": "Compile-time certainty. Type-safe layouts, strict prop definitions, and structural safety to guarantee 100% bug-free deployment.",
+    "Framer Motion": "Micro-interaction engine. Physics-based layout transitions, spring-driven dialog overlays, and premium visual loops that wow at first sight.",
+    "Stripe API": "Financial infrastructure. Secure billing interfaces, pricing model webhooks, and seamless checkout pipelines mapped cleanly.",
+    "Node.js": "Robust back-end execution. Scalable backend engines, programmatic workflows, and ultra-reliable server-side runtimes.",
+    "Supabase": "Rapid database scaling. Secure authentication protocols, instant postgrest mapping, and unified database backends.",
+    "PostgreSQL": "Relational storage systems. SQL data integrity, complex relational schemas, and fast index queries for client applications."
+  };
+
+  const [activeTech, setActiveTech] = useState<string>("Next.js");
 
   const convictions = [
     {
@@ -684,8 +699,9 @@ export default function AboutClient() {
             </div>
           ))}
         </div>
-      </section>      {/* 6. TECH STACK */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
+      </section>
+      {/* 6. TECH STACK */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-8 pb-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
@@ -696,21 +712,28 @@ export default function AboutClient() {
             </h2>
           </div>
           <span className="font-mono text-[10px] text-[#888888]">
-            PRODUCTION STANDARDS AND PROTOCOLS
+            PRODUCTION STANDARDS AND PROTOCOLS (HOVER OR CLICK)
           </span>
         </div>
 
         <div className="flex flex-wrap gap-3 max-w-4xl">
           {techStack.map((tech) => {
             const path = techIcons[tech];
+            const isActive = activeTech === tech;
             return (
-              <span
+              <button
                 key={tech}
-                className="font-mono text-xs border border-white/10 px-4 py-2 bg-[#111111] text-[#888888] hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300 select-none cursor-default inline-flex items-center space-x-2"
+                onClick={() => setActiveTech(tech)}
+                onMouseEnter={() => setActiveTech(tech)}
+                className={`font-mono text-xs border px-4 py-2 text-left transition-all duration-300 select-none inline-flex items-center space-x-2 cursor-pointer ${
+                  isActive
+                    ? "border-[#C8B89A] text-[#C8B89A] bg-[#C8B89A]/10 shadow-[0_0_15px_rgba(200,184,154,0.15)]"
+                    : "border-white/10 bg-[#111111] text-[#888888] hover:border-[#C8B89A] hover:text-[#C8B89A]"
+                }`}
               >
                 {path && (
                   <svg 
-                    className={`w-3.5 h-3.5 fill-current ${tech === 'React' ? 'animate-[spin_15s_linear_infinite]' : ''}`} 
+                    className={`w-3.5 h-3.5 fill-current ${tech === 'React' ? 'animate-[spin_15s_linear_infinite]' : ''} ${isActive ? 'text-[#C8B89A]' : 'text-current'}`} 
                     viewBox="0 0 24 24" 
                     xmlns="http://www.w3.org/2000/svg"
                   >
@@ -718,9 +741,34 @@ export default function AboutClient() {
                   </svg>
                 )}
                 <span>{tech}</span>
-              </span>
+              </button>
             );
           })}
+        </div>
+
+        {/* Interactive Diagnostic Detail Overlay Card */}
+        <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 relative overflow-hidden min-h-[140px] flex flex-col justify-center transition-all duration-500">
+          <div className="absolute top-0 left-0 w-[2px] h-full bg-[#C8B89A] shadow-[0_0_10px_#C8B89A]" />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeTech}
+              initial={{ opacity: 0, x: 8 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -8 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="space-y-3"
+            >
+              <div className="flex items-center space-x-2">
+                <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-pulse" />
+                <span className="font-mono text-[10px] font-bold text-[#C8B89A] tracking-[0.2em] uppercase">
+                  ACTIVE PROTOCOL // {activeTech}
+                </span>
+              </div>
+              <p className="font-grotesque text-sm sm:text-base text-[#F5F0EB] font-light leading-relaxed max-w-3xl">
+                {techDescriptions[activeTech]}
+              </p>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
     </div>

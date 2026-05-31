@@ -112,7 +112,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
               </div>
             </div>
 
-            {/* Launch CTA Widget */}
+             {/* Launch CTA Widget */}
             <div className="border border-white/10 bg-[#111111] p-8 space-y-6">
               <h4 className="font-serif italic text-lg text-[#F5F0EB]">Inspired by this Case?</h4>
               <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed">
@@ -122,7 +122,7 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
                 href="/contact"
                 className="w-full py-3 block text-center bg-[#C8B89A] text-[#0A0A0A] font-mono text-[9px] font-bold tracking-widest uppercase hover:bg-[#F5F0EB] transition-colors duration-300"
               >
-                COMMISSION WORK →
+                START A PROJECT →
               </Link>
             </div>
           </aside>
@@ -181,34 +181,11 @@ export default function ProjectDetailPage({ params }: ProjectDetailProps) {
               </div>
             )}
 
-            {/* Performance Results section */}
-            <div className="space-y-6 pt-8 border-t border-white/10">
-              <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-                03 / METRICS DEPLOYED
-              </span>
-              <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
-                Commercial Performance
-              </h3>
-              
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                {project.metrics.map((m, idx) => (
-                  <div key={idx} className="border border-white/10 p-6 bg-[#111111] space-y-2">
-                    <div className="font-serif italic text-2xl sm:text-3xl text-[#C8B89A]">
-                      {m.value}
-                    </div>
-                    <div className="font-mono text-[9px] tracking-widest uppercase text-[#888888]">
-                      {m.label}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
             {/* Image Gallery block */}
             {project.gallery && project.gallery.length > 0 && (
               <div className="space-y-6 pt-8 border-t border-white/10">
                 <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-                  04 / PORTFOLIO SHOTS
+                  03 / PORTFOLIO SHOTS
                 </span>
                 <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
                   Asset Showcase
