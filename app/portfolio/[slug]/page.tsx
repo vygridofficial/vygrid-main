@@ -193,30 +193,36 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
               </div>
             )}
 
-            {/* Performance Results section */}
-            {project.metrics && project.metrics.length > 0 && (
-              <div className="space-y-6 pt-8 border-t border-white/10">
-                <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-                  03 / METRICS DEPLOYED
-                </span>
-                <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
-                  Commercial Performance
-                </h3>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {project.metrics.map((m: any, idx: number) => (
-                    <div key={idx} className="border border-white/10 p-6 bg-[#111111] space-y-2">
-                      <div className="font-serif italic text-2xl sm:text-3xl text-[#C8B89A]">
-                        {m.value}
-                      </div>
-                      <div className="font-mono text-[9px] tracking-widest uppercase text-[#888888]">
-                        {m.label}
-                      </div>
-                    </div>
-                  ))}
-                </div>
+            {/* Live Website Link section */}
+            <div className="space-y-6 pt-8 border-t border-white/10">
+              <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
+                03 / LIVE PLATFORM
+              </span>
+              <h3 className="font-serif italic text-xl md:text-2xl text-[#F5F0EB]">
+                {project.category.includes('Brand') || project.category.includes('Logo') ? 'Brand Platform' : 'Launch Project'}
+              </h3>
+              
+              <div className="border border-white/10 p-8 bg-[#111111] space-y-4">
+                <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed max-w-xl">
+                  {project.category.includes('Brand') || project.category.includes('Logo')
+                    ? 'The complete brand assets, visual design identity, and custom assets are fully active in our official system.'
+                    : 'This custom digital architecture is fully live and operational. You can explore the curated interface, responsive grid deployments, and micro-animations on the live system.'}
+                </p>
+                <a
+                  href={project.websiteUrl || `https://www.${project.slug}.com`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center space-x-2 font-mono text-[10px] font-bold tracking-widest uppercase text-[#C8B89A] hover:text-[#F5F0EB] transition-colors group"
+                >
+                  <span>
+                    {project.category.includes('Brand') || project.category.includes('Logo')
+                      ? 'VIEW BRAND CONSOLE'
+                      : 'VISIT LIVE WEBSITE'}
+                  </span>
+                  <span className="group-hover:translate-x-1 transition-transform duration-300">&rarr;</span>
+                </a>
               </div>
-            )}
+            </div>
             {/* Image Gallery block */}
             {project.gallery && project.gallery.length > 0 && (
               <div className="space-y-6 pt-8 border-t border-white/10">

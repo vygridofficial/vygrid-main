@@ -15,6 +15,7 @@ export interface Project {
   gallery: string[];
   beforeImage?: string;
   afterImage?: string;
+  websiteUrl?: string;
 }
 
 export interface TeamMember {

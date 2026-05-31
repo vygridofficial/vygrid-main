@@ -231,8 +231,8 @@ export default function Footer() {
         </div>
 
         {/* Gigantic Branding Text */}
-        <div className="pt-10 pb-6 select-none overflow-visible text-center md:text-left">
-          <span className="font-jakarta text-[13vw] font-bold tracking-tighter text-[#F5F0EB]/95 hover:text-[#C8B89A] transition-all duration-700 leading-none block select-none cursor-default">
+        <div className="pt-10 pb-6 select-none overflow-visible text-left">
+          <span className="font-jakarta text-[18vw] md:text-[13vw] font-bold tracking-tighter text-[#F5F0EB]/95 hover:text-[#C8B89A] transition-all duration-700 leading-none block select-none cursor-default">
             Vygrid
           </span>
         </div>
