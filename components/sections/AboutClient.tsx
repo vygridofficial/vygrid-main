@@ -100,37 +100,148 @@ export default function AboutClient() {
         </div>
       </section>
 
-      {/* 2. IMAGE REVEAL GRID */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-stretch">
-        <div className="md:col-span-7 aspect-video md:aspect-[16/10] bg-[#111111] overflow-hidden border border-white/10 relative">
-          <ImageReveal className="w-full h-full">
-            <Image
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80"
-              alt="Vygrid Collaborative Studio Environment"
-              fill
-              className="object-cover grayscale brightness-90 transition-transform duration-700 hover:scale-105"
-              sizes="(max-w-1024px) 100vw, 800px"
-              priority
-            />
-          </ImageReveal>
-        </div>
-        <div className="md:col-span-5 border border-white/10 bg-[#111111]/30 p-8 flex flex-col justify-between relative min-h-[250px] select-none">
-          <div>
-            <span className="font-mono text-[9px] tracking-widest text-[#C8B89A] block uppercase mb-6">
-              STUDIO PHILOSOPHY
+      {/* 2. WHY WORK WITH US SECTION */}
+      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
+        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
+          <div className="space-y-2.5">
+            <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
+              02 / WHY WORK WITH US
             </span>
-            <p className="font-serif italic text-lg sm:text-xl text-[#F5F0EB]/80 leading-relaxed">
-              &ldquo;Obsession over mathematical structure is not a visual gimmick. It is the absolute prerequisite of high-converting luxury execution.&rdquo;
+            <h2 className="font-serif italic text-3xl md:text-5xl text-[#F5F0EB]">
+              Why work with us
+            </h2>
+            <p className="font-grotesque text-sm text-[#888888] font-light max-w-xl">
+              We help ambitious brands make their mark — with clarity and precision.
             </p>
           </div>
-          <div className="border-t border-white/10 pt-6 mt-8 space-y-1">
-            <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
-              STUDIO MATRIX
+        </div>
+
+        {/* 3-Panel Asymmetric Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          
+          {/* Left Panel: Orbiting team circles */}
+          <div className="lg:col-span-6 border border-white/10 bg-[#111111]/30 p-8 sm:p-12 flex flex-col justify-between items-center relative overflow-hidden min-h-[450px]">
+            <span className="absolute top-8 left-8 font-mono text-[9px] tracking-widest text-[#888888] uppercase">
+              STUDIO COHESION
             </span>
-            <span className="font-mono text-[9px] text-[#C8B89A] block tracking-wider">
-              EST. Q2 2022 &middot; 99+ SPEED SCORES
-            </span>
+
+            {/* Orbiting graphic container */}
+            <div className="relative w-full aspect-square max-w-[340px] flex items-center justify-center my-auto">
+              
+              {/* Outer Orbit Circle */}
+              <motion.div
+                animate={{ rotate: 360 }}
+                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
+              >
+                {/* Avatars on Outer Orbit */}
+                <div className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
+                </div>
+                <div className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
+                </div>
+                <div className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
+                </div>
+              </motion.div>
+
+              {/* Inner Orbit Circle */}
+              <motion.div
+                animate={{ rotate: -360 }}
+                transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
+              >
+                {/* Avatars on Inner Orbit */}
+                <div className="absolute -top-4 left-[50%] -translate-x-[50%] w-8. h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
+                </div>
+                <div className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
+                </div>
+                <div className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
+                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
+                </div>
+              </motion.div>
+
+              {/* Centered Typography Block */}
+              <div className="absolute text-center z-10 px-6 max-w-[200px]">
+                <h3 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight select-none">
+                  A strong team of experts
+                </h3>
+              </div>
+
+            </div>
           </div>
+
+          {/* Right Panels Wrapper: ~50% width stacks vertically */}
+          <div className="lg:col-span-6 flex flex-col gap-8 justify-between">
+            
+            {/* Top-Right Panel: Testimonial dialogue */}
+            <div className="border border-white/5 bg-[#E5E2DB] p-8 sm:p-10 flex flex-col justify-center relative min-h-[220px] select-none text-[#0A0A0A]">
+              <span className="absolute top-6 left-8 font-mono text-[9px] tracking-widest text-[#0A0A0A]/40 uppercase">
+                TESTIMONIAL DIALOGUE
+              </span>
+              
+              <div className="space-y-4 pt-4">
+                <div className="flex items-end space-x-3 max-w-md">
+                  <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
+                    <Image
+                      src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
+                      alt="Brandon Chase"
+                      fill
+                      className="object-cover grayscale"
+                    />
+                  </div>
+                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
+                    Hey!
+                  </div>
+                </div>
+
+                <div className="flex items-end space-x-3 pl-11 max-w-md">
+                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
+                    The website looks awesome
+                  </div>
+                </div>
+
+                <div className="flex items-end space-x-3 pl-11 max-w-md">
+                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
+                    Can we update the homepage banner?
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom-Right Panel: Pricing CTA */}
+            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden">
+              <div className="flex justify-between items-start gap-4">
+                <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] tracking-tight leading-tight max-w-[200px]">
+                  Transparent pricing model
+                </h3>
+                
+                <Link
+                  href="/pricing"
+                  className="px-3.5 py-1.5 border border-white/20 hover:border-[#C8B89A] hover:text-[#C8B89A] bg-[#111111]/80 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center space-x-1.5 flex-shrink-0"
+                >
+                  <span>View pricing</span>
+                  <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-ping" />
+                </Link>
+              </div>
+
+              {/* 3D Glass Chrome Image Backdrop Overlay */}
+              <div className="absolute right-0 bottom-0 w-[240px] h-[140px] opacity-70 group hover:scale-103 transition-transform duration-500 pointer-events-none select-none">
+                <Image
+                  src="/abstract_3d_glass_chrome.png"
+                  alt="Abstract 3D Glass Refraction sculpture"
+                  fill
+                  className="object-contain object-right-bottom"
+                />
+              </div>
+
+            </div>
+
+          </div>
+
         </div>
       </section>
 
@@ -139,7 +250,7 @@ export default function AboutClient() {
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              02 / CORE PHILOSOPHY
+              03 / CORE PHILOSOPHY
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               What We Hold True
@@ -172,7 +283,7 @@ export default function AboutClient() {
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              03 / EXECUTION PATH
+              04 / EXECUTION PATH
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Methodology
@@ -207,7 +318,7 @@ export default function AboutClient() {
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              04 / DIRECTORS
+              05 / DIRECTORS
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Meet The Founders
@@ -273,165 +384,12 @@ export default function AboutClient() {
             </div>
           ))}
         </div>
-      </section>
-
-      {/* 5.5 WHY WORK WITH US SECTION */}
-      <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
-          <div className="space-y-2.5">
-            <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
-              05 / CORE VALUES
-            </span>
-            <h2 className="font-serif italic text-3xl md:text-5xl text-[#F5F0EB]">
-              Why work with us
-            </h2>
-            <p className="font-grotesque text-sm text-[#888888] font-light max-w-xl">
-              We help ambitious brands make their mark — with clarity and precision.
-            </p>
-          </div>
-        </div>
-
-        {/* 3-Panel Asymmetric Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          
-          {/* Left Panel: ~50% width full height, dark background, orbiting circles */}
-          <div className="lg:col-span-6 border border-white/10 bg-[#111111]/30 p-8 sm:p-12 flex flex-col justify-between items-center relative overflow-hidden min-h-[450px]">
-            <span className="absolute top-8 left-8 font-mono text-[9px] tracking-widest text-[#888888] uppercase">
-              STUDIO COHESION
-            </span>
-
-            {/* Orbiting graphic container */}
-            <div className="relative w-full aspect-square max-w-[340px] flex items-center justify-center my-auto">
-              
-              {/* Outer Orbit Circle */}
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
-              >
-                {/* Avatars on Outer Orbit */}
-                <div className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
-                </div>
-              </motion.div>
-
-              {/* Inner Orbit Circle */}
-              <motion.div
-                animate={{ rotate: -360 }}
-                transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
-              >
-                {/* Avatars on Inner Orbit */}
-                <div className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=800&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
-                </div>
-                <div className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 rounded-full overflow-hidden border border-white/10 bg-[#1A1A1A]">
-                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
-                </div>
-              </motion.div>
-
-              {/* Centered Typography Block */}
-              <div className="absolute text-center z-10 px-6 max-w-[200px]">
-                <h3 className="font-serif italic text-2xl text-[#F5F0EB] tracking-tight leading-tight select-none">
-                  A strong team of experts
-                </h3>
-              </div>
-
-            </div>
-          </div>
-
-          {/* Right Panels Wrapper: ~50% width stacks vertically */}
-          <div className="lg:col-span-6 flex flex-col gap-8 justify-between">
-            
-            {/* Top-Right Panel: Light background, Chat UI testimonials */}
-            <div className="border border-white/5 bg-[#E5E2DB] p-8 sm:p-10 flex flex-col justify-center relative min-h-[220px] select-none text-[#0A0A0A]">
-              <span className="absolute top-6 left-8 font-mono text-[9px] tracking-widest text-[#0A0A0A]/40 uppercase">
-                TESTIMONIAL DIALOGUE
-              </span>
-              
-              <div className="space-y-4 pt-4">
-                {/* Bubble 1: Sender Avatar + Bubble */}
-                <div className="flex items-end space-x-3 max-w-md">
-                  <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white/20 border border-black/10 flex-shrink-0">
-                    <Image
-                      src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80"
-                      alt="Brandon Chase"
-                      fill
-                      className="object-cover grayscale"
-                    />
-                  </div>
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Hey!
-                  </div>
-                </div>
-
-                {/* Bubble 2: Text only bubble */}
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    The website looks awesome
-                  </div>
-                </div>
-
-                {/* Bubble 3: Text only bubble */}
-                <div className="flex items-end space-x-3 pl-11 max-w-md">
-                  <div className="bg-white px-4 py-2.5 rounded-[18px] rounded-bl-none text-xs sm:text-sm font-grotesque font-light shadow-sm text-[#0A0A0A]">
-                    Can we update the homepage banner?
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Bottom-Right Panel: Dark background, Pricing Model CTA & 3D render */}
-            <div className="border border-white/10 bg-[#111111]/30 p-8 sm:p-10 flex flex-col justify-between relative min-h-[220px] select-none overflow-hidden">
-              
-              {/* Header inside Panel */}
-              <div className="flex justify-between items-start gap-4">
-                <h3 className="font-serif italic text-2xl sm:text-3xl text-[#F5F0EB] tracking-tight leading-tight max-w-[200px]">
-                  Transparent pricing model
-                </h3>
-                
-                {/* Pill Button Top-Right */}
-                <Link
-                  href="/pricing"
-                  className="px-3.5 py-1.5 border border-white/20 hover:border-[#C8B89A] hover:text-[#C8B89A] bg-[#111111]/80 rounded-full font-mono text-[9px] font-bold uppercase tracking-widest transition-all duration-300 flex items-center space-x-1.5 flex-shrink-0"
-                >
-                  <span>View pricing</span>
-                  <span className="w-1.5 h-1.5 bg-[#C8B89A] rounded-full animate-ping" />
-                </Link>
-              </div>
-
-              {/* 3D Glass Chrome Image Backdrop Overlay */}
-              <div className="absolute right-0 bottom-0 w-[240px] h-[140px] opacity-70 group hover:scale-103 transition-transform duration-500 pointer-events-none select-none">
-                <Image
-                  src="/abstract_3d_glass_chrome.png"
-                  alt="Abstract 3D Glass Refraction sculpture"
-                  fill
-                  className="object-contain object-right-bottom"
-                />
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-      {/* 6. TECH STACK */}
+      </section>      {/* 6. TECH STACK */}
       <section className="max-w-7xl mx-auto px-6 md:px-12 space-y-12">
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              05 / INFRASTRUCTURE
+              06 / INFRASTRUCTURE
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Development Stack

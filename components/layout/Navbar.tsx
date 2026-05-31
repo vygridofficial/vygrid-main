@@ -7,12 +7,10 @@ import { usePathname } from 'next/navigation';
 import { Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
-import AboutModal from '@/components/layout/AboutModal';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [aboutModalOpen, setAboutModalOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -30,7 +28,7 @@ export default function Navbar() {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '#', triggerModal: true },
+    { name: 'About', href: '/about' },
     { name: 'Services', href: '/services' },
     { name: 'Work', href: '/portfolio' },
     { name: 'Blog', href: '/blog' },
@@ -63,21 +61,9 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Center: nav links in small caps IBM Plex Mono with hover underlines drawing left to right */}
+          {/* Center: nav links */}
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8 z-10">
             {navLinks.map((link) => {
-              if (link.triggerModal) {
-                return (
-                  <button
-                    key={link.name}
-                    onClick={() => setAboutModalOpen(true)}
-                    className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300 link-draw py-1"
-                  >
-                    {link.name}
-                  </button>
-                );
-              }
-
               const isActive = pathname === link.href;
 
               return (
@@ -97,7 +83,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right: Empty space placeholder for symmetric layout balance */}
+          {/* Right: Empty balance space */}
           <div className="hidden md:flex items-center space-x-6 z-10 w-[180px] justify-end" />
 
           {/* Mobile Hamburg Toggle Button */}
@@ -111,9 +97,6 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* About Modal panel slide-in */}
-      <AboutModal isOpen={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
-
       {/* Mobile Drawer Menu */}
       <AnimatePresence>
         {mobileMenuOpen && (
@@ -125,33 +108,16 @@ export default function Navbar() {
             className="fixed inset-0 z-30 bg-[#0A0A0A] flex flex-col p-8 pt-28 text-[#F5F0EB]"
           >
             <nav className="flex flex-col space-y-6 flex-grow items-center justify-center text-center">
-              {navLinks.map((link) => {
-                if (link.triggerModal) {
-                  return (
-                    <button
-                      key={link.name}
-                      onClick={() => {
-                        setMobileMenuOpen(false);
-                        setAboutModalOpen(true);
-                      }}
-                      className="text-center font-mono text-xl font-bold uppercase tracking-widest text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
-                    >
-                      {link.name}
-                    </button>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={link.name}
-                    href={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="text-center font-mono text-xl font-bold uppercase tracking-widest text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
-                  >
-                    {link.name}
-                  </Link>
-                );
-              })}
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="text-center font-mono text-xl font-bold uppercase tracking-widest text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300"
+                >
+                  {link.name}
+                </Link>
+              ))}
             </nav>
 
             <div className="mt-auto space-y-6 border-t border-white/5 pt-6 text-center">
