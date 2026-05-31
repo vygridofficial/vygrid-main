@@ -86,13 +86,6 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase">
               04 / TESTIMONIALS
             </span>
-            <span className="text-white/10">&middot;</span>
-            <a 
-              href="/submit-review"
-              className="font-mono text-[9px] tracking-wider text-[#888888] hover:text-[#C8B89A] uppercase transition-colors border-b border-dashed border-[#888888]/20 hover:border-[#C8B89A]/50 pb-0.5"
-            >
-              Share Your Feedback &rarr;
-            </a>
           </div>
           <div className="font-mono text-[10px] tracking-widest text-[#888888]">
             {padIndex} / {totalCount}
@@ -187,6 +180,16 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+        </div>
+
+        {/* Share Feedback Button below testimonials */}
+        <div className="pt-10 flex justify-center">
+          <a
+            href="/submit-review"
+            className="px-10 py-4 border border-white/10 hover:border-[#C8B89A] hover:text-[#C8B89A] text-[#F5F0EB] font-mono text-[10px] font-bold tracking-widest uppercase transition-all duration-300 text-center w-full sm:w-auto"
+          >
+            Share Your Feedback &rarr;
+          </a>
         </div>
 
       </div>

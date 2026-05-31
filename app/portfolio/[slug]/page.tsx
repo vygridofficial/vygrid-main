@@ -71,7 +71,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
             <span className="font-mono text-[9px] text-[#C8B89A] uppercase tracking-[0.2em] block">
               {project.category.toUpperCase()}
             </span>
-            <h1 className="font-serif italic text-4xl sm:text-5xl md:text-7xl tracking-tight text-[#F5F0EB] max-w-4xl font-light">
+            <h1 className="font-serif italic text-3xl sm:text-5xl md:text-7xl tracking-tight text-[#F5F0EB] max-w-4xl font-light">
               <TextReveal text={project.title} />
             </h1>
             <p className="font-grotesque text-xs sm:text-sm md:text-base text-[#888888] font-light max-w-2xl leading-relaxed">

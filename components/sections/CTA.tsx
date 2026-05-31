@@ -274,7 +274,7 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
         </div>
 
         {/* Massive displays across multiple lines */}
-        <div className="font-serif font-light text-4xl sm:text-7xl lg:text-9xl leading-none text-left tracking-tighter max-w-5xl space-y-2">
+        <div className="font-serif font-light text-3xl sm:text-7xl lg:text-9xl leading-none text-left tracking-tighter max-w-5xl space-y-2">
           {line1 && <div>{line1}</div>}
           {line2 && <div className="italic text-[#888888]">{line2}</div>}
           {line3 && <div>{line3}</div>}

@@ -78,7 +78,7 @@ export default function ServicesClient({ webServices, brandServices }: ServicesC
           <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#C8B89A] block uppercase">
             02 / CORE CAPABILITIES
           </span>
-          <h1 className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-[#F5F0EB] tracking-tight leading-[1.05] font-light">
+          <h1 className="font-serif italic text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-[#F5F0EB] tracking-tight leading-[1.05] font-light">
             <TextReveal text="Bespoke Briefings." />
           </h1>
           <motion.p

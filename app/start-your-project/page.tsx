@@ -99,7 +99,7 @@ function StartProjectPageContent() {
           <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#C8B89A] block uppercase">
             06 / PROJECT INTAKE FORM
           </span>
-          <h1 className="font-serif italic text-4xl sm:text-6xl tracking-tight text-[#F5F0EB] leading-none font-light">
+          <h1 className="font-serif italic text-3xl sm:text-6xl tracking-tight text-[#F5F0EB] leading-none font-light">
             <TextReveal text="Let's Build Something Remarkable." />
           </h1>
           <p className="font-grotesque text-sm sm:text-base text-[#888888] font-light leading-relaxed max-w-xl">

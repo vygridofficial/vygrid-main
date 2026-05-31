@@ -73,7 +73,7 @@ export default function Hero({
             <TextReveal
               as="h1"
               text={titleLine1}
-              className="font-serif font-light text-4xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#F5F0EB]"
+              className="font-serif font-light text-3xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#F5F0EB]"
             />
           )}
           {titleLine2 && (
@@ -83,7 +83,7 @@ export default function Hero({
                 whileInView={{ y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1], delay: 0.25 }}
-                className="font-serif font-light italic text-4xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#C8B89A] block"
+                className="font-serif font-light italic text-3xl sm:text-7xl lg:text-8xl tracking-tight leading-none text-[#C8B89A] block"
               >
                 {titleLine2}
               </motion.h1>

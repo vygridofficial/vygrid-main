@@ -212,7 +212,7 @@ export default function PricingManagementPage() {
       ) : pricingItems.length === 0 ? (
         <div className="py-16 text-center border border-dashed border-white/10 bg-[#111111]/20">
           <p className="font-mono text-[10px] text-[#444444] uppercase tracking-widest">
-            No pricing records registered. Click "New Service Rate" to establish entries.
+            No pricing records registered. Click &quot;New Service Rate&quot; to establish entries.
           </p>
         </div>
       ) : (

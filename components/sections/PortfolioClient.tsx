@@ -62,7 +62,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
           </Link>
           <Badge variant="accent">03 / CASE ARCHIVES</Badge>
           
-          <h1 className="font-serif font-light text-5xl sm:text-7xl tracking-tight text-[#F5F0EB]">
+          <h1 className="font-serif font-light text-3xl sm:text-7xl tracking-tight text-[#F5F0EB]">
             Selected Work
           </h1>
           

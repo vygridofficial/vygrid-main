@@ -78,7 +78,7 @@ export default function WebDevelopmentClient() {
           <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#888888] block uppercase">
             01 / SERVICES / WEB DEVELOPMENT
           </span>
-          <h1 className="font-serif italic text-4xl sm:text-5xl md:text-7xl lg:text-8xl text-[#F5F0EB] tracking-tight leading-[1.05] font-light">
+          <h1 className="font-serif italic text-3xl sm:text-5xl md:text-7xl lg:text-8xl text-[#F5F0EB] tracking-tight leading-[1.05] font-light">
             <TextReveal text="Custom Web Development." />
           </h1>
           <motion.p

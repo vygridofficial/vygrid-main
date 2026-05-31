@@ -57,7 +57,7 @@ export default function PortfolioGrid({ projects }: PortfolioGridProps) {
           <span className="font-mono text-[10px] tracking-[0.2em] text-[#C8B89A] uppercase block">
             03 / PORTFOLIO
           </span>
-          <h2 className="font-serif italic font-light text-4xl sm:text-6xl text-[#F5F0EB]">
+          <h2 className="font-serif italic font-light text-3xl sm:text-6xl text-[#F5F0EB]">
             Selected Cases
           </h2>
         </div>

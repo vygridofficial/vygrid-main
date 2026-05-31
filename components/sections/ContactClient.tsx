@@ -77,7 +77,7 @@ export default function ContactClient({ settings, companyName }: ContactClientPr
               <span className="font-mono text-[10px] md:text-xs tracking-[0.2em] text-[#888888] block uppercase">
                 01 / INQUIRIES
               </span>
-              <h1 className="font-serif italic text-4xl sm:text-5xl md:text-6xl tracking-tight text-[#F5F0EB] leading-none font-light">
+              <h1 className="font-serif italic text-3xl sm:text-5xl md:text-6xl tracking-tight text-[#F5F0EB] leading-none font-light">
                 <TextReveal text="Let's Connect." />
               </h1>
               <p className="font-grotesque text-sm text-[#888888] font-light leading-relaxed max-w-md">
