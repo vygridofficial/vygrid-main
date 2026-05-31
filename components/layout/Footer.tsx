@@ -41,7 +41,7 @@ export default function Footer() {
         })
       );
     };
-    
+
     updateTime();
     const interval = setInterval(updateTime, 1000);
     return () => clearInterval(interval);
@@ -93,20 +93,20 @@ export default function Footer() {
   return (
     <footer className="w-full bg-[#0A0A0A] text-[#F5F0EB] pt-20 pb-8 border-t border-white/5 font-grotesque select-none">
       <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-16">
-        
+
         {/* Main Grid */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 items-start">
-          
+
           {/* Left Column: Studio branding & contact details */}
           <div className="md:col-span-6 space-y-8">
             <div className="space-y-4 text-left">
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <Image
                   src={logoUrl || "/logodes.png"}
                   alt="VYGRID Logo"
-                  width={150}
-                  height={36}
-                  className="h-9 w-auto object-contain brightness-100"
+                  width={280}
+                  height={68}
+                  className="h-14 md:h-16 w-auto object-contain brightness-100"
                 />
                 <span className="font-mono text-sm tracking-[0.2em] font-bold uppercase">{companyName}</span>
               </div>
@@ -129,7 +129,7 @@ export default function Footer() {
 
           {/* Right Column: directory, clock, and socials */}
           <div className="md:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-8 md:gap-4 text-left md:text-right">
-            
+
             {/* Studio Navigation directory */}
             <div className="space-y-3 flex flex-col items-start sm:items-end">
               <span className="font-mono text-[9px] tracking-[0.2em] text-[#444444] block">
@@ -142,11 +142,10 @@ export default function Footer() {
                     <Link
                       key={link.name}
                       href={link.href}
-                      className={`${
-                        isActive
+                      className={`${isActive
                           ? 'text-[#C8B89A]'
                           : 'text-[#F5F0EB] hover:text-[#C8B89A]'
-                      } transition-colors duration-300`}
+                        } transition-colors duration-300`}
                     >
                       {link.name}
                     </Link>
@@ -219,7 +218,7 @@ export default function Footer() {
 
         {/* Footer Bottom Block */}
         <div className="pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center space-y-4 sm:space-y-0 text-left">
-          
+
           {/* Copyright in tiny mono */}
           <div className="font-mono text-[9px] text-[#444444] tracking-wider uppercase">
             &copy; {currentYear} {companyName} &middot; ALL RIGHTS RESERVED.
@@ -232,6 +231,13 @@ export default function Footer() {
           >
             Back to top &uarr;
           </button>
+        </div>
+
+        {/* Gigantic Branding Text */}
+        <div className="pt-10 pb-6 select-none overflow-visible text-center md:text-left">
+          <span className="font-syne text-[13vw] font-bold tracking-tighter text-[#F5F0EB]/95 hover:text-[#C8B89A] transition-all duration-700 leading-none block select-none cursor-default">
+            Vygrid®
+          </span>
         </div>
 
       </div>

@@ -83,7 +83,6 @@ export default function Navbar() {
     return null;
   }
 
-
   return (
     <>
       <header
@@ -110,22 +109,27 @@ export default function Navbar() {
             </Link>
           </div>
 
-          {/* Center: nav links in small caps IBM Plex Mono with hover underlines drawing left to right */}
+          {/* Center: nav links */}
           <nav className="hidden md:flex absolute left-1/2 -translate-x-1/2 items-center space-x-8 z-10">
             {navLinks.map((link) => {
+              const isActive = pathname === link.href;
+
               if (link.triggerModal) {
                 return (
                   <button
                     key={link.name}
                     onClick={() => setAboutModalOpen(true)}
-                    className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-[#888888] hover:text-[#F5F0EB] transition-colors duration-300 link-draw py-1"
+                    className={cn(
+                      "font-mono text-[11px] font-bold uppercase tracking-[0.15em] transition-colors duration-300 link-draw py-1",
+                      isActive
+                        ? "text-[#F5F0EB]"
+                        : "text-[#888888] hover:text-[#F5F0EB]"
+                    )}
                   >
                     {link.name}
                   </button>
                 );
               }
-
-              const isActive = pathname === link.href;
 
               return (
                 <Link
@@ -144,7 +148,7 @@ export default function Navbar() {
             })}
           </nav>
 
-          {/* Right: Empty space placeholder for symmetric layout balance */}
+          {/* Right: Empty balance space */}
           <div className="hidden md:flex items-center space-x-6 z-10 w-[180px] justify-end" />
 
           {/* Mobile Hamburg Toggle Button */}
@@ -157,9 +161,6 @@ export default function Navbar() {
           </button>
         </div>
       </header>
-
-      {/* About Modal panel slide-in */}
-      <AboutModal isOpen={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
 
       {/* Mobile Drawer Menu */}
       <AnimatePresence>
@@ -187,7 +188,6 @@ export default function Navbar() {
                     </button>
                   );
                 }
-
                 return (
                   <Link
                     key={link.name}
@@ -209,6 +209,9 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* About Modal */}
+      <AboutModal isOpen={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
     </>
   );
 }
