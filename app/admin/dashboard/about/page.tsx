@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { updateAboutPageSettings, saveTeamMember, deleteTeamMember, fetchCMSData, uploadMedia } from '@/app/actions/cms';
 import { Plus, Edit2, Trash2, X, Check } from 'lucide-react';
+import { compressImage } from '@/lib/image';
 
 export default function AboutPageManagement() {
   const [loading, setLoading] = useState(true);
@@ -39,27 +40,17 @@ export default function AboutPageManagement() {
 
     setUploadingImage(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64 = reader.result as string;
-          const res = await uploadMedia(file.name, base64);
-          if (res.success && res.url) {
-            setMemberImage(res.url);
-          } else {
-            alert(res.error || 'Failed to upload photo.');
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingImage(false);
-        }
-      };
-      reader.readAsDataURL(file);
+      const base64 = await compressImage(file);
+      const res = await uploadMedia(file.name, base64);
+      if (res.success && res.url) {
+        setMemberImage(res.url);
+      } else {
+        alert(res.error || 'Failed to upload photo.');
+      }
     } catch (err: any) {
       console.error(err);
       alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingImage(false);
     }
   };

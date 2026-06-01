@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCMSData, saveTestimonial, deleteTestimonial, uploadMedia } from '@/app/actions/cms';
 import { Plus, Trash2, X, Star, Check, Eye, EyeOff } from 'lucide-react';
+import { compressImage } from '@/lib/image';
 
 export default function TestimonialsManagementPage() {
   const [loading, setLoading] = useState(true);
@@ -52,27 +53,17 @@ export default function TestimonialsManagementPage() {
 
     setUploadingAvatar(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64 = reader.result as string;
-          const res = await uploadMedia(file.name, base64);
-          if (res.success && res.url) {
-            setAvatar(res.url);
-          } else {
-            alert(res.error || 'Failed to upload photo.');
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingAvatar(false);
-        }
-      };
-      reader.readAsDataURL(file);
+      const base64 = await compressImage(file);
+      const res = await uploadMedia(file.name, base64);
+      if (res.success && res.url) {
+        setAvatar(res.url);
+      } else {
+        alert(res.error || 'Failed to upload photo.');
+      }
     } catch (err: any) {
       console.error(err);
       alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingAvatar(false);
     }
   };

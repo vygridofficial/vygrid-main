@@ -4,6 +4,7 @@ import React, { useEffect, useState, Suspense } from 'react';
 import { saveProject, deleteProject, updateProjectsOrder, fetchCMSData, uploadMedia } from '@/app/actions/cms';
 import { Plus, Edit2, Trash2, ArrowUp, ArrowDown, X, Tag } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { compressImage } from '@/lib/image';
 
 function PortfolioManagerContent() {
   const searchParams = useSearchParams();
@@ -149,26 +150,17 @@ function PortfolioManagerContent() {
     if (!file) return;
     setUploadingThumbnail(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
-          if (res.success && res.url) {
-            setThumbnail(res.url);
-          } else {
-            alert('Upload failed: ' + res.error);
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingThumbnail(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
+      if (res.success && res.url) {
+        setThumbnail(res.url);
+      } else {
+        alert('Upload failed: ' + res.error);
+      }
+    } catch (err: any) {
       console.error(err);
+      alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingThumbnail(false);
     }
   };
@@ -178,26 +170,17 @@ function PortfolioManagerContent() {
     if (!file) return;
     setUploadingShowcase(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
-          if (res.success && res.url) {
-            setProjectImage(res.url);
-          } else {
-            alert('Upload failed: ' + res.error);
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingShowcase(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
+      if (res.success && res.url) {
+        setProjectImage(res.url);
+      } else {
+        alert('Upload failed: ' + res.error);
+      }
+    } catch (err: any) {
       console.error(err);
+      alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingShowcase(false);
     }
   };
@@ -207,26 +190,17 @@ function PortfolioManagerContent() {
     if (!file) return;
     setUploadingGallery(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
-          if (res.success && res.url) {
-            setGallery([...gallery, res.url]);
-          } else {
-            alert('Upload failed: ' + res.error);
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingGallery(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
+      if (res.success && res.url) {
+        setGallery([...gallery, res.url]);
+      } else {
+        alert('Upload failed: ' + res.error);
+      }
+    } catch (err: any) {
       console.error(err);
+      alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingGallery(false);
     }
   };

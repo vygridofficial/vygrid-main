@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { submitClientReview, uploadMedia } from '@/app/actions/cms';
 import { Star, ArrowLeft, CheckCircle2, X } from 'lucide-react';
+import { compressImage } from '@/lib/image';
 
 export default function SubmitReviewPage() {
   const [name, setName] = useState('');
@@ -26,27 +27,17 @@ export default function SubmitReviewPage() {
     setError('');
 
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64 = reader.result as string;
-          const res = await uploadMedia(file.name, base64);
-          if (res.success && res.url) {
-            setAvatar(res.url);
-          } else {
-            setError(res.error || 'Failed to upload photo.');
-          }
-        } catch (err: any) {
-          console.error(err);
-          setError('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploading(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64 = await compressImage(file);
+      const res = await uploadMedia(file.name, base64);
+      if (res.success && res.url) {
+        setAvatar(res.url);
+      } else {
+        setError(res.error || 'Failed to upload photo.');
+      }
+    } catch (err: any) {
       console.error(err);
-      setError('An error occurred during file upload.');
+      setError('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploading(false);
     }
   };

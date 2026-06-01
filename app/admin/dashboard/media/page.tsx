@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { uploadMedia } from '@/app/actions/cms';
 import { Upload, Copy, Check, Image as ImageIcon } from 'lucide-react';
+import { compressImage } from '@/lib/image';
 
 export default function MediaLibraryPage() {
   const [uploading, setUploading] = useState(false);
@@ -48,30 +49,21 @@ export default function MediaLibraryPage() {
     setErrorMsg('');
 
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
 
-          if (res.success && res.url) {
-            setSuccessMsg(`File uploaded successfully: ${res.url}`);
-            const newList = [res.url, ...uploadedAssets];
-            setUploadedAssets(newList);
-            localStorage.setItem('vygrid_uploaded_media', JSON.stringify(newList));
-          } else {
-            setErrorMsg(res.error || 'Failed to upload image.');
-          }
-        } catch (err: any) {
-          console.error(err);
-          setErrorMsg('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploading(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
-      setErrorMsg('An unexpected file-reading error occurred.');
+      if (res.success && res.url) {
+        setSuccessMsg(`File uploaded successfully: ${res.url}`);
+        const newList = [res.url, ...uploadedAssets];
+        setUploadedAssets(newList);
+        localStorage.setItem('vygrid_uploaded_media', JSON.stringify(newList));
+      } else {
+        setErrorMsg(res.error || 'Failed to upload image.');
+      }
+    } catch (err: any) {
+      console.error(err);
+      setErrorMsg('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploading(false);
     }
   };

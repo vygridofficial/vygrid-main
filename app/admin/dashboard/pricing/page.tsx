@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchCMSData, saveServicePricing, deleteServicePricing, updateServicePricingOrder, uploadMedia, migrateServicePricingCurrency, savePricingPageSettings } from '@/app/actions/cms';
 import { Plus, Edit2, Trash2, ArrowUp, ArrowDown, X, DollarSign, Image as ImageIcon } from 'lucide-react';
+import { compressImage } from '@/lib/image';
 
 export default function PricingManagementPage() {
   const [loading, setLoading] = useState(true);
@@ -119,26 +120,17 @@ export default function PricingManagementPage() {
     if (!file) return;
     setUploading(true);
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
-          if (res.success && res.url) {
-            setImageUrl(res.url);
-          } else {
-            alert('Upload failed: ' + res.error);
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploading(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
+      if (res.success && res.url) {
+        setImageUrl(res.url);
+      } else {
+        alert('Upload failed: ' + res.error);
+      }
+    } catch (err: any) {
       console.error(err);
+      alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploading(false);
     }
   };

@@ -22,7 +22,7 @@ export async function loginAdmin(formData: any) {
       secure: process.env.NODE_ENV === "production",
       maxAge: 60 * 60 * 24 * 7, // 1 week
       path: "/",
-      sameSite: "strict"
+      sameSite: "lax"
     });
     return { success: true };
   }

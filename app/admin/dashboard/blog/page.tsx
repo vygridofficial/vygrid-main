@@ -4,6 +4,7 @@ import React, { useEffect, useState, useRef, Suspense } from 'react';
 import { saveBlogPost, deleteBlogPost, uploadMedia, fetchCMSData } from '@/app/actions/cms';
 import { Plus, Edit2, Trash2, X, Eye, FileText, Image as ImageIcon, Link as LinkIcon, Bold, Italic, Heading3, Quote, List } from 'lucide-react';
 import { useSearchParams, useRouter } from 'next/navigation';
+import { compressImage } from '@/lib/image';
 
 function BlogManagerContent() {
   const searchParams = useSearchParams();
@@ -117,28 +118,19 @@ function BlogManagerContent() {
     setUploadingImage(true);
 
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        try {
-          const base64String = reader.result as string;
-          const res = await uploadMedia(file.name, base64String);
-          
-          if (res.success && res.url) {
-            // Insert image markdown at current cursor position
-            insertFormatting(`![${file.name}](${res.url})`, '');
-          } else {
-            alert('Upload failed: ' + res.error);
-          }
-        } catch (err: any) {
-          console.error(err);
-          alert('An error occurred during file upload: ' + (err.message || err));
-        } finally {
-          setUploadingImage(false);
-        }
-      };
-      reader.readAsDataURL(file);
-    } catch (err) {
+      const base64String = await compressImage(file);
+      const res = await uploadMedia(file.name, base64String);
+      
+      if (res.success && res.url) {
+        // Insert image markdown at current cursor position
+        insertFormatting(`![${file.name}](${res.url})`, '');
+      } else {
+        alert('Upload failed: ' + res.error);
+      }
+    } catch (err: any) {
       console.error(err);
+      alert('An error occurred during file upload: ' + (err.message || err));
+    } finally {
       setUploadingImage(false);
     }
   };
