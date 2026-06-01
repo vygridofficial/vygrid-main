@@ -349,21 +349,21 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                   transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                   className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover" />
                 </motion.div>
                 <motion.div 
                   animate={{ rotate: -360 }}
                   transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                   className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover" />
                 </motion.div>
                 <motion.div 
                   animate={{ rotate: -360 }}
                   transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
                   className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover" />
                 </motion.div>
               </motion.div>
 
@@ -379,21 +379,21 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                   transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
                   className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80" alt="Nikhil Mehta" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80" alt="Nikhil Mehta" fill className="object-cover" />
                 </motion.div>
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
                   className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover" />
                 </motion.div>
                 <motion.div 
                   animate={{ rotate: 360 }}
                   transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
                   className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
                 >
-                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover grayscale" />
+                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover" />
                 </motion.div>
               </motion.div>
 
@@ -462,7 +462,7 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                           src={msg.avatar}
                           alt={msg.name}
                           fill
-                          className="object-cover grayscale"
+                          className="object-cover"
                         />
                       </div>
                       
@@ -498,7 +498,7 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                         }
                         alt="Typing Member"
                         fill
-                        className="object-cover grayscale"
+                        className="object-cover"
                       />
                     </div>
                     
@@ -673,7 +673,7 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                     src={member.image}
                     alt={member.name}
                     fill
-                    className="object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0 group-hover:brightness-95"
+                    className="object-cover transition-all duration-700 group-hover:scale-105 group-hover:brightness-95"
                     sizes="(max-w-768px) 100vw, 250px"
                   />
                 </div>

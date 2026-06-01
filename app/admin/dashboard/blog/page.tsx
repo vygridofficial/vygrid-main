@@ -219,7 +219,7 @@ function BlogManagerContent() {
                   <img 
                     src={post.thumbnail} 
                     alt={post.title} 
-                    className="w-full h-full object-cover grayscale" 
+                    className="w-full h-full object-cover" 
                   />
                 </div>
                 <div className="space-y-1">
@@ -428,7 +428,7 @@ function BlogManagerContent() {
                             // Extract url
                             const match = para.match(/!\[.*?\]\((.*?)\)/);
                             const url = match ? match[1] : '';
-                            return url ? <img key={i} src={url} alt="Uploaded Image" className="max-w-full h-auto border border-white/10 grayscale max-h-56 object-cover my-4" /> : null;
+                            return url ? <img key={i} src={url} alt="Uploaded Image" className="max-w-full h-auto border border-white/10 max-h-56 object-cover my-4" /> : null;
                           }
                           return <p key={i}>{para}</p>;
                         })

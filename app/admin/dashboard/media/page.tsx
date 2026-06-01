@@ -139,7 +139,7 @@ export default function MediaLibraryPage() {
                 className="border border-white/10 p-3 bg-[#111111]/40 flex flex-col justify-between space-y-3 relative group"
               >
                 <div className="relative aspect-video w-full bg-[#0A0A0A] border border-white/5 overflow-hidden">
-                  <img src={url} alt="Uploaded file" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                  <img src={url} alt="Uploaded file" className="w-full h-full object-cover transition-all duration-300" />
                 </div>
                 <div className="flex justify-between items-center min-w-0">
                   <span className="font-mono text-[8px] text-[#888888] truncate max-w-[70%]">{url}</span>
@@ -170,7 +170,7 @@ export default function MediaLibraryPage() {
               className="border border-white/10 p-3 bg-[#111111]/40 flex flex-col justify-between space-y-3 relative group"
             >
               <div className="relative aspect-video w-full bg-[#0A0A0A] border border-white/5 overflow-hidden">
-                <img src={preset.url} alt={preset.name} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-300" />
+                <img src={preset.url} alt={preset.name} className="w-full h-full object-cover transition-all duration-300" />
               </div>
               <div className="space-y-1 min-w-0">
                 <h4 className="font-mono text-[9px] font-bold text-[#F5F0EB] truncate uppercase">{preset.name}</h4>

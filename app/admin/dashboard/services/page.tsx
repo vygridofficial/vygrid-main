@@ -233,7 +233,7 @@ export default function ServicesManagementPage() {
                   <div className="flex items-center space-x-3">
                     <div className="p-2 w-11 h-11 bg-[#0A0A0A] border border-white/5 flex items-center justify-center flex-shrink-0 overflow-hidden">
                       {service.imageUrl ? (
-                        <img src={service.imageUrl} alt={service.title} className="w-full h-full object-cover grayscale" />
+                        <img src={service.imageUrl} alt={service.title} className="w-full h-full object-cover" />
                       ) : (
                         renderIcon(service.iconName)
                       )}
@@ -365,7 +365,7 @@ export default function ServicesManagementPage() {
                 <div className="flex items-center space-x-4">
                   {imageUrl ? (
                     <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                      <img src={imageUrl} alt="Uploaded Service Image" className="w-full h-full object-cover grayscale" />
+                      <img src={imageUrl} alt="Uploaded Service Image" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setImageUrl('')}

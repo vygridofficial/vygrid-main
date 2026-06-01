@@ -375,7 +375,7 @@ export default function HomepageManagementPage() {
               </label>
               {ctaImage ? (
                 <div className="relative w-32 h-32 border border-white/10 group">
-                  <img src={ctaImage} alt="CTA Profile" className="w-full h-full object-cover grayscale" />
+                  <img src={ctaImage} alt="CTA Profile" className="w-full h-full object-cover" />
                   <button
                     type="button"
                     onClick={() => setCtaImage('')}

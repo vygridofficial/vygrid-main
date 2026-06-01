@@ -239,7 +239,7 @@ export default function WebDevelopmentClient() {
                     src={project.thumbnail}
                     alt={project.title}
                     fill
-                    className="object-cover grayscale group-hover:scale-103 group-hover:grayscale-0 transition-all duration-700"
+                    className="object-cover group-hover:scale-103 transition-all duration-700"
                     sizes="(max-w-768px) 100vw, 300px"
                   />
                 </ImageReveal>

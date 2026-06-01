@@ -72,15 +72,8 @@ export interface CMSData {
 
 }
 
-// Module-level in-memory cache for CMS data
-let cachedCMSData: CMSData | null = null;
-
 // Get master CMS data from Firestore
 export async function getCMSData(): Promise<CMSData> {
-  if (cachedCMSData) {
-    return cachedCMSData;
-  }
-
   if (!db) {
     console.warn("Firebase Firestore is not configured. Returning empty schema.");
     return {} as CMSData;
@@ -91,8 +84,7 @@ export async function getCMSData(): Promise<CMSData> {
     const docSnap = await getDoc(docRef);
     
     if (docSnap.exists()) {
-      cachedCMSData = docSnap.data() as CMSData;
-      return cachedCMSData;
+      return docSnap.data() as CMSData;
     }
   } catch (error) {
     console.error("Firestore master fetch error:", error);
@@ -102,9 +94,6 @@ export async function getCMSData(): Promise<CMSData> {
 
 // Save master CMS data to Firestore
 export async function saveCMSData(data: Partial<CMSData>): Promise<boolean> {
-  // Invalidate cache immediately on update
-  cachedCMSData = null;
-
   if (!db) {
     console.error("Firebase Firestore is not configured. Cannot save.");
     return false;

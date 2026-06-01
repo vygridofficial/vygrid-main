@@ -61,7 +61,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
           alt={`${project.title} Hero Spotlight`}
           fill
           priority
-          className="object-cover opacity-40 grayscale"
+          className="object-cover opacity-40"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-[#0A0A0A]/40" />
@@ -187,7 +187,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
                   <img
                     src={project.projectImage || project.afterImage}
                     alt={`${project.title} Visual Showcase`}
-                    className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-750"
+                    className="w-full h-full object-cover transition-all duration-750"
                   />
                 </div>
               </div>
@@ -240,7 +240,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
                           src={img}
                           alt={`${project.title} Asset Showcase ${index + 1}`}
                           fill
-                          className="object-cover grayscale hover:grayscale-0 transition-all duration-750"
+                          className="object-cover transition-all duration-750"
                           sizes="(max-w-768px) 100vw, 400px"
                         />
                       </ImageReveal>

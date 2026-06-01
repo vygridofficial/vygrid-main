@@ -67,7 +67,7 @@ export default function BlogClient({ blogPosts }: BlogClientProps) {
                     src={post.thumbnail}
                     alt={post.title}
                     fill
-                    className="object-cover grayscale group-hover:grayscale-0 group-hover:scale-103 transition-all duration-700 brightness-90 group-hover:brightness-100"
+                    className="object-cover group-hover:scale-103 transition-all duration-700"
                     sizes="(max-w-768px) 100vw, 400px"
                   />
                 </ImageReveal>

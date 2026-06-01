@@ -238,7 +238,7 @@ export default function TestimonialsManagementPage() {
                     <div className="flex items-center space-x-3">
                       {t.avatar ? (
                         <div className="w-10 h-10 bg-[#1A1A1A] relative flex-shrink-0 border border-white/10 overflow-hidden">
-                          <img src={t.avatar} alt={t.name} className="w-full h-full object-cover grayscale" />
+                          <img src={t.avatar} alt={t.name} className="w-full h-full object-cover" />
                         </div>
                       ) : (
                         <div className="w-10 h-10 bg-[#1A1A1A] flex items-center justify-center border border-white/10 text-[10px] font-mono text-[#C8B89A] flex-shrink-0">
@@ -404,7 +404,7 @@ export default function TestimonialsManagementPage() {
                 <div className="flex items-center space-x-3">
                   {avatar ? (
                     <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                      <img src={avatar} alt="Avatar Preview" className="w-full h-full object-cover grayscale" />
+                      <img src={avatar} alt="Avatar Preview" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setAvatar('')}

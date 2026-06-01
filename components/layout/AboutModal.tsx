@@ -153,7 +153,7 @@ export default function AboutModal({ isOpen, onClose }: AboutModalProps) {
                           <img
                             src={member.image}
                             alt={member.name}
-                            className="w-full h-full object-cover grayscale"
+                            className="w-full h-full object-cover"
                           />
                         </div>
                         <div>

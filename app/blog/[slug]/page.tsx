@@ -102,7 +102,7 @@ export default async function BlogPostDetailPage({ params }: BlogPostDetailProps
             src={post.thumbnail}
             alt={post.title}
             fill
-            className="object-cover grayscale brightness-90"
+            className="object-cover"
             sizes="(max-w-1024px) 100vw, 800px"
             priority
           />

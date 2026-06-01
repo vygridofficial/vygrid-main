@@ -330,7 +330,7 @@ export default function AboutPageManagement() {
                     <img 
                       src={member.image} 
                       alt={member.name}
-                      className="w-full h-full object-cover grayscale" 
+                      className="w-full h-full object-cover" 
                     />
                   </div>
                   <div className="min-w-0">
@@ -420,7 +420,7 @@ export default function AboutPageManagement() {
                 <div className="flex items-center space-x-3">
                   {memberImage ? (
                     <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                      <img src={memberImage} alt="Avatar Preview" className="w-full h-full object-cover grayscale" />
+                      <img src={memberImage} alt="Avatar Preview" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setMemberImage('')}

@@ -227,7 +227,7 @@ export default function PricingManagementPage() {
                   <div className="flex items-start space-x-4">
                     <div className="w-16 h-12 bg-[#0A0A0A] border border-white/5 flex items-center justify-center flex-shrink-0 overflow-hidden relative">
                       {item.imageUrl ? (
-                        <img src={item.imageUrl} alt={item.serviceName} className="w-full h-full object-cover grayscale" />
+                        <img src={item.imageUrl} alt={item.serviceName} className="w-full h-full object-cover" />
                       ) : (
                         <DollarSign className="w-5 h-5 text-[#C8B89A]" />
                       )}
@@ -363,7 +363,7 @@ export default function PricingManagementPage() {
                 <div className="flex items-center space-x-4">
                   {imageUrl ? (
                     <div className="w-16 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                      <img src={imageUrl} alt="Uploaded Pricing Image" className="w-full h-full object-cover grayscale" />
+                      <img src={imageUrl} alt="Uploaded Pricing Image" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setImageUrl('')}

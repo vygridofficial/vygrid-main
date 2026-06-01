@@ -309,7 +309,7 @@ function PortfolioManagerContent() {
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
-                    className="w-full h-full object-cover grayscale" 
+                    className="w-full h-full object-cover" 
                   />
                 </div>
                 <div className="min-w-0 space-y-1">
@@ -512,7 +512,7 @@ function PortfolioManagerContent() {
                     <div className="flex items-center space-x-3">
                       {thumbnail ? (
                         <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                          <img src={thumbnail} alt="Thumbnail Preview" className="w-full h-full object-cover grayscale" />
+                          <img src={thumbnail} alt="Thumbnail Preview" className="w-full h-full object-cover" />
                           <button
                             type="button"
                             onClick={() => setThumbnail('')}
@@ -555,7 +555,7 @@ function PortfolioManagerContent() {
                     <div className="flex items-center space-x-3">
                       {projectImage ? (
                         <div className="w-12 h-12 border border-white/10 bg-[#0A0A0A] relative flex-shrink-0 overflow-hidden">
-                          <img src={projectImage} alt="Showcase Preview" className="w-full h-full object-cover grayscale" />
+                          <img src={projectImage} alt="Showcase Preview" className="w-full h-full object-cover" />
                           <button
                             type="button"
                             onClick={() => setProjectImage('')}

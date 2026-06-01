@@ -66,7 +66,7 @@ export default function Services({ webServices, brandServices }: ServicesProps) 
                   src={item.img}
                   alt={item.name}
                   fill
-                  className="object-cover grayscale filter transition-all duration-300 group-hover:grayscale-0"
+                  className="object-cover transition-all duration-300"
                   sizes="32px"
                 />
               </div>
@@ -91,7 +91,7 @@ export default function Services({ webServices, brandServices }: ServicesProps) 
                   src={item.img}
                   alt={item.name}
                   fill
-                  className="object-cover grayscale filter transition-all duration-300 group-hover:grayscale-0"
+                  className="object-cover transition-all duration-300"
                   sizes="32px"
                 />
               </div>

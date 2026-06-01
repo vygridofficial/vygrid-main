@@ -152,7 +152,7 @@ function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps
                   <img
                     src={image}
                     alt={item.serviceName}
-                    className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/20 to-transparent" />
                 </div>

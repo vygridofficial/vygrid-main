@@ -194,7 +194,7 @@ export default function SubmitReviewPage() {
                 <div className="flex items-center space-x-4">
                   {avatar ? (
                     <div className="w-12 h-12 border border-white/10 relative overflow-hidden flex-shrink-0">
-                      <img src={avatar} alt="Avatar Preview" className="w-full h-full object-cover grayscale" />
+                      <img src={avatar} alt="Avatar Preview" className="w-full h-full object-cover" />
                       <button
                         type="button"
                         onClick={() => setAvatar('')}

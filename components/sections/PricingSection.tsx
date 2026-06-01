@@ -122,7 +122,7 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
                   <img
                     src={displayImage}
                     alt={item.serviceName}
-                    className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:grayscale-0 group-hover:scale-105"
+                    className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/20 to-transparent" />
                 </div>
