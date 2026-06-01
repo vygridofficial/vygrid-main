@@ -15,7 +15,7 @@ export default function ImageReveal({
   delay = 0,
 }: ImageRevealProps) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
+  const isInView = useInView(ref, { once: true, margin: "-2%" });
 
   // Wipe reveal variants: clipPath from inset(100% 0 0 0) to inset(0% 0 0 0)
   // or simply height scaling/scaleY. Let's use clipPath, it looks incredibly premium!

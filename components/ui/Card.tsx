@@ -21,7 +21,7 @@ export default function Card({
     <motion.div
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, margin: "-2%" }}
       transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1], delay }}
       className={cn(
         "bg-[#111111] border border-white/5 p-8 relative flex flex-col justify-between text-left transition-colors duration-300 rounded-none shadow-none",

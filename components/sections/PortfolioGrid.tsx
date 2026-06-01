@@ -109,7 +109,7 @@ export default function PortfolioGrid({ projects }: PortfolioGridProps) {
                       src={project.thumbnail}
                       alt={project.title}
                       fill
-                      className="object-cover transition-all duration-700 group-hover:scale-103"
+                      className="object-contain p-3 transition-all duration-700 group-hover:scale-103"
                       sizes="(max-w-768px) 70vw, 450px"
                     />
                     {/* Subtle hover overlay */}

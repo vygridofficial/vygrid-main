@@ -71,13 +71,10 @@ export default function AdminLoginPage() {
         {/* Branding header */}
         <div className="flex flex-col items-center space-y-4 text-center">
           <div className="flex items-center space-x-2">
-            <Image
+            <img
               src={logoUrl || "/logodes.png"}
               alt="VYGRID Logo"
-              width={120}
-              height={28}
               className="h-8 w-auto object-contain brightness-100"
-              priority
             />
             <span className="font-mono text-xs tracking-[0.25em] font-bold text-[#F5F0EB]">PORTAL</span>
           </div>

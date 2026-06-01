@@ -100,11 +100,9 @@ export default function Footer() {
           {/* Left Column: Studio branding & contact details */}
           <div className="md:col-span-6 space-y-8">
             <div className="space-y-4 text-left">
-              <Image
+              <img
                 src={logoUrl || "/logodes.png"}
                 alt="VYGRID Logo"
-                width={360}
-                height={90}
                 className="h-20 md:h-24 w-auto object-contain brightness-100"
               />
               <p className="text-[#888888] font-light text-sm max-w-xs leading-relaxed">

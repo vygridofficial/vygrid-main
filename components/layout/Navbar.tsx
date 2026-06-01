@@ -106,13 +106,10 @@ export default function Navbar() {
           {/* Left: Logo image */}
           <div className="flex-shrink-0 z-10 flex items-center">
             <Link href="/" className="flex items-center">
-              <Image
+              <img
                 src={logoUrl || "/logodes.png"}
                 alt="VYGRID Logo"
-                width={180}
-                height={44}
                 className="h-11 w-auto object-contain brightness-100"
-                priority
               />
             </Link>
           </div>

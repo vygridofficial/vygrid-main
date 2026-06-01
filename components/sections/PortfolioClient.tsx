@@ -118,7 +118,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
                         src={project.thumbnail}
                         alt={project.title}
                         fill
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-103"
+                        className="object-contain p-3 transition-transform duration-700 ease-out group-hover:scale-103"
                         sizes="(max-w-768px) 100vw, 400px"
                       />
                     </ImageReveal>

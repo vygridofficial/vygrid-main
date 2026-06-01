@@ -40,15 +40,11 @@ async function checkDatabase() {
   try {
     const docRef = doc(db, "cms_core", "master_data");
     const docSnap = await getDoc(docRef);
+
     if (docSnap.exists()) {
       const data = docSnap.data();
       console.log("SUCCESS FETCHING MASTER DATA");
-      console.log("Number of projects in Firestore:", data.projects ? data.projects.length : 0);
-      if (data.projects) {
-        data.projects.forEach((proj, idx) => {
-          console.log(`[Project ${idx + 1}] ID: ${proj.id}, Title: ${proj.title}, Slug: ${proj.slug}, Category: ${proj.category}`);
-        });
-      }
+      console.log("generalSettings:", data.generalSettings);
     } else {
       console.log("No master data document found in Firestore.");
     }

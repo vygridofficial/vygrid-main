@@ -309,7 +309,7 @@ function PortfolioManagerContent() {
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
-                    className="w-full h-full object-cover" 
+                    className="w-full h-full object-contain p-1" 
                   />
                 </div>
                 <div className="min-w-0 space-y-1">

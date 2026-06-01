@@ -116,11 +116,9 @@ export default function AdminDashboardLayout({
         <div className="p-6 border-b border-white/10 flex flex-col space-y-3 justify-center relative">
           <div className="flex items-center justify-between w-full">
             <Link href="/admin/dashboard" className="flex items-center">
-              <Image
+              <img
                 src={logoUrl || "/logodes.png"}
                 alt="VYGRID Logo"
-                width={160}
-                height={40}
                 className="h-10 w-auto object-contain brightness-100"
               />
             </Link>
