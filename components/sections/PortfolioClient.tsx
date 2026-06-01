@@ -19,8 +19,7 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
-  const filterParam = searchParams.get('filter') || 'All';
-  const filter = filterParam as 'All' | 'Web Development' | 'Logo & Branding' | 'E-Commerce' | 'Brand Kits';
+  const filter = searchParams.get('filter') || 'All';
 
   const setFilter = (val: string) => {
     const params = new URLSearchParams(searchParams.toString());
@@ -40,12 +39,11 @@ export default function PortfolioClient({ projects }: PortfolioClientProps) {
     return project.category === filter;
   });
 
+  const uniqueCategories = Array.from(new Set(displayProjects.map((p) => p.category).filter(Boolean)));
+
   const filterTabs = [
-    { label: 'All Projects', value: 'All' as const },
-    { label: 'Web Engineering', value: 'Web Development' as const },
-    { label: 'Logo Design', value: 'Logo & Branding' as const },
-    { label: 'E-Commerce', value: 'E-Commerce' as const },
-    { label: 'Brand Kits', value: 'Brand Kits' as const }
+    { label: 'All Projects', value: 'All' },
+    ...uniqueCategories.map((cat: any) => ({ label: cat, value: cat }))
   ];
 
   return (

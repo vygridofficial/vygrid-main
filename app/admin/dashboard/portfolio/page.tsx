@@ -19,7 +19,8 @@ function PortfolioManagerContent() {
   const [title, setTitle] = useState('');
   const [slug, setSlug] = useState('');
   const [subtitle, setSubtitle] = useState('');
-  const [category, setCategory] = useState<'Web Development' | 'Logo & Branding' | 'E-Commerce' | 'Brand Kits'>('Web Development');
+  const [category, setCategory] = useState<string>('Web Development');
+  const [availableCategories, setAvailableCategories] = useState<string[]>([]);
   const [client, setClient] = useState('');
   const [timeline, setTimeline] = useState('');
   const [description, setDescription] = useState('');
@@ -43,6 +44,11 @@ function PortfolioManagerContent() {
     try {
       const data = await fetchCMSData();
       setProjects(data.projects || []);
+      
+      const webTitles = (data.webServices || []).map((s: any) => s.title);
+      const brandTitles = (data.brandServices || []).map((s: any) => s.title);
+      const combined = Array.from(new Set([...webTitles, ...brandTitles]));
+      setAvailableCategories(combined.length > 0 ? combined : ['Web Development', 'Logo & Branding', 'E-Commerce', 'Brand Kits']);
     } catch (err) {
       console.error(err);
     } finally {
@@ -66,7 +72,7 @@ function PortfolioManagerContent() {
     setTitle('');
     setSlug('');
     setSubtitle('');
-    setCategory('Web Development');
+    setCategory(availableCategories[0] || 'Web Development');
     setClient('');
     setTimeline('');
     setDescription('');
@@ -406,13 +412,14 @@ function PortfolioManagerContent() {
                   <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">CATEGORY</label>
                   <select
                     value={category}
-                    onChange={(e) => setCategory(e.target.value as any)}
+                    onChange={(e) => setCategory(e.target.value)}
                     className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB] focus:outline-none focus:border-[#C8B89A]"
                   >
-                    <option value="Web Development">Web Development</option>
-                    <option value="Logo & Branding">Logo & Branding</option>
-                    <option value="E-Commerce">E-Commerce</option>
-                    <option value="Brand Kits">Brand Kits</option>
+                    {availableCategories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

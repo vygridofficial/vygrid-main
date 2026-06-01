@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, Suspense } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -10,13 +10,14 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import TextReveal from '@/components/ui/TextReveal';
 import { submitIntakeBrief } from '@/app/actions/contact';
+import { fetchCMSData } from '@/app/actions/cms';
 
 // Intake validation schema
 const intakeSchema = z.object({
   fullName: z.string().min(2, "Full Name must be at least 2 characters"),
   email: z.string().email("Invalid email address"),
   company: z.string().min(1, "Company Name is required"),
-  projectType: z.enum(["Web Design", "Web Development", "Branding", "Systems Engineering", "Other"]),
+  projectType: z.string().min(1, "Project Type is required"),
   budget: z.string().min(1, "Budget Range is required"),
   timeline: z.enum(["ASAP", "1–3 months", "3–6 months", "6+ months"]),
   description: z.string().min(10, "Project description must be at least 10 characters"),
@@ -33,17 +34,31 @@ export default function StartProjectPage() {
   );
 }
 
+const FALLBACK_SERVICES = ['Web Design', 'Web Development', 'Branding', 'Systems Engineering', 'Other'];
+
 function StartProjectPageContent() {
   const searchParams = useSearchParams();
   const [submitted, setSubmitted] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [availableServices, setAvailableServices] = useState<string[]>(FALLBACK_SERVICES);
 
   // Read preset values from URL query string if navigated from pricing card
   const presetPackage = searchParams.get('package') || '';
   const presetType = searchParams.get('type') || 'Web Development';
   
-  // Default values
-  const defaultProjectType = presetType === 'Branding' ? 'Branding' : 'Web Development';
+  // Fetch services from CMS to populate Project Type dropdown
+  useEffect(() => {
+    fetchCMSData().then((data) => {
+      const webTitles = (data.webServices || []).map((s: any) => s.title);
+      const brandTitles = (data.brandServices || []).map((s: any) => s.title);
+      const combined = Array.from(new Set([...webTitles, ...brandTitles]));
+      if (combined.length > 0) {
+        setAvailableServices([...combined, 'Other']);
+      }
+    }).catch(() => {
+      // Keep fallback on error
+    });
+  }, []);
 
   const {
     register,
@@ -56,7 +71,7 @@ function StartProjectPageContent() {
       fullName: '',
       email: '',
       company: '',
-      projectType: defaultProjectType as "Web Development" | "Branding",
+      projectType: availableServices.includes(presetType) ? presetType : availableServices[0] || 'Web Development',
       budget: presetPackage ? `Selected Plan: ${presetPackage}` : '',
       timeline: '1–3 months',
       description: '',
@@ -199,11 +214,9 @@ function StartProjectPageContent() {
                       {...register("projectType")}
                       className="w-full px-4 py-3 border border-white/10 font-mono text-xs bg-[#0a0a0a] focus:outline-none text-[#F5F0EB] transition-colors focus:border-[#C8B89A]"
                     >
-                      <option value="Web Design">Web Design</option>
-                      <option value="Web Development">Web Development</option>
-                      <option value="Branding">Branding</option>
-                      <option value="Systems Engineering">Systems Engineering</option>
-                      <option value="Other">Other</option>
+                      {availableServices.map((service) => (
+                        <option key={service} value={service}>{service}</option>
+                      ))}
                     </select>
                   </div>
                 </div>

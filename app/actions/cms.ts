@@ -2,6 +2,7 @@
 
 import fs from 'fs';
 import path from 'path';
+import { v2 as cloudinary } from 'cloudinary';
 import { 
   getCMSData, 
   saveCMSData, 
@@ -402,14 +403,54 @@ export async function modifyLeadStatus(leadId: string, status: string) {
 // 10. Media Library Asset Uploader
 export async function uploadMedia(fileName: string, base64Data: string) {
   try {
+    // Robustly strip any data URI base64 prefix if present (e.g. image/svg+xml, application/octet-stream)
+    const pureBase64 = base64Data.replace(/^data:[^;]+;base64,/, "");
+    const buffer = Buffer.from(pureBase64, 'base64');
+
+    // If Cloudinary environment variables are configured, upload to Cloudinary
+    if (process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_KEY && process.env.CLOUDINARY_API_SECRET) {
+      cloudinary.config({
+        cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+        api_key: process.env.CLOUDINARY_API_KEY,
+        api_secret: process.env.CLOUDINARY_API_SECRET,
+        secure: true,
+      });
+
+      const uploadResult = await new Promise<any>((resolve, reject) => {
+        const ext = path.extname(fileName);
+        const base = path.basename(fileName, ext);
+        const cleanBase = base.replace(/[^a-zA-Z0-9-_]/g, '_');
+        const publicId = `${cleanBase}-${Date.now()}`;
+        const folder = process.env.CLOUDINARY_FOLDER || 'vygrid';
+
+        const uploadStream = cloudinary.uploader.upload_stream(
+          {
+            folder: folder,
+            public_id: publicId,
+            resource_type: 'auto',
+          },
+          (error, result) => {
+            if (error) {
+              reject(error);
+            } else {
+              resolve(result);
+            }
+          }
+        );
+        uploadStream.write(buffer);
+        uploadStream.end();
+      });
+
+      const publicUrl = uploadResult.secure_url;
+      await addActivityLog(`Uploaded media file to Cloudinary: ${uploadResult.public_id}`);
+      return { success: true, url: publicUrl };
+    }
+
+    // Fallback: local file system upload
     const uploadDir = path.join(process.cwd(), 'public', 'uploads');
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
-    
-    // Robustly strip any data URI base64 prefix if present (e.g. image/svg+xml, application/octet-stream)
-    const pureBase64 = base64Data.replace(/^data:[^;]+;base64,/, "");
-    const buffer = Buffer.from(pureBase64, 'base64');
     
     // Create unique filename to prevent overwrite
     const ext = path.extname(fileName);
@@ -420,13 +461,14 @@ export async function uploadMedia(fileName: string, base64Data: string) {
     fs.writeFileSync(filePath, buffer);
     const publicUrl = `/uploads/${uniqueFileName}`;
     
-    await addActivityLog(`Uploaded media file to library: ${uniqueFileName}`);
+    await addActivityLog(`Uploaded media file to library (fallback): ${uniqueFileName}`);
     return { success: true, url: publicUrl };
   } catch (error: any) {
-    console.error("Error writing uploaded file:", error);
+    console.error("Error uploading media file:", error);
     return { success: false, error: error.message };
   }
 }
+
 
 // 7.5. Service Pricing CRUD
 export async function saveServicePricing(item: any) {

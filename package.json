@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.4.0",
+    "cloudinary": "^2.10.0",
     "firebase": "^12.14.0",
     "framer-motion": "^12.40.0",
     "lucide-react": "^0.300.0",
