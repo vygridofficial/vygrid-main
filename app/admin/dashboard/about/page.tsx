@@ -41,19 +41,25 @@ export default function AboutPageManagement() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64 = reader.result as string;
-        const res = await uploadMedia(file.name, base64);
-        if (res.success && res.url) {
-          setMemberImage(res.url);
-        } else {
-          alert(res.error || 'Failed to upload photo.');
+        try {
+          const base64 = reader.result as string;
+          const res = await uploadMedia(file.name, base64);
+          if (res.success && res.url) {
+            setMemberImage(res.url);
+          } else {
+            alert(res.error || 'Failed to upload photo.');
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingImage(false);
         }
-        setUploadingImage(false);
       };
       reader.readAsDataURL(file);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('An error occurred during file upload.');
+      alert('An error occurred during file upload: ' + (err.message || err));
       setUploadingImage(false);
     }
   };

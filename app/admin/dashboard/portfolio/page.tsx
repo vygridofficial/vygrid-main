@@ -151,14 +151,20 @@ function PortfolioManagerContent() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
-        if (res.success && res.url) {
-          setThumbnail(res.url);
-        } else {
-          alert('Upload failed: ' + res.error);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
+          if (res.success && res.url) {
+            setThumbnail(res.url);
+          } else {
+            alert('Upload failed: ' + res.error);
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingThumbnail(false);
         }
-        setUploadingThumbnail(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {
@@ -174,14 +180,20 @@ function PortfolioManagerContent() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
-        if (res.success && res.url) {
-          setProjectImage(res.url);
-        } else {
-          alert('Upload failed: ' + res.error);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
+          if (res.success && res.url) {
+            setProjectImage(res.url);
+          } else {
+            alert('Upload failed: ' + res.error);
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingShowcase(false);
         }
-        setUploadingShowcase(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {
@@ -197,14 +209,20 @@ function PortfolioManagerContent() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
-        if (res.success && res.url) {
-          setGallery([...gallery, res.url]);
-        } else {
-          alert('Upload failed: ' + res.error);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
+          if (res.success && res.url) {
+            setGallery([...gallery, res.url]);
+          } else {
+            alert('Upload failed: ' + res.error);
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingGallery(false);
         }
-        setUploadingGallery(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {

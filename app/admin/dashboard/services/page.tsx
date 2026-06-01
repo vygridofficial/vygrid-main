@@ -91,14 +91,20 @@ export default function ServicesManagementPage() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
-        if (res.success && res.url) {
-          setImageUrl(res.url);
-        } else {
-          alert('Upload failed: ' + res.error);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
+          if (res.success && res.url) {
+            setImageUrl(res.url);
+          } else {
+            alert('Upload failed: ' + res.error);
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploading(false);
         }
-        setUploading(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {

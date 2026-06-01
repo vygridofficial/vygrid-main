@@ -28,14 +28,20 @@ export default function SubmitReviewPage() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64 = reader.result as string;
-        const res = await uploadMedia(file.name, base64);
-        if (res.success && res.url) {
-          setAvatar(res.url);
-        } else {
-          setError(res.error || 'Failed to upload photo.');
+        try {
+          const base64 = reader.result as string;
+          const res = await uploadMedia(file.name, base64);
+          if (res.success && res.url) {
+            setAvatar(res.url);
+          } else {
+            setError(res.error || 'Failed to upload photo.');
+          }
+        } catch (err: any) {
+          console.error(err);
+          setError('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploading(false);
         }
-        setUploading(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {

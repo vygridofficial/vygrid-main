@@ -50,18 +50,24 @@ export default function MediaLibraryPage() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
 
-        if (res.success && res.url) {
-          setSuccessMsg(`File uploaded successfully: ${res.url}`);
-          const newList = [res.url, ...uploadedAssets];
-          setUploadedAssets(newList);
-          localStorage.setItem('vygrid_uploaded_media', JSON.stringify(newList));
-        } else {
-          setErrorMsg(res.error || 'Failed to upload image.');
+          if (res.success && res.url) {
+            setSuccessMsg(`File uploaded successfully: ${res.url}`);
+            const newList = [res.url, ...uploadedAssets];
+            setUploadedAssets(newList);
+            localStorage.setItem('vygrid_uploaded_media', JSON.stringify(newList));
+          } else {
+            setErrorMsg(res.error || 'Failed to upload image.');
+          }
+        } catch (err: any) {
+          console.error(err);
+          setErrorMsg('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploading(false);
         }
-        setUploading(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {

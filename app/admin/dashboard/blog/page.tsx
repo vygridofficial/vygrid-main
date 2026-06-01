@@ -119,16 +119,22 @@ function BlogManagerContent() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64String = reader.result as string;
-        const res = await uploadMedia(file.name, base64String);
-        
-        if (res.success && res.url) {
-          // Insert image markdown at current cursor position
-          insertFormatting(`![${file.name}](${res.url})`, '');
-        } else {
-          alert('Upload failed: ' + res.error);
+        try {
+          const base64String = reader.result as string;
+          const res = await uploadMedia(file.name, base64String);
+          
+          if (res.success && res.url) {
+            // Insert image markdown at current cursor position
+            insertFormatting(`![${file.name}](${res.url})`, '');
+          } else {
+            alert('Upload failed: ' + res.error);
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingImage(false);
         }
-        setUploadingImage(false);
       };
       reader.readAsDataURL(file);
     } catch (err) {

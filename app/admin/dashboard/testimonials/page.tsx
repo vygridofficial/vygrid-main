@@ -54,19 +54,25 @@ export default function TestimonialsManagementPage() {
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
-        const base64 = reader.result as string;
-        const res = await uploadMedia(file.name, base64);
-        if (res.success && res.url) {
-          setAvatar(res.url);
-        } else {
-          alert(res.error || 'Failed to upload photo.');
+        try {
+          const base64 = reader.result as string;
+          const res = await uploadMedia(file.name, base64);
+          if (res.success && res.url) {
+            setAvatar(res.url);
+          } else {
+            alert(res.error || 'Failed to upload photo.');
+          }
+        } catch (err: any) {
+          console.error(err);
+          alert('An error occurred during file upload: ' + (err.message || err));
+        } finally {
+          setUploadingAvatar(false);
         }
-        setUploadingAvatar(false);
       };
       reader.readAsDataURL(file);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert('An error occurred during file upload.');
+      alert('An error occurred during file upload: ' + (err.message || err));
       setUploadingAvatar(false);
     }
   };
