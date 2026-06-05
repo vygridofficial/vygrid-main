@@ -222,6 +222,15 @@ export async function deleteTeamMember(name: string) {
   return { success: result };
 }
 
+export async function updateTeamOrder(newList: any[]) {
+  const result = await saveCMSData({ team: newList });
+  if (result) {
+    await addActivityLog("Reordered team registry display sequence");
+    triggerRevalidation();
+  }
+  return { success: result };
+}
+
 // 5. Testimonials CRUD
 export async function saveTestimonial(testimonial: any) {
   const cmsData = await getCMSData();

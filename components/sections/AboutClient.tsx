@@ -89,14 +89,18 @@ interface PricingBubble {
   sway: number;
 }
 
-const pricingBubbles: PricingBubble[] = [
-  { id: 1, label: "$5K", size: 52, duration: 6.5, delay: 0.0, left: "12%", sway: 25 },
-  { id: 2, label: "$10K", size: 62, duration: 8.0, delay: 1.8, left: "42%", sway: 35 },
-  { id: 3, label: "$15K", size: 56, duration: 9.0, delay: 3.2, left: "68%", sway: 20 },
-  { id: 4, label: "$25K+", size: 72, duration: 6.0, delay: 0.9, left: "28%", sway: 40 },
-  { id: 5, label: "$50K+", size: 82, duration: 10.0, delay: 2.5, left: "78%", sway: 30 },
-  { id: 6, label: "CUSTOM", size: 76, duration: 10.5, delay: 4.8, left: "53%", sway: 25 },
+// Bubble layout config — positions/sizes/timings
+const BUBBLE_LAYOUT = [
+  { size: 54, duration: 6.5, delay: 0.0, left: "12%", sway: 25 },
+  { size: 64, duration: 8.0, delay: 1.8, left: "42%", sway: 35 },
+  { size: 72, duration: 9.0, delay: 3.2, left: "68%", sway: 20 },
+  { size: 60, duration: 6.0, delay: 0.9, left: "28%", sway: 40 },
+  { size: 82, duration: 10.0, delay: 2.5, left: "78%", sway: 30 },
+  { size: 76, duration: 10.5, delay: 4.8, left: "53%", sway: 25 },
 ];
+
+// Fallback bubbles if no CMS data
+const FALLBACK_BUBBLE_LABELS = ["₹3,500", "₹7,500", "₹12,500", "₹5,000", "₹15,000+", "CUSTOM"];
 
 interface AboutClientProps {
   settings?: {
@@ -109,12 +113,96 @@ interface AboutClientProps {
   team?: any[];
   companyName?: string;
   companyReg?: string;
+  servicePricing?: Array<{ id: string; serviceName: string; priceRange: string; features: string[]; imageUrl?: string; }>;
 }
 
-export default function AboutClient({ settings, team, companyName, companyReg }: AboutClientProps) {
+export default function AboutClient({ settings, team, companyName, companyReg, servicePricing }: AboutClientProps) {
   const displayCompanyName = companyName || "Vygrid Digital Studio";
   const displayCompanyReg = companyReg || "EST. 2026 • VYGRID STUDIO";
   const displayTeam = team || fallbackTeam;
+
+  // Build pricing bubbles dynamically from CMS data
+  const bubbleLabels: string[] = servicePricing && servicePricing.length > 0
+    ? [
+        ...servicePricing.slice(0, 5).map(item => item.priceRange.replace('From ', '').trim()),
+        'CUSTOM'
+      ]
+    : FALLBACK_BUBBLE_LABELS;
+
+  const pricingBubbles: PricingBubble[] = BUBBLE_LAYOUT.map((layout, i) => ({
+    id: i + 1,
+    label: bubbleLabels[i] ?? bubbleLabels[i % bubbleLabels.length],
+    ...layout,
+  }));
+
+  // Dynamically filter developers (web, full stack, engineer, designer, programmer)
+  const developers = displayTeam.filter(m => {
+    const role = (m.role || "").toLowerCase();
+    return role.includes("web") || role.includes("developer") || role.includes("engineer") || role.includes("stack") || role.includes("programmer") || role.includes("designer");
+  });
+
+  // Dynamically filter managers/leads (ceo, pm, manager, founder, director, etc.)
+  const managers = displayTeam.filter(m => {
+    const role = (m.role || "").toLowerCase();
+    return role.includes("ceo") || role.includes("pm") || role.includes("manager") || role.includes("founder") || role.includes("director") || role.includes("lead");
+  });
+
+  // Resolve developers and managers dynamically with robust index fallbacks
+  const dev1Resolved = developers[0] || displayTeam[0];
+  const dev2Resolved = developers[1] || displayTeam[1];
+  const devForDeployment = developers[2] || developers[1] || displayTeam[1]; // Use 3rd developer if available
+  const pmResolved = managers[0] || displayTeam[2] || displayTeam[0];
+
+  const dev1Label = dev1Resolved?.name || "Jerrin Joseph";
+  const dev1Img = dev1Resolved?.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80';
+
+  const dev2Label = dev2Resolved?.name || "Christo Philip Mathew";
+  const dev2Img = dev2Resolved?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80';
+
+  const devDeploymentLabel = devForDeployment?.name || "Christo Philip Mathew";
+  const devDeploymentImg = devForDeployment?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80';
+
+  const pmLabel = pmResolved?.name || "Madhav MP";
+  const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80';
+
+  const chatScript = [
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "Hey team! How is the progress on the portfolio's React deployment?"
+    },
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "We need the dynamic project routes live by tonight."
+    },
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "Make sure we optimize the spotlight images and fit them to the grid."
+    },
+    {
+      sender: 'marcus',
+      name: dev1Label,
+      avatar: dev1Img,
+      text: `Hey ${pmLabel.split(' ')[0]}! Just optimized all asset components to use contain fit. Compiling the build now.`
+    },
+    {
+      sender: 'alex',
+      name: devDeploymentLabel,
+      avatar: devDeploymentImg,
+      text: "Production build deployed and Edge CDN cache flushed. Reload and check it out!"
+    },
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "Awesome! The page loads instantly and the layout fits beautifully."
+    }
+  ];
 
   const convictions = [
     {
@@ -344,27 +432,33 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                 className="absolute w-[280px] h-[280px] border border-white/5 rounded-full flex items-center justify-center"
               >
                 {/* Avatars on Outer Orbit with Counter-Rotation to stay upright */}
-                <motion.div 
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                  className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&h=100&q=80" alt="Alex Sterling" fill className="object-cover" />
-                </motion.div>
-                <motion.div 
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                  className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&h=100&q=80" alt="Marcus Vance" fill className="object-cover" />
-                </motion.div>
-                <motion.div 
-                  animate={{ rotate: -360 }}
-                  transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&h=100&q=80" alt="Elena Rostova" fill className="object-cover" />
-                </motion.div>
+                {displayTeam[0] && (
+                  <motion.div 
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[0].image} alt={displayTeam[0].name} fill className="object-cover" />
+                  </motion.div>
+                )}
+                {displayTeam[1] && (
+                  <motion.div 
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                    className="absolute -bottom-5 left-[50%] -translate-x-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[1].image} alt={displayTeam[1].name} fill className="object-cover" />
+                  </motion.div>
+                )}
+                {displayTeam[2] && (
+                  <motion.div 
+                    animate={{ rotate: -360 }}
+                    transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-[50%] -left-5 -translate-y-[50%] w-10 h-10 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[2].image} alt={displayTeam[2].name} fill className="object-cover" />
+                  </motion.div>
+                )}
               </motion.div>
 
               {/* Inner Orbit Circle (Counter-Clockwise, 35s) */}
@@ -374,27 +468,33 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                 className="absolute w-[180px] h-[180px] border border-white/5 rounded-full flex items-center justify-center"
               >
                 {/* Avatars on Inner Orbit with Counter-Rotation to stay upright */}
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                  className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=100&h=100&q=80" alt="Nikhil Mehta" fill className="object-cover" />
-                </motion.div>
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                  className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=150&h=150&q=80" alt="Genevieve" fill className="object-cover" />
-                </motion.div>
-                <motion.div 
-                  animate={{ rotate: 360 }}
-                  transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
-                  className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
-                >
-                  <Image src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80" alt="Brandon" fill className="object-cover" />
-                </motion.div>
+                {displayTeam[3] && (
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                    className="absolute -top-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[3].image} alt={displayTeam[3].name} fill className="object-cover" />
+                  </motion.div>
+                )}
+                {displayTeam[4] && (
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                    className="absolute -bottom-4 left-[50%] -translate-x-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[4].image} alt={displayTeam[4].name} fill className="object-cover" />
+                  </motion.div>
+                )}
+                {displayTeam[5] && (
+                  <motion.div 
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 35, repeat: Infinity, ease: "linear" }}
+                    className="absolute top-[50%] -right-4 -translate-y-[50%] w-8 h-8 overflow-hidden border border-white/10 bg-[#1A1A1A]"
+                  >
+                    <Image src={displayTeam[5].image} alt={displayTeam[5].name} fill className="object-cover" />
+                  </motion.div>
+                )}
               </motion.div>
 
               {/* Centered Typography Block */}
@@ -466,18 +566,25 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                         />
                       </div>
                       
-                      {/* Bubble Text */}
-                      <div className={`px-4 py-2 text-xs sm:text-sm font-grotesque font-light shadow-sm leading-relaxed ${
-                        msg.sender === 'client'
-                          ? 'bg-white rounded-[16px] rounded-bl-none text-[#0A0A0A]'
-                          : 'bg-[#C8B89A] rounded-[16px] rounded-br-none text-[#0A0A0A] font-medium'
-                      }`}>
-                        {msg.text}
+                      {/* Bubble with Name Label */}
+                      <div className="space-y-0.5">
+                        <span className={`block font-mono text-[7px] uppercase tracking-wider text-[#0A0A0A]/50 ${
+                          msg.sender !== 'client' ? 'text-right' : 'text-left'
+                        }`}>
+                          {msg.name}
+                        </span>
+                        <div className={`px-4 py-2 text-xs sm:text-sm font-grotesque font-light shadow-sm leading-relaxed ${
+                          msg.sender === 'client'
+                            ? 'bg-white rounded-[16px] rounded-bl-none text-[#0A0A0A]'
+                            : 'bg-[#C8B89A] rounded-[16px] rounded-br-none text-[#0A0A0A] font-medium'
+                        }`}>
+                          {msg.text}
+                        </div>
                       </div>
                     </motion.div>
                   ))}
                 </AnimatePresence>
-
+ 
                 {/* Bouncing Typing Indicator */}
                 {typingFor && (
                   <motion.div
@@ -491,10 +598,10 @@ export default function AboutClient({ settings, team, companyName, companyReg }:
                       <Image
                         src={
                           typingFor === 'client'
-                            ? 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80'
+                            ? pmImg
                             : typingFor === 'marcus'
-                            ? 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80'
-                            : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80'
+                            ? dev1Img
+                            : devDeploymentImg
                         }
                         alt="Typing Member"
                         fill

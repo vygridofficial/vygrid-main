@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { updateAboutPageSettings, saveTeamMember, deleteTeamMember, fetchCMSData, uploadMedia } from '@/app/actions/cms';
-import { Plus, Edit2, Trash2, X, Check } from 'lucide-react';
+import { updateAboutPageSettings, saveTeamMember, deleteTeamMember, updateTeamOrder, fetchCMSData, uploadMedia } from '@/app/actions/cms';
+import { Plus, Edit2, Trash2, X, Check, ArrowUp, ArrowDown } from 'lucide-react';
 import { compressImage } from '@/lib/image';
 
 export default function AboutPageManagement() {
@@ -179,6 +179,19 @@ export default function AboutPageManagement() {
     }
   };
 
+  const handleMove = async (index: number, direction: 'up' | 'down') => {
+    const list = [...teamList];
+    const targetIdx = direction === 'up' ? index - 1 : index + 1;
+    if (targetIdx < 0 || targetIdx >= list.length) return;
+
+    const temp = list[index];
+    list[index] = list[targetIdx];
+    list[targetIdx] = temp;
+
+    setTeamList(list);
+    await updateTeamOrder(list);
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center h-[50vh]">
@@ -317,7 +330,7 @@ export default function AboutPageManagement() {
           </div>
 
           <div className="space-y-4 max-h-[600px] overflow-y-auto pr-1">
-            {teamList.map((member) => (
+            {teamList.map((member, index) => (
               <div 
                 key={member.name} 
                 className="border border-white/5 p-4 bg-[#0A0A0A] flex items-center justify-between gap-4"
@@ -337,6 +350,24 @@ export default function AboutPageManagement() {
                 </div>
                 
                 <div className="flex items-center space-x-1.5 flex-shrink-0">
+                  <div className="flex items-center space-x-1">
+                    <button
+                      onClick={() => handleMove(index, 'up')}
+                      disabled={index === 0}
+                      className="p-2 border border-white/5 bg-[#111111] hover:border-[#C8B89A] text-[#888888] hover:text-[#C8B89A] disabled:opacity-30 disabled:hover:text-[#888888] disabled:hover:border-white/5 transition-all"
+                      title="Move Up"
+                    >
+                      <ArrowUp className="w-3 h-3" />
+                    </button>
+                    <button
+                      onClick={() => handleMove(index, 'down')}
+                      disabled={index === teamList.length - 1}
+                      className="p-2 border border-white/5 bg-[#111111] hover:border-[#C8B89A] text-[#888888] hover:text-[#C8B89A] disabled:opacity-30 disabled:hover:text-[#888888] disabled:hover:border-white/5 transition-all"
+                      title="Move Down"
+                    >
+                      <ArrowDown className="w-3 h-3" />
+                    </button>
+                  </div>
                   <button
                     onClick={() => openEditModal(member)}
                     className="p-2 border border-white/5 bg-[#111111] hover:border-[#C8B89A] text-[#888888] hover:text-[#C8B89A] transition-all"

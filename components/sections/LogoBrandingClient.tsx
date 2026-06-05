@@ -25,7 +25,7 @@ export default function LogoBrandingClient({ companyName }: LogoBrandingClientPr
   const priceTiers = [
     {
       name: "Starter Logo",
-      price: "$2,000",
+      price: "₹2,000",
       description: "Basic strategic emblem and clean typographic mark for new ideas.",
       features: [
         "2 Bespoke vector directions",
@@ -39,7 +39,7 @@ export default function LogoBrandingClient({ companyName }: LogoBrandingClientPr
     },
     {
       name: "Studio Identity",
-      price: "$5,000",
+      price: "₹5,000",
       description: "Comprehensive visual branding, guidelines, and corporate kit.",
       features: [
         "3 Unique logo design directions",
@@ -55,7 +55,7 @@ export default function LogoBrandingClient({ companyName }: LogoBrandingClientPr
     },
     {
       name: "Enterprise Refresh",
-      price: "$10,000+",
+      price: "₹10,000+",
       description: "Legacy re-branding, custom packaging design, and commercial pitch deck templates.",
       features: [
         "In-depth market competitor analysis",

@@ -61,10 +61,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
           alt={`${project.title} Hero Spotlight`}
           fill
           priority
-          className="object-cover opacity-40"
+          className="object-contain opacity-40"
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-[#0A0A0A]/40" />
+        
+        <div className="absolute top-6 left-6 md:left-12 z-20">
+          <Link
+            href="/portfolio"
+            className="inline-flex items-center space-x-2 font-mono text-[10px] uppercase tracking-widest text-[#888888] hover:text-[#C8B89A] transition-colors duration-300 bg-[#0A0A0A]/60 px-4 py-2 border border-white/10 hover:border-[#C8B89A]"
+          >
+            <span>← BACK TO PORTFOLIO</span>
+          </Link>
+        </div>
         
         <div className="absolute bottom-12 left-0 right-0 z-10">
           <div className="max-w-7xl mx-auto px-6 md:px-12 space-y-4">
@@ -136,6 +145,19 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
           {/* Primary Text Content Case Write-up (Right) */}
           <div className="lg:col-span-8 space-y-12 md:space-y-16">
             
+            {/* Live Website Link (Above Project Scope) */}
+            <div className="flex justify-start">
+              <a
+                href={project.websiteUrl || `https://www.${project.slug}.com`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center space-x-2 px-6 py-3 border border-[#C8B89A] text-[#C8B89A] font-mono text-[10px] font-bold tracking-widest uppercase hover:bg-[#C8B89A] hover:text-[#0A0A0A] transition-colors duration-300 group"
+              >
+                <span>VISIT LIVE WEBSITE</span>
+                <span className="group-hover:translate-x-1 transition-transform duration-300">&rarr;</span>
+              </a>
+            </div>
+
             {/* Brief Description */}
             <div className="space-y-4">
               <span className="font-mono text-[9px] tracking-widest text-[#888888] block uppercase">
@@ -187,7 +209,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
                   <img
                     src={project.projectImage || project.afterImage}
                     alt={`${project.title} Visual Showcase`}
-                    className="w-full h-full object-cover transition-all duration-750"
+                    className="w-full h-full object-contain transition-all duration-750"
                   />
                 </div>
               </div>
@@ -240,7 +262,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailProps) 
                           src={img}
                           alt={`${project.title} Asset Showcase ${index + 1}`}
                           fill
-                          className="object-cover transition-all duration-750"
+                          className="object-contain transition-all duration-750"
                           sizes="(max-w-768px) 100vw, 400px"
                         />
                       </ImageReveal>

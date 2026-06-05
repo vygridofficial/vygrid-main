@@ -107,8 +107,8 @@ export default function CTA({ title, subtitle, buttonText = "Tell us your story"
       },
       {
         keywords: ["price", "cost", "budget", "pricing", "rate", "fee", "expensive", "how much", "charge", "payment"],
-        orion: "Custom landing experiences start at $5,000. Full-scale products and systems range from $10,000 to $25,000 depending on complexity.",
-        aether: "Every brand strategy is custom curated. Specialized, highly detailed high-fidelity landing pages start at $5,000. Comprehensive editorial websites, e-commerce integrations, or dense data dispatch applications typically scale between $10,000 and $25,000. We work under strict, transparent project milestones focused entirely on generating long-term premium enterprise value."
+        orion: "Custom landing experiences start at ₹5,000. Full-scale products and systems range from ₹10,000 to ₹25,000 depending on complexity.",
+        aether: "Every brand strategy is custom curated. Specialized, highly detailed high-fidelity landing pages start at ₹5,000. Comprehensive editorial websites, e-commerce integrations, or dense data dispatch applications typically scale between ₹10,000 and ₹25,000. We work under strict, transparent project milestones focused entirely on generating long-term premium enterprise value."
       },
       {
         keywords: ["time", "timeline", "duration", "how long", "weeks", "months", "schedule", "deadline", "fast", "speed"],

@@ -24,6 +24,7 @@ export default async function AboutPage() {
       team={data.team}
       companyName={data.generalSettings?.companyName}
       companyReg={data.generalSettings?.companyReg}
+      servicePricing={data.servicePricing || []}
     />
   );
 }

@@ -16,7 +16,7 @@ export default function WebDevelopmentClient() {
   const priceTiers = [
     {
       name: "Starter Site",
-      price: "$3,500",
+      price: "₹3,500",
       description: "Perfect for bold startups needing high-converting visibility fast.",
       features: [
         "Custom Animated Landing Page",
@@ -30,7 +30,7 @@ export default function WebDevelopmentClient() {
     },
     {
       name: "Studio Site",
-      price: "$7,500",
+      price: "₹7,500",
       description: "Complete strategic web platform with content management controls.",
       features: [
         "Up to 8 custom page templates",
@@ -45,7 +45,7 @@ export default function WebDevelopmentClient() {
     },
     {
       name: "Enterprise App",
-      price: "$15,000+",
+      price: "₹15,000+",
       description: "Bespoke SaaS portal, dense dashboard or multi-vendor commerce.",
       features: [
         "Tailored web application structure",
