@@ -154,16 +154,16 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
   const pmResolved = managers[0] || displayTeam[2] || displayTeam[0];
 
   const dev1Label = dev1Resolved?.name || "Jerrin Joseph";
-  const dev1Img = dev1Resolved?.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&h=150&q=80';
+  const dev1Img = dev1Resolved?.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=100';
 
   const dev2Label = dev2Resolved?.name || "Christo Philip Mathew";
-  const dev2Img = dev2Resolved?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80';
+  const dev2Img = dev2Resolved?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=100';
 
   const devDeploymentLabel = devForDeployment?.name || "Christo Philip Mathew";
-  const devDeploymentImg = devForDeployment?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&h=150&q=80';
+  const devDeploymentImg = devForDeployment?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=100';
 
   const pmLabel = pmResolved?.name || "Madhav MP";
-  const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80';
+  const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&h=300&q=100';
 
   const chatScript = [
     {
@@ -562,6 +562,8 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                           src={msg.avatar}
                           alt={msg.name}
                           fill
+                          sizes="32px"
+                          quality={100}
                           className="object-cover"
                         />
                       </div>
@@ -605,6 +607,8 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                         }
                         alt="Typing Member"
                         fill
+                        sizes="32px"
+                        quality={100}
                         className="object-cover"
                       />
                     </div>

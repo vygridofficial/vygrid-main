@@ -107,6 +107,25 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
           </span>
         </div>
 
+        {/* Disclaimer Notice */}
+        <div className="mb-10 border border-[#C8B89A]/20 bg-[#C8B89A]/5 px-5 py-4 flex items-start gap-3">
+          <span className="mt-0.5 flex-shrink-0 w-4 h-4 text-[#C8B89A]">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+              <line x1="12" y1="9" x2="12" y2="13"/>
+              <line x1="12" y1="17" x2="12.01" y2="17"/>
+            </svg>
+          </span>
+          <div className="space-y-0.5">
+            <span className="block font-mono text-[9px] font-bold tracking-widest uppercase text-[#C8B89A]">
+              PRICING NOTICE
+            </span>
+            <p className="font-grotesque text-[11px] text-[#888888] font-light leading-relaxed">
+              All prices listed are <span className="text-[#F5F0EB] font-normal">base development estimates</span> for standard project scopes. Final pricing is determined after project discovery and may vary based on additional requirements, custom integrations, third-party services, or extended timelines. A detailed quote will be provided before any work commences.
+            </p>
+          </div>
+        </div>
+
         {/* Pricing Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
           {items.map((item, idx) => {
