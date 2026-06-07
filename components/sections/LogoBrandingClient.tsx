@@ -221,7 +221,7 @@ export default function LogoBrandingClient({ companyName }: LogoBrandingClientPr
         <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-white/10 pb-6 gap-4">
           <div className="space-y-2">
             <span className="font-mono text-[10px] tracking-[0.2em] text-[#888888] block uppercase">
-              04 / FLAT RATES
+              04 / PRICING
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
               Pricing & Deliverables
@@ -260,7 +260,6 @@ export default function LogoBrandingClient({ companyName }: LogoBrandingClientPr
                   <span className="font-serif italic text-3xl sm:text-4xl text-[#F5F0EB]">
                     {tier.price}
                   </span>
-                  <span className="font-mono text-[10px] text-[#888888] uppercase">FLAT RATE</span>
                 </div>
 
                 <ul className="space-y-3">

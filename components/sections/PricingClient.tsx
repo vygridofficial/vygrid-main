@@ -202,7 +202,6 @@ function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps
                     <span className="font-serif italic text-3xl text-[#F5F0EB]">
                       {item.priceRange}
                     </span>
-                    <span className="font-mono text-[9px] text-[#888888] uppercase">FLAT RATE</span>
                   </div>
 
                   {/* Feature list */}

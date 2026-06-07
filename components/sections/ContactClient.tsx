@@ -103,7 +103,7 @@ export default function ContactClient({ settings, companyName }: ContactClientPr
               </a>
 
               <a
-                href={`https://wa.me/${settings?.whatsapp || '10000000000'}`}
+                href={`https://wa.me/${(settings?.whatsapp || '10000000000').replace(/^\+/, '')}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="block border border-white/10 p-5 bg-[#111111] hover:border-emerald-500/50 transition-all duration-300 group"

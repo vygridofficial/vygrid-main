@@ -57,7 +57,7 @@ export default function PlanContactModal({
   const waMessage = encodeURIComponent(
     `Hi Vygrid! 👋\n\nI'm interested in your *${planName}* plan (${planPrice}).\n\nFeatures I'm looking at:\n${planFeatures.slice(0, 4).map(f => `• ${f}`).join('\n')}\n\nCould you please share more details and help me get started?`
   );
-  const waUrl = `https://wa.me/${whatsapp}?text=${waMessage}`;
+  const waUrl = `https://wa.me/${whatsapp.replace(/^\+/, '')}?text=${waMessage}`;
 
   const handleWhatsApp = () => {
     window.open(waUrl, '_blank', 'noopener,noreferrer');
