@@ -504,7 +504,7 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-[#C8B89A]"></span>
                   </span>
                   <span className="font-mono text-[9px] tracking-widest text-[#0A0A0A] font-bold">
-                    PROTOCOL: {relayStatus}
+                    VYGRID PROTOCOL: {relayStatus}
                   </span>
                 </div>
                 <span className="font-mono text-[8px] tracking-widest text-[#0A0A0A]/40 uppercase select-none">
@@ -758,7 +758,7 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
               05 / DIRECTORS
             </span>
             <h2 className="font-serif italic text-3xl md:text-4xl text-[#F5F0EB]">
-              Meet The Founders
+              Meet Vygrid Team
             </h2>
           </div>
           <span className="font-mono text-[10px] text-[#888888] max-w-[280px] leading-relaxed">
