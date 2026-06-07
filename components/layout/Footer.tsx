@@ -169,7 +169,7 @@ export default function Footer() {
                <div className="flex flex-wrap items-center gap-4 pt-1 justify-start sm:justify-end">
                  {whatsapp && (
                    <a
-                     href={`https://wa.me/${whatsapp.replace(/^\+/, '')}`}
+                     href={`https://wa.me/${whatsapp.replace(/\D/g, '')}`}
                      target="_blank"
                      rel="noopener noreferrer"
                      className="text-[#888888] hover:text-[#C8B89A] transition-colors duration-300"

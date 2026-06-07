@@ -111,7 +111,7 @@ export default function FloatingSocial() {
 
         {/* ── WhatsApp bubble ── */}
         <a
-          href={`https://wa.me/${whatsapp.replace(/^\+/, '')}`}
+          href={`https://wa.me/${whatsapp.replace(/\D/g, '')}`}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat on WhatsApp"
