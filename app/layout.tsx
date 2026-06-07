@@ -3,6 +3,7 @@ import { Playfair_Display, Inter, IBM_Plex_Mono, Plus_Jakarta_Sans } from "next/
 import { Suspense } from "react";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import FloatingSocial from "@/components/ui/FloatingSocial";
 import ScrollRestoration from "@/components/ui/ScrollRestoration";
 import "@/app/globals.css";
 import { getCMSData } from "@/lib/cms";
@@ -100,6 +101,7 @@ export default function RootLayout({
           {children}
         </main>
         <Footer />
+        <FloatingSocial />
       </body>
     </html>
   );
