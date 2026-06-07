@@ -165,30 +165,34 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
   const pmLabel = pmResolved?.name || "Madhav MP";
   const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&h=300&q=100';
 
+  // Fixed fictional client persona — always external, never a team member
+  const clientName = "Brandon Chase";
+  const clientAvatar = 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80';
+
   const chatScript = [
     {
       sender: 'client',
-      name: pmLabel,
-      avatar: pmImg,
-      text: "Hey team! How is the progress on the portfolio's React deployment?"
+      name: clientName,
+      avatar: clientAvatar,
+      text: "Hey team! How's the progress on the portfolio's React deployment?"
     },
     {
       sender: 'client',
-      name: pmLabel,
-      avatar: pmImg,
+      name: clientName,
+      avatar: clientAvatar,
       text: "We need the dynamic project routes live by tonight."
     },
     {
       sender: 'client',
-      name: pmLabel,
-      avatar: pmImg,
-      text: "Make sure we optimize the spotlight images and fit them to the grid."
+      name: clientName,
+      avatar: clientAvatar,
+      text: "Also make sure we optimize the spotlight images and fit them to the grid."
     },
     {
       sender: 'marcus',
       name: dev1Label,
       avatar: dev1Img,
-      text: `Hey ${pmLabel.split(' ')[0]}! Just optimized all asset components to use contain fit. Compiling the build now.`
+      text: `On it Brandon! Just optimized all asset components to use contain fit. Compiling the build now.`
     },
     {
       sender: 'alex',
@@ -198,9 +202,9 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
     },
     {
       sender: 'client',
-      name: pmLabel,
-      avatar: pmImg,
-      text: "Awesome! The page loads instantly and the layout fits beautifully."
+      name: clientName,
+      avatar: clientAvatar,
+      text: "Holy speed scores! The page loads instantly and the layout fits beautifully."
     }
   ];
 
@@ -600,7 +604,7 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                       <Image
                         src={
                           typingFor === 'client'
-                            ? pmImg
+                            ? clientAvatar
                             : typingFor === 'marcus'
                             ? dev1Img
                             : devDeploymentImg

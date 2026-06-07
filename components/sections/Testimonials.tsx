@@ -111,7 +111,7 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
 
               {/* Attribution details */}
               <div className="flex items-center space-x-4">
-                {current?.avatar ? (
+                {current?.avatar && (
                   <div className="relative w-12 h-12 rounded-full overflow-hidden border border-white/10 flex-shrink-0">
                     <Image
                       src={current.avatar}
@@ -120,10 +120,6 @@ export default function Testimonials({ testimonials }: TestimonialsProps) {
                       className="object-cover"
                       sizes="48px"
                     />
-                  </div>
-                ) : (
-                  <div className="w-12 h-12 rounded-full border border-white/10 bg-[#111111] flex items-center justify-center text-sm font-mono text-[#C8B89A] flex-shrink-0 font-bold">
-                    {(current?.name || 'V').trim().charAt(0).toUpperCase()}
                   </div>
                 )}
                 <div className="text-left font-grotesque">
