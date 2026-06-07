@@ -431,7 +431,7 @@ export const testimonials: Testimonial[] = [
     role: "Founder",
     company: "FitPulse Gyms",
     stars: 5,
-    avatar: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=150&h=150&q=80",
+    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&h=150&q=80",
     comment: "The progressive web app built by Vygrid transformed our client booking experience. It functions incredibly well on mobile, and the offline calendar syncing is robust. Workflows that used to take our staff hours are now fully automated."
   },
   {

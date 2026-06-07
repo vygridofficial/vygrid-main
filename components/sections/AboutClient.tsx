@@ -135,23 +135,29 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
     ...layout,
   }));
 
-  // Dynamically filter developers (web, full stack, engineer, designer, programmer)
-  const developers = displayTeam.filter(m => {
-    const role = (m.role || "").toLowerCase();
-    return role.includes("web") || role.includes("developer") || role.includes("engineer") || role.includes("stack") || role.includes("programmer") || role.includes("designer");
-  });
-
-  // Dynamically filter managers/leads (ceo, pm, manager, founder, director, etc.)
+  // Dynamically filter managers/leads (ceo, pm, manager, founder, director, etc.) — resolved FIRST
   const managers = displayTeam.filter(m => {
     const role = (m.role || "").toLowerCase();
     return role.includes("ceo") || role.includes("pm") || role.includes("manager") || role.includes("founder") || role.includes("director") || role.includes("lead");
   });
 
-  // Resolve developers and managers dynamically with robust index fallbacks
-  const dev1Resolved = developers[0] || displayTeam[0];
-  const dev2Resolved = developers[1] || displayTeam[1];
-  const devForDeployment = developers[2] || developers[1] || displayTeam[1]; // Use 3rd developer if available
-  const pmResolved = managers[0] || displayTeam[2] || displayTeam[0];
+  const pmResolved = managers[0] || displayTeam[0];
+
+  // Dynamically filter pure developers — explicitly exclude whoever is already the CEO/manager
+  const developers = displayTeam.filter(m => {
+    const role = (m.role || "").toLowerCase();
+    const isManager = role.includes("ceo") || role.includes("pm") || role.includes("manager") || role.includes("founder") || role.includes("director");
+    const isDeveloper = role.includes("web") || role.includes("developer") || role.includes("engineer") || role.includes("stack") || role.includes("programmer");
+    // Must be a developer AND not the primary manager/CEO
+    return isDeveloper && !isManager && m.name !== pmResolved?.name;
+  });
+
+  // Resolve developers dynamically with robust index fallbacks
+  const dev1Resolved = developers[0] || displayTeam.find(m => m.name !== pmResolved?.name) || displayTeam[1];
+  const dev2Resolved = developers[1] || displayTeam.find(m => m.name !== pmResolved?.name && m.name !== dev1Resolved?.name) || displayTeam[2];
+  const devForDeployment = developers[1] || developers[0] || dev2Resolved;
+  const dev3Resolved = developers[2] || dev2Resolved;
+  const dev4Resolved = developers[3] || dev3Resolved;
 
   const dev1Label = dev1Resolved?.name || "Jerrin Joseph";
   const dev1Img = dev1Resolved?.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&h=300&q=100';
@@ -162,37 +168,40 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
   const devDeploymentLabel = devForDeployment?.name || "Christo Philip Mathew";
   const devDeploymentImg = devForDeployment?.image || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=100';
 
-  const pmLabel = pmResolved?.name || "Madhav MP";
-  const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=300&h=300&q=100';
+  const dev3Label = dev3Resolved?.name || "Noel Paul Tomy";
+  const dev3Img = dev3Resolved?.image || 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=300&h=300&q=100';
 
-  // Fixed fictional client persona — always external, never a team member
-  const clientName = "Brandon Chase";
-  const clientAvatar = 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=100&h=100&q=80';
+  const dev4Label = dev4Resolved?.name || "Richard Shaji Mekkaden";
+  const dev4Img = dev4Resolved?.image || 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=300&h=300&q=100';
+
+  const pmLabel = pmResolved?.name || "Madhav MP";
+  const pmImg = pmResolved?.image || 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&h=300&q=100';
 
   const chatScript = [
+    // --- Round 1: Deployment check ---
     {
       sender: 'client',
-      name: clientName,
-      avatar: clientAvatar,
+      name: pmLabel,
+      avatar: pmImg,
       text: "Hey team! How's the progress on the portfolio's React deployment?"
     },
     {
       sender: 'client',
-      name: clientName,
-      avatar: clientAvatar,
+      name: pmLabel,
+      avatar: pmImg,
       text: "We need the dynamic project routes live by tonight."
     },
     {
       sender: 'client',
-      name: clientName,
-      avatar: clientAvatar,
+      name: pmLabel,
+      avatar: pmImg,
       text: "Also make sure we optimize the spotlight images and fit them to the grid."
     },
     {
       sender: 'marcus',
       name: dev1Label,
       avatar: dev1Img,
-      text: `On it Brandon! Just optimized all asset components to use contain fit. Compiling the build now.`
+      text: `On it ${pmLabel.split(' ')[0]}! Just optimized all asset components to use contain fit. Compiling the build now.`
     },
     {
       sender: 'alex',
@@ -202,9 +211,34 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
     },
     {
       sender: 'client',
-      name: clientName,
-      avatar: clientAvatar,
-      text: "Holy speed scores! The page loads instantly and the layout fits beautifully."
+      name: pmLabel,
+      avatar: pmImg,
+      text: `Looks great! The page loads instantly and the layout fits beautifully.`
+    },
+    // --- Round 2: Hosting & Infrastructure (Noel & Richard) ---
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "Before we wrap — Noel, Richard, what's the status on the Vercel deployment config and custom domain setup?"
+    },
+    {
+      sender: 'noel',
+      name: dev3Label,
+      avatar: dev3Img,
+      text: "Environment variables are all set on Vercel. Edge functions are live on the Pro plan and the build pipeline is fully automated on every push."
+    },
+    {
+      sender: 'richard',
+      name: dev4Label,
+      avatar: dev4Img,
+      text: "Custom domain is pointed. SSL certificate provisioned and DNS has fully propagated. The site is live on HTTPS with zero downtime."
+    },
+    {
+      sender: 'client',
+      name: pmLabel,
+      avatar: pmImg,
+      text: "Perfect execution. That's how we deliver — clean, fast, and rock solid infrastructure. Great work team! 🔥"
     }
   ];
 
@@ -255,7 +289,9 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
   ];
 
   // Section 02 - Sequenced Dialogue Chat Panel States
-  const [visibleMessages, setVisibleMessages] = useState<ChatMessage[]>([]);
+  // Store only indices — messages are resolved from live chatScript at render time
+  // This prevents stale closure bug where old avatars get baked into stored state
+  const [visibleIndices, setVisibleIndices] = useState<number[]>([]);
   const [typingFor, setTypingFor] = useState<string | null>(null);
   const [relayStatus, setRelayStatus] = useState<'ROUTING...' | 'TRANSMITTING...' | 'ACTIVE'>('ACTIVE');
 
@@ -263,7 +299,7 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
     const timers: NodeJS.Timeout[] = [];
     
     const runDialogueSequence = () => {
-      setVisibleMessages([]);
+      setVisibleIndices([]);
       setTypingFor(null);
       setRelayStatus('ROUTING...');
 
@@ -271,91 +307,34 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
         timers.push(setTimeout(fn, delay));
       };
 
-      // 1. Client starts typing
-      schedule(() => {
-        setTypingFor('client');
-      }, 500);
+      // --- Round 1: Deployment ---
+      schedule(() => { setTypingFor('client'); }, 500);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 0]); }, 2000);
+      schedule(() => { setTypingFor('client'); setRelayStatus('ROUTING...'); }, 2800);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 1]); }, 4300);
+      schedule(() => { setTypingFor('client'); setRelayStatus('ROUTING...'); }, 5100);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 2]); }, 6600);
+      schedule(() => { setTypingFor('marcus'); setRelayStatus('ROUTING...'); }, 7600);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 3]); }, 9800);
+      schedule(() => { setTypingFor('alex'); setRelayStatus('ROUTING...'); }, 10800);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 4]); }, 13200);
+      schedule(() => { setTypingFor('client'); setRelayStatus('ROUTING...'); }, 14200);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 5]); }, 15800);
 
-      // 2. Client sends "Hey!"
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[0]]);
-      }, 2000);
-
-      // 3. Client starts typing again
-      schedule(() => {
-        setTypingFor('client');
-        setRelayStatus('ROUTING...');
-      }, 2800);
-
-      // 4. Client sends "The website looks awesome"
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[1]]);
-      }, 4300);
-
-      // 5. Client starts typing third message
-      schedule(() => {
-        setTypingFor('client');
-        setRelayStatus('ROUTING...');
-      }, 5100);
-
-      // 6. Client sends "Can we update the homepage banner?"
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[2]]);
-      }, 6600);
-
-      // 7. Marcus starts typing
-      schedule(() => {
-        setTypingFor('marcus');
-        setRelayStatus('ROUTING...');
-      }, 7600);
-
-      // 8. Marcus sends "Absolutely Brandon, systems are live. Let's push the new assets."
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[3]]);
-      }, 9800);
-
-      // 9. Alex starts typing
-      schedule(() => {
-        setTypingFor('alex');
-        setRelayStatus('ROUTING...');
-      }, 10800);
-
-      // 10. Alex sends "Updated! Edge CDN cache flushed. Reload and check it out!"
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[4]]);
-      }, 13200);
-
-      // 11. Client starts typing final response
-      schedule(() => {
-        setTypingFor('client');
-        setRelayStatus('ROUTING...');
-      }, 14200);
-
-      // 12. Client sends "Holy speed scores! It's blistering fast."
-      schedule(() => {
-        setTypingFor(null);
-        setRelayStatus('TRANSMITTING...');
-        setVisibleMessages(prev => [...prev, chatScript[5]]);
-      }, 15800);
-
-      // 13. End of loop delay before resetting
-      schedule(() => {
-        setRelayStatus('ACTIVE');
-      }, 16500);
+      // --- Round 2: SEO & Accessibility (Noel & Richard) ---
+      schedule(() => { setTypingFor('client'); setRelayStatus('ROUTING...'); }, 17000);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 6]); }, 18800);
+      schedule(() => { setTypingFor('noel'); setRelayStatus('ROUTING...'); }, 19800);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 7]); }, 22200);
+      schedule(() => { setTypingFor('richard'); setRelayStatus('ROUTING...'); }, 23200);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 8]); }, 25800);
+      schedule(() => { setTypingFor('client'); setRelayStatus('ROUTING...'); }, 26800);
+      schedule(() => { setTypingFor(null); setRelayStatus('TRANSMITTING...'); setVisibleIndices(prev => [...prev, 9]); }, 28500);
+      schedule(() => { setRelayStatus('ACTIVE'); }, 29500);
     };
 
     runDialogueSequence();
-    const mainInterval = setInterval(runDialogueSequence, 21500);
+    const mainInterval = setInterval(runDialogueSequence, 35000);
 
     return () => {
       clearInterval(mainInterval);
@@ -550,9 +529,12 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
               {/* Chat messages viewport */}
               <div className="space-y-4 pt-4 max-h-[220px] overflow-y-auto no-scrollbar flex flex-col justify-end">
                 <AnimatePresence>
-                  {visibleMessages.map((msg, index) => (
+                  {visibleIndices.map((idx) => {
+                    const msg = chatScript[idx];
+                    if (!msg) return null;
+                    return (
                     <motion.div
-                      key={index}
+                      key={idx}
                       initial={{ opacity: 0, y: 15, scale: 0.95 }}
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -588,7 +570,8 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                         </div>
                       </div>
                     </motion.div>
-                  ))}
+                    );
+                  })}
                 </AnimatePresence>
  
                 {/* Bouncing Typing Indicator */}
@@ -604,9 +587,13 @@ export default function AboutClient({ settings, team, companyName, companyReg, s
                       <Image
                         src={
                           typingFor === 'client'
-                            ? clientAvatar
+                            ? pmImg
                             : typingFor === 'marcus'
                             ? dev1Img
+                            : typingFor === 'noel'
+                            ? dev3Img
+                            : typingFor === 'richard'
+                            ? dev4Img
                             : devDeploymentImg
                         }
                         alt="Typing Member"
