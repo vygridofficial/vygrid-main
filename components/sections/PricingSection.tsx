@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import { Check, ArrowRight } from 'lucide-react';
+import PlanContactModal from '@/components/ui/PlanContactModal';
 
 interface ServicePricingItem {
   id: string;
@@ -76,6 +77,14 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
   // Use Firestore data if it exists and has items, otherwise fall back
   const items =
     servicePricing && servicePricing.length > 0 ? servicePricing : FALLBACK_PRICING;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<(typeof FALLBACK_PRICING)[0] | null>(null);
+
+  const openModal = (item: (typeof FALLBACK_PRICING)[0]) => {
+    setSelectedPlan(item);
+    setModalOpen(true);
+  };
 
   const defaultImages = [
     'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80',
@@ -177,12 +186,12 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
                     ))}
                   </ul>
 
-                  <Link
-                    href={`/start-your-project?service=${encodeURIComponent(item.serviceName)}`}
-                    className="mt-4 w-full py-3 block text-center font-mono text-[9px] font-bold tracking-widest uppercase border border-white/10 hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300"
+                  <button
+                    onClick={() => openModal(item)}
+                    className="mt-4 w-full py-3 block text-center font-mono text-[9px] font-bold tracking-widest uppercase border border-white/10 hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300 cursor-pointer bg-transparent text-[#F5F0EB]"
                   >
                     INQUIRE NOW &rarr;
-                  </Link>
+                  </button>
                 </div>
               </div>
             );
@@ -209,6 +218,17 @@ export default function PricingSection({ servicePricing }: PricingSectionProps) 
         </div>
 
       </div>
+
+      {/* Plan Contact Modal */}
+      {selectedPlan && (
+        <PlanContactModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          planName={selectedPlan.serviceName}
+          planPrice={selectedPlan.priceRange}
+          planFeatures={selectedPlan.features}
+        />
+      )}
     </section>
   );
 }

@@ -1,10 +1,11 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { useState, Suspense } from 'react';
 import { motion } from 'framer-motion';
-import { Check, ArrowRight } from 'lucide-react';
+import { Check } from 'lucide-react';
 import Link from 'next/link';
 import TextReveal from '@/components/ui/TextReveal';
+import PlanContactModal from '@/components/ui/PlanContactModal';
 
 interface ServicePricingItem {
   id: string;
@@ -100,6 +101,14 @@ export default function PricingClient({ servicePricing, pageSettings }: PricingC
 function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps) {
   const items =
     servicePricing && servicePricing.length > 0 ? servicePricing : FALLBACK_PRICING;
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<ServicePricingItem | null>(null);
+
+  const openModal = (item: ServicePricingItem) => {
+    setSelectedPlan(item);
+    setModalOpen(true);
+  };
 
   return (
     <div className="relative w-full bg-[#0A0A0A] text-[#F5F0EB] py-12 md:py-28 min-h-screen selection:bg-[#C8B89A] selection:text-[#0A0A0A]">
@@ -209,14 +218,14 @@ function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps
                     ))}
                   </ul>
 
-                  {/* CTA */}
+                  {/* CTA — now opens modal */}
                   <div className="pt-4 border-t border-white/5">
-                    <Link
-                      href={`/start-your-project?service=${encodeURIComponent(item.serviceName)}`}
-                      className="w-full py-4 block text-center font-mono text-[10px] font-bold tracking-widest uppercase border border-white/10 hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300"
+                    <button
+                      onClick={() => openModal(item)}
+                      className="w-full py-4 block text-center font-mono text-[10px] font-bold tracking-widest uppercase border border-white/10 hover:border-[#C8B89A] hover:text-[#C8B89A] transition-all duration-300 cursor-pointer bg-transparent text-[#F5F0EB]"
                     >
                       CHOOSE THIS PLAN →
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </motion.div>
@@ -233,7 +242,7 @@ function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps
               {pageSettings?.ctaTitle || 'Need a bespoke package?'}
             </h4>
             <p className="font-grotesque text-xs text-[#888888] font-light leading-relaxed max-w-md whitespace-pre-line">
-              {pageSettings?.ctaDescription || 'Every project is different. Tell us about yours and we\'ll craft a solution around your exact requirements and budget.'}
+              {pageSettings?.ctaDescription || "Every project is different. Tell us about yours and we'll craft a solution around your exact requirements and budget."}
             </p>
           </div>
           <Link
@@ -241,11 +250,21 @@ function PricingPageContent({ servicePricing, pageSettings }: PricingClientProps
             className="px-8 py-4 bg-[#C8B89A] hover:bg-[#F5F0EB] text-[#0A0A0A] font-mono text-xs font-bold tracking-widest uppercase transition-all duration-300 flex items-center space-x-2 whitespace-nowrap"
           >
             <span>{pageSettings?.ctaButtonText || 'START YOUR PROJECT'}</span>
-            <ArrowRight className="w-4 h-4" />
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
           </Link>
         </div>
       </section>
 
+      {/* Plan Contact Modal */}
+      {selectedPlan && (
+        <PlanContactModal
+          isOpen={modalOpen}
+          onClose={() => setModalOpen(false)}
+          planName={selectedPlan.serviceName}
+          planPrice={selectedPlan.priceRange}
+          planFeatures={selectedPlan.features}
+        />
+      )}
     </div>
   );
 }
