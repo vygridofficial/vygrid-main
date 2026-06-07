@@ -29,6 +29,8 @@ function BlogManagerContent() {
   const [editorMode, setEditorMode] = useState<'write' | 'preview'>('write');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
+  const [uploadingThumbnail, setUploadingThumbnail] = useState(false);
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
   const loadData = async () => {
     setLoading(true);
@@ -326,14 +328,68 @@ function BlogManagerContent() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">SPOTLIGHT THUMBNAIL URL</label>
-                  <input
-                    type="text"
-                    value={thumbnail}
-                    onChange={(e) => setThumbnail(e.target.value)}
-                    className="w-full bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB] font-mono"
-                    placeholder="https://images.unsplash.com/..."
-                  />
+                  <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">SPOTLIGHT THUMBNAIL</label>
+                  <div className="flex gap-2">
+                    <input
+                      type="text"
+                      value={thumbnail}
+                      onChange={(e) => setThumbnail(e.target.value)}
+                      className="flex-1 bg-[#0A0A0A] border border-white/10 px-3 py-2 text-xs text-[#F5F0EB] font-mono min-w-0"
+                      placeholder="https://images.unsplash.com/..."
+                    />
+                    <label
+                      className={`flex items-center gap-1 border px-3 py-2 font-mono text-[9px] uppercase tracking-wider cursor-pointer transition-all whitespace-nowrap ${
+                        uploadingThumbnail
+                          ? 'border-[#C8B89A]/30 text-[#C8B89A]/50 cursor-not-allowed'
+                          : 'border-white/10 hover:border-[#C8B89A] text-[#888888] hover:text-[#C8B89A]'
+                      }`}
+                      title="Upload thumbnail image"
+                    >
+                      <ImageIcon className="w-3 h-3 flex-shrink-0" />
+                      {uploadingThumbnail ? (
+                        <span className="animate-pulse">UPLOADING...</span>
+                      ) : (
+                        <span>UPLOAD</span>
+                      )}
+                      <input
+                        ref={thumbnailInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        disabled={uploadingThumbnail}
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          setUploadingThumbnail(true);
+                          try {
+                            const base64String = await compressImage(file);
+                            const res = await uploadMedia(file.name, base64String);
+                            if (res.success && res.url) {
+                              setThumbnail(res.url);
+                            } else {
+                              alert('Upload failed: ' + res.error);
+                            }
+                          } catch (err: any) {
+                            console.error(err);
+                            alert('An error occurred during upload: ' + (err.message || err));
+                          } finally {
+                            setUploadingThumbnail(false);
+                            if (thumbnailInputRef.current) thumbnailInputRef.current.value = '';
+                          }
+                        }}
+                      />
+                    </label>
+                  </div>
+                  {thumbnail && (
+                    <div className="relative mt-2 aspect-video w-full max-w-[180px] bg-[#0A0A0A] border border-white/10 overflow-hidden">
+                      <img
+                        src={thumbnail}
+                        alt="Thumbnail preview"
+                        className="w-full h-full object-cover"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                      />
+                    </div>
+                  )}
                 </div>
                 <div className="space-y-1">
                   <label className="block font-mono text-[9px] uppercase tracking-wider text-[#888888]">EXCERPT SNIPPET</label>
@@ -452,7 +508,7 @@ function BlogManagerContent() {
                   type="submit"
                   className="px-5 py-2 bg-[#C8B89A] hover:bg-[#F5F0EB] text-[#0A0A0A] font-mono text-[9px] font-bold uppercase tracking-wider transition-colors"
                 >
-                  {isEditing ? 'APPLY MODS' : 'COMMIT ADD'}
+                  {isEditing ? 'SAVE CHANGES' : 'SAVE ARTICLE'}
                 </button>
               </div>
 
